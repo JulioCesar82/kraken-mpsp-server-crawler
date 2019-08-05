@@ -1,0 +1,8 @@
+D:\testes\kraken-mpsp-server-crawler\KrakenMPSPCrawler\KrakenMPSPCrawler\bin\Debug\netcoreapp2.2\KrakenMPSPCrawler.deps.json
+D:\testes\kraken-mpsp-server-crawler\KrakenMPSPCrawler\KrakenMPSPCrawler\bin\Debug\netcoreapp2.2\KrakenMPSPCrawler.runtimeconfig.json
+D:\testes\kraken-mpsp-server-crawler\KrakenMPSPCrawler\KrakenMPSPCrawler\bin\Debug\netcoreapp2.2\KrakenMPSPCrawler.runtimeconfig.dev.json
+D:\testes\kraken-mpsp-server-crawler\KrakenMPSPCrawler\KrakenMPSPCrawler\bin\Debug\netcoreapp2.2\KrakenMPSPCrawler.dll
+D:\testes\kraken-mpsp-server-crawler\KrakenMPSPCrawler\KrakenMPSPCrawler\obj\Debug\netcoreapp2.2\KrakenMPSPCrawler.csprojAssemblyReference.cache
+D:\testes\kraken-mpsp-server-crawler\KrakenMPSPCrawler\KrakenMPSPCrawler\obj\Debug\netcoreapp2.2\KrakenMPSPCrawler.csproj.CoreCompileInputs.cache
+D:\testes\kraken-mpsp-server-crawler\KrakenMPSPCrawler\KrakenMPSPCrawler\obj\Debug\netcoreapp2.2\KrakenMPSPCrawler.AssemblyInfoInputs.cache
+D:\testes\kraken-mpsp-server-crawler\KrakenMPSPCrawler\KrakenMPSPCrawler\obj\Debug\netcoreapp2.2\KrakenMPSPCrawler.AssemblyInfo.cs
