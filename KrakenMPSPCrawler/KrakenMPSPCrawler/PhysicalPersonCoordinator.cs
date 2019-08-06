@@ -1,9 +1,6 @@
-﻿using System.Collections.Generic;
-
-using KrakenMPSPCrawler.Models;
+﻿using KrakenMPSPCrawler.Models;
 using KrakenMPSPCrawler.Business;
 using KrakenMPSPCrawler.Crawlers;
-using KrakenMPSPCrawler.Business.Model;
 
 namespace KrakenMPSPCrawler
 {

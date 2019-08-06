@@ -9,10 +9,10 @@
 
         public LegalPersonModel(string nomeFantasia, string cnpj, string cpfDoFundador, string contador)
         {
-            this.NomeFantasia = nomeFantasia;
-            this.CNPJ = cnpj;
-            this.CPFDoFundador= cpfDoFundador;
-            this.Contador= contador;
+            NomeFantasia = nomeFantasia;
+            CNPJ = cnpj;
+            CPFDoFundador= cpfDoFundador;
+            Contador= contador;
         }
     }
 }
