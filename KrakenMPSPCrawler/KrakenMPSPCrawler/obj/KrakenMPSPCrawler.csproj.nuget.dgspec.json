@@ -43,10 +43,6 @@
       "frameworks": {
         "netcoreapp2.2": {
           "dependencies": {
-            "IronWebScraper": {
-              "target": "Package",
-              "version": "[4.0.4.3, )"
-            },
             "Microsoft.NETCore.App": {
               "suppressParent": "All",
               "target": "Package",

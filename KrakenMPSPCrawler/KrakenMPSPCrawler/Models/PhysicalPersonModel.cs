@@ -1,8 +1,6 @@
-﻿using KrakenMPSPCrawler.Business.Model;
-
-namespace KrakenMPSPCrawler.Models
+﻿namespace KrakenMPSPCrawler.Models
 {
-    public class PhysicalPersonModel : SearchResult
+    public class PhysicalPersonModel
     {
         public string NomeCompleto { get; set; }
         public string CPF { get; set; }

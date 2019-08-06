@@ -5,13 +5,13 @@ namespace KrakenMPSPCrawler.Business.Model
     public class Investigation
     {
         public bool Completed => Errors.Count == 0;
-        public List<SearchError> Errors = new List<SearchError>();
+        public List<CrawlerError> Errors = new List<CrawlerError>();
 
-        public void AddError(SearchError error)
+        public void AddError(CrawlerError error)
         {
             Errors.Add(error);
         }
-        public void AddError(List<SearchError> errors)
+        public void AddError(List<CrawlerError> errors)
         {
             Errors.AddRange(errors);
         }

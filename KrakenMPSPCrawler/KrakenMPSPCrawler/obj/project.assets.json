@@ -2,15 +2,6 @@
   "version": 3,
   "targets": {
     ".NETCoreApp,Version=v2.2": {
-      "IronWebScraper/4.0.4.3": {
-        "type": "package",
-        "compile": {
-          "lib/net452/IronWebScraper.dll": {}
-        },
-        "runtime": {
-          "lib/net452/IronWebScraper.dll": {}
-        }
-      },
       "Microsoft.NETCore.App/2.2.0": {
         "type": "package",
         "dependencies": {
@@ -220,20 +211,6 @@
     }
   },
   "libraries": {
-    "IronWebScraper/4.0.4.3": {
-      "sha512": "JzNIk/8QG5+aWSH1gH6cpfwn0XpHeONQ1gdNGSfgNebEnK1R5V+9vukMet7kdkMPVxgPukIDKBe32NrctqqUFg==",
-      "type": "package",
-      "path": "ironwebscraper/4.0.4.3",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "ironwebscraper.4.0.4.3.nupkg.sha512",
-        "ironwebscraper.nuspec",
-        "lib/net452/IronWebScraper.XML",
-        "lib/net452/IronWebScraper.dll",
-        "lib/readme.txt"
-      ]
-    },
     "Microsoft.NETCore.App/2.2.0": {
       "sha512": "7z5l8Jp324S8bU8+yyWeYHXUFYvKyiI5lqS1dXgTzOx1H69Qbf6df12kCKlNX45LpMfCMd4U3M6p7Rl5Zk7SLA==",
       "type": "package",
@@ -705,7 +682,6 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v2.2": [
-      "IronWebScraper >= 4.0.4.3",
       "Microsoft.NETCore.App >= 2.2.0"
     ]
   },
@@ -753,10 +729,6 @@
     "frameworks": {
       "netcoreapp2.2": {
         "dependencies": {
-          "IronWebScraper": {
-            "target": "Package",
-            "version": "[4.0.4.3, )"
-          },
           "Microsoft.NETCore.App": {
             "suppressParent": "All",
             "target": "Package",
@@ -771,17 +743,5 @@
         "warn": true
       }
     }
-  },
-  "logs": [
-    {
-      "code": "NU1701",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Package 'IronWebScraper 4.0.4.3' was restored using '.NETFramework,Version=v4.6.1' instead of the project target framework '.NETCoreApp,Version=v2.2'. This package may not be fully compatible with your project.",
-      "libraryId": "IronWebScraper",
-      "targetGraphs": [
-        ".NETCoreApp,Version=v2.2"
-      ]
-    }
-  ]
+  }
 }

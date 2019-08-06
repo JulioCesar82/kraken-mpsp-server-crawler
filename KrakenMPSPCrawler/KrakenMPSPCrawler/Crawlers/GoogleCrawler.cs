@@ -1,9 +1,10 @@
-﻿using IronWebScraper;
-using System;
+﻿using System;
+using KrakenMPSPCrawler.Business.Enum;
+using KrakenMPSPCrawler.Business.Model;
 
 namespace KrakenMPSPCrawler.Crawlers
 {
-    public class GoogleCrawler : WebScraper
+    public class GoogleCrawler : Crawler
     {
         private String url = "https://www.google.com/search?hl=pt&q=";
         private String search;
@@ -13,25 +14,9 @@ namespace KrakenMPSPCrawler.Crawlers
             search = textFind;
         }
 
-        public override void Init()
+        public override CrawlerStatus Execute()
         {
-            License.LicenseKey = "LicenseKey"; // Write License Key
-            this.LoggingLevel = WebScraper.LogLevel.All; // All Events Are Logged
-            this.Request(url + search, Parse);
+            return CrawlerStatus.Success;
         }
-
-        public override void Parse(Response response)
-        {
-            this.WorkingDirectory = AppContext.BaseDirectory + @"\Output\";
-            // Loop on all Links
-            foreach (var title_link in response.Css(".rc .r h3"))
-            {
-                // Read Link Text
-                string strTitle = title_link.TextContentClean;
-                // Save Result to File
-                Scrape(new ScrapedData() { { "Title", strTitle } }, "history-google.json");
-            }
-        }
-
     }
 }

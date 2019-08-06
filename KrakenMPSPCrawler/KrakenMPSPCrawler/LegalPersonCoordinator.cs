@@ -1,33 +1,15 @@
-﻿using System.Collections.Generic;
-
-using KrakenMPSPCrawler.Models;
-using KrakenMPSPCrawler.Crawlers;
+﻿using KrakenMPSPCrawler.Models;
 using KrakenMPSPCrawler.Business;
-using KrakenMPSPCrawler.Business.Model;
-using KrakenMPSPCrawler.Business.Interface;
+using KrakenMPSPCrawler.Crawlers;
 
 namespace KrakenMPSPCrawler
 {
-    public class LegalPersonCoordinator : ISearch
+    public class LegalPersonCoordinator : Coordinator
     {
-        private readonly List<Coordinator> _validations = new List<Coordinator>();
 
         public LegalPersonCoordinator(LegalPersonModel legalPerson)
         {
-            _validations.Add(new GoogleCrawler(legalPerson.NomeFantasia));
-        }
-
-        Investigation ISearch.Run()
-        {
-            var validationContext = new Investigation();
-
-            foreach (var validation in _validations)
-            {
-                //validation.Run(validationContext);
-                validation.Start();
-            }
-
-            return validationContext;
+            AddModule(new GoogleCrawler(legalPerson.NomeFantasia));
         }
     }
 }
