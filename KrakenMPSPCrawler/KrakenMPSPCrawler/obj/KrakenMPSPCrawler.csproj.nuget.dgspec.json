@@ -48,6 +48,30 @@
               "target": "Package",
               "version": "[2.2.0, )",
               "autoReferenced": true
+            },
+            "Selenium.Mozilla.Firefox.Webdriver": {
+              "target": "Package",
+              "version": "[0.6.0.1, )"
+            },
+            "Selenium.WebDriver": {
+              "target": "Package",
+              "version": "[3.141.0, )"
+            },
+            "Selenium.WebDriver.ChromeDriver": {
+              "target": "Package",
+              "version": "[76.0.3809.68, )"
+            },
+            "Selenium.WebDriver.IEDriver": {
+              "target": "Package",
+              "version": "[3.141.59, )"
+            },
+            "Selenium.WebDriver.PhantomJS": {
+              "target": "Package",
+              "version": "[1.0.0, )"
+            },
+            "Selenium.WebDriver.PhantomJS.Xplatform": {
+              "target": "Package",
+              "version": "[2.45.0.1, )"
             }
           },
           "imports": [

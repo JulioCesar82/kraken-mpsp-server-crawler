@@ -7,12 +7,9 @@ namespace KrakenMPSPCrawler.Business.Model
 {
     public abstract class Crawler : ICrawler
     {
-        public virtual CrawlerError Error { get; protected set; }
+        public abstract CrawlerStatus Execute();
 
-        public virtual CrawlerStatus Execute()
-        {
-            throw new NotImplementedException();
-        }
+        public virtual CrawlerError Error { get; protected set; }
 
         public virtual void SetErrorMessage(string errorMessage)
         {
@@ -29,6 +26,5 @@ namespace KrakenMPSPCrawler.Business.Model
         {
             Error = new CrawlerError(type, errorMessage);
         }
-
     }
 }
