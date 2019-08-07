@@ -1,20 +1,20 @@
 ﻿
 using KrakenMPSPCrawler.Business.Enum;
 using KrakenMPSPCrawler.Business.Model;
-using OpenQA.Selenium;
-using OpenQA.Selenium.PhantomJS;
+//using OpenQA.Selenium;
+//using OpenQA.Selenium.PhantomJS;
 
 namespace KrakenMPSPCrawler.Crawlers
 {
     public class ArispCrawler : Crawler
     {
-        private IWebDriver _driver;
+        //private IWebDriver _driver;
         public override CrawlerStatus Execute()
         {
-            _driver = new PhantomJSDriver();
+            /*_driver = new PhantomJSDriver();
             phatom.Run()
             _driver.Manage().Timeouts().ImplicitlyWait(new TimeSpan(0, 0, 30));
-            searchPortal();
+            searchPortal();*/
             return CrawlerStatus.Success;
         }
 

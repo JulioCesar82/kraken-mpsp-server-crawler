@@ -4,13 +4,4 @@
     <TargetFramework>netcoreapp2.2</TargetFramework>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Selenium.Mozilla.Firefox.Webdriver" Version="0.6.0.1" />
-    <PackageReference Include="Selenium.WebDriver" Version="3.141.0" />
-    <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="76.0.3809.68" />
-    <PackageReference Include="Selenium.WebDriver.IEDriver" Version="3.141.59" />
-    <PackageReference Include="Selenium.WebDriver.PhantomJS" Version="1.0.0" />
-    <PackageReference Include="Selenium.WebDriver.PhantomJS.Xplatform" Version="2.45.0.1" />
-  </ItemGroup>
-
 </Project>
