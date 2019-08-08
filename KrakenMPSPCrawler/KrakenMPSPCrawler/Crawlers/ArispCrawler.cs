@@ -2,30 +2,35 @@
 using OpenQA.Selenium.Chrome;
 using KrakenMPSPCrawler.Business.Enum;
 using KrakenMPSPCrawler.Business.Model;
+using System.IO;
+using System.Reflection;
+using OpenQA.Selenium.Support.UI;
+using System;
+using OpenQA.Selenium.Edge;
+using OpenQA.Selenium.Firefox;
 
 namespace KrakenMPSPCrawler.Crawlers
 {
     public class ArispCrawler : Crawler
     {
-        private ChromeDriver _driver;
         public override CrawlerStatus Execute()
-        {
-            // Initialize edge driver 
-            var localDrive = @"C:\Users\%julio.avila%\AppData\Local\Google\Chrome\Application\chrome.exe";
-            var options = new ChromeOptions
-            {
-                PageLoadStrategy = PageLoadStrategy.Normal             
-            };
-            //_driver = new ChromeDriver(options);
-            //_driver.Url = "https://www.bing.com";
-            //Assert.AreEqual("Bing", _driver.Title);
-
+        {           
             searchPortal();
             return CrawlerStatus.Success;
         }
 
         private void searchPortal()
         {
+            using (var driver = new FirefoxDriver())
+            {
+                driver.Navigate().GoToUrl(@"https://automatetheplanet.com/multiple-files-page-objects-item-templates/");
+                var link = driver.FindElement(By.PartialLinkText("TFS Test API"));
+                var jsToBeExecuted = $"window.scroll(0, {link.Location.Y});";
+                ((IJavaScriptExecutor)driver).ExecuteScript(jsToBeExecuted);
+                var wait = new WebDriverWait(driver, TimeSpan.FromMinutes(1));
+                var clickableElement = wait.Until(ExpectedConditions.ElementToBeClickable(By.PartialLinkText("TFS Test API")));
+                clickableElement.Click();
+            }
 
             /*_driver = new PhantomJSDriver();
             phatom.Run()
