@@ -1,26 +1,35 @@
-﻿
+﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
 using KrakenMPSPCrawler.Business.Enum;
 using KrakenMPSPCrawler.Business.Model;
-//using OpenQA.Selenium;
-//using OpenQA.Selenium.PhantomJS;
 
 namespace KrakenMPSPCrawler.Crawlers
 {
     public class ArispCrawler : Crawler
     {
-        //private IWebDriver _driver;
+        private ChromeDriver _driver;
         public override CrawlerStatus Execute()
         {
-            /*_driver = new PhantomJSDriver();
-            phatom.Run()
-            _driver.Manage().Timeouts().ImplicitlyWait(new TimeSpan(0, 0, 30));
-            searchPortal();*/
+            // Initialize edge driver 
+            var localDrive = @"C:\Users\%julio.avila%\AppData\Local\Google\Chrome\Application\chrome.exe";
+            var options = new ChromeOptions
+            {
+                PageLoadStrategy = PageLoadStrategy.Normal             
+            };
+            //_driver = new ChromeDriver(options);
+            //_driver.Url = "https://www.bing.com";
+            //Assert.AreEqual("Bing", _driver.Title);
+
+            searchPortal();
             return CrawlerStatus.Success;
         }
 
         private void searchPortal()
         {
 
+            /*_driver = new PhantomJSDriver();
+            phatom.Run()
+            _driver.Manage().Timeouts().ImplicitlyWait(new TimeSpan(0, 0, 30));
             /*using (var driver = new PhantomJSDriver())
             {
                 const string phantomScript = "var page=this;page.onResourceRequested = function(requestData, request) { var reg =  /\\.png/gi; var isPng = reg.test(requestData['url']); console.log(isPng,requestData['url']); if (isPng){console.log('Aborting: ' + requestData['url']);request.abort();}}";

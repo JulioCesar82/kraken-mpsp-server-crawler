@@ -9,7 +9,7 @@ namespace KrakenMPSPCrawler
         public PhysicalPersonCoordinator(PhysicalPersonModel physicalPerson)
         {
             AddModule(new GoogleCrawler(physicalPerson.NomeCompleto));
-            //AddModule(new ArispCrawler());
+            AddModule(new ArispCrawler());
         }
     }
 }
