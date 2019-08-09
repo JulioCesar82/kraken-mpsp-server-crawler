@@ -8,7 +8,6 @@ namespace KrakenMPSPCrawler
     {
         public LegalPersonCoordinator(LegalPersonModel legalPerson)
         {
-            AddModule(new GoogleCrawler(legalPerson.NomeFantasia));
             AddModule(new ArispCrawler());
         }
     }

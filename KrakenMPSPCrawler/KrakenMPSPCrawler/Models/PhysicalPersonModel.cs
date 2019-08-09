@@ -14,6 +14,5 @@
             DataDeNascimento = dataDeNascimento;
             NomeDaMae = nomeDaMae;
         }
-
     }
 }
