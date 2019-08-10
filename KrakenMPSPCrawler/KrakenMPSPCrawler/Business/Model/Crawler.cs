@@ -1,6 +1,4 @@
-﻿using System;
-
-using KrakenMPSPCrawler.Business.Enum;
+﻿using KrakenMPSPCrawler.Business.Enum;
 using KrakenMPSPCrawler.Business.Interface;
 
 namespace KrakenMPSPCrawler.Business.Model
@@ -22,9 +20,9 @@ namespace KrakenMPSPCrawler.Business.Model
             Error = new CrawlerError(errorMessage);
         }
 
-        public virtual void SetErrorMessage(Type type, string errorMessage)
+        public virtual void SetErrorMessage(string source, string errorMessage)
         {
-            Error = new CrawlerError(type, errorMessage);
+            Error = new CrawlerError(source, errorMessage);
         }
     }
 }
