@@ -5,6 +5,7 @@ using KrakenMPSPCrawler.Business.Enum;
 using KrakenMPSPCrawler.Business.Model;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
+using OpenQA.Selenium.Interactions;
 
 namespace KrakenMPSPCrawler.Crawlers
 {
@@ -24,11 +25,14 @@ namespace KrakenMPSPCrawler.Crawlers
 
                     // page 2
                     // TODO: navegar pelo drop down
-                    //driver.FindElement(By.CssSelector("#liInstituicoes > div > ul > li:nth-child(3) > a")).Click();
+                    Actions builder = new Actions(driver);
+                    var element = driver.FindElement(By.Id("liInstituicoes"));
+                    builder.MoveToElement(element).Build().Perform();
+                    driver.FindElement(By.CssSelector("#liInstituicoes > div > ul > li:nth-child(3) > a")).Click();
 
                     // page 3
-                    //driver.FindElement(By.Id("Prosseguir")).Click();
-                    //driver.FindElement(By.Id("td.check > input[type=checkbox]")).Click();
+                    driver.FindElement(By.Id("Prosseguir")).Click();
+                    driver.FindElement(By.Id("td.check > input[type=checkbox]")).Click();
 
                     // Take a screenshot and save it into screen.png
                     //driver.GetScreenshot().SaveAsFile(@"screen.png", ImageFormat.Png);
