@@ -8,7 +8,7 @@ namespace KrakenMPSPCrawler
     {
         public PhysicalPersonCoordinator(PhysicalPersonModel physicalPerson)
         {
-            AddModule(new ArispCrawler());
+            AddModule(new ArispCrawler(physicalPerson.Type, physicalPerson.CPF));
         }
     }
 }
