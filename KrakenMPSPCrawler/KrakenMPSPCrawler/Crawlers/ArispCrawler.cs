@@ -45,23 +45,22 @@ namespace KrakenMPSPCrawler.Crawlers
 
                     // page 4
                     driver.FindElement(By.CssSelector("div.selectorAll div.checkbox input")).Click();
-                    var botaoTermos = driver.FindElement(By.Id("chkHabilitar"));
-                    builder.MoveToElement(botaoTermos).Build().Perform();
-                    botaoTermos.Click();
+                    driver.FindElement(By.Id("chkHabilitar")).Click();
                     driver.FindElement(By.Id("Prosseguir")).Click();
 
                     // page 5
-                    driver.FindElement(By.Id("btnPesquisar")).Click();
-
                     if (this.type.Equals(KindPerson.LegalPerson))
                     {
                         var campoFilter = new SelectElement(driver.FindElement(By.Id("filterTipo")));
-                        campoFilter.SelectByValue("Pessoa Jurídica");
+                        campoFilter.SelectByValue("2");
                     }
                     IWebElement campoBusca = driver.FindElement(By.Id("filterDocumento"));
                     campoBusca.SendKeys(this.identification);
                     driver.FindElement(By.Id("btnPesquisar")).Click();
                     
+                    // page 6
+                    // TODO: implementar WAITING
+
 
                     // Take a screenshot and save it into screen.png
                     //driver.GetScreenshot().SaveAsFile(@"screen.png", ImageFormat.Png);
