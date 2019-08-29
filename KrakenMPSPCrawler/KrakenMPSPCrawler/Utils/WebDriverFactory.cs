@@ -46,7 +46,7 @@ namespace KrakenMPSPCrawler.Utils
             catch (Exception e)
             {
                 Console.WriteLine("{0} Exception caught.", e);
-                throw new NotSupportedException("Error in CreateFirefoxDriver");
+                throw new NotSupportedException("Error in CreateFirefoxDriver", e);
             }            
         }
 
@@ -67,7 +67,7 @@ namespace KrakenMPSPCrawler.Utils
             catch (Exception e)
             {
                 Console.WriteLine("{0} Exception caught.", e);
-                throw new NotSupportedException("Error in CreateChromeDriver");
+                throw new NotSupportedException("Error in CreateChromeDriver", e);
             }
         }
 
@@ -85,7 +85,7 @@ namespace KrakenMPSPCrawler.Utils
             catch (Exception e)
             {
                 Console.WriteLine("{0} Exception caught.", e);
-                throw new NotSupportedException("Error in CreateIEDriver");
+                throw new NotSupportedException("Error in CreateIEDriver", e);
             }            
         }
     }

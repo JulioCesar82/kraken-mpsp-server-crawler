@@ -7,6 +7,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using OpenQA.Selenium.Interactions;
 using KrakenMPSPCrawler.Enum;
+using System.Threading;
 
 namespace KrakenMPSPCrawler.Crawlers
 {
@@ -25,7 +26,7 @@ namespace KrakenMPSPCrawler.Crawlers
         {
             try
             {
-                using (var driver = WebDriverFactory.CreateWebDriver(WebBrowser.Firefox))
+                using (var driver = WebDriverFactory.CreateWebDriver(WebBrowser.Chrome))
                 {
                     driver.Navigate().GoToUrl(@"http://ec2-18-231-116-58.sa-east-1.compute.amazonaws.com/arisp/login.html");
 
@@ -34,9 +35,9 @@ namespace KrakenMPSPCrawler.Crawlers
                     driver.FindElement(By.Id("btnAutenticar")).Click();
 
                     // page 2
-                    Actions builder = new Actions(driver);
+                    Actions ActionPage2 = new Actions(driver);
                     var menuDropDown = driver.FindElement(By.Id("liInstituicoes"));
-                    builder.MoveToElement(menuDropDown).Build().Perform();
+                    ActionPage2.MoveToElement(menuDropDown).Build().Perform();
 
                     driver.FindElement(By.CssSelector("#liInstituicoes > div > ul > li:nth-child(3) > a")).Click();
 
@@ -57,10 +58,19 @@ namespace KrakenMPSPCrawler.Crawlers
                     IWebElement campoBusca = driver.FindElement(By.Id("filterDocumento"));
                     campoBusca.SendKeys(this.identification);
                     driver.FindElement(By.Id("btnPesquisar")).Click();
-                    
+
                     // page 6
                     // TODO: implementar WAITING
+                    //
+                    Actions ActionPage6 = new Actions(driver);
+                    var buttonSelectAll = driver.FindElement(By.Id("btnSelecionarTudo"));
+                    ActionPage6.MoveToElement(buttonSelectAll).Build().Perform();
 
+                    new WebDriverWait(driver, TimeSpan.FromSeconds(60))
+                        .Until(d => d.FindElement(By.Id("btnSelecionarTudo")));
+                    //driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
+
+                    //buttonSelectAll.Click();
 
                     // Take a screenshot and save it into screen.png
                     //driver.GetScreenshot().SaveAsFile(@"screen.png", ImageFormat.Png);
