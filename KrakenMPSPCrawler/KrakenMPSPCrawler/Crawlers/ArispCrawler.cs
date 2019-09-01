@@ -1,25 +1,24 @@
 ﻿using System;
 
-using KrakenMPSPCrawler.Utils;
-using KrakenMPSPCrawler.Business.Enum;
-using KrakenMPSPCrawler.Business.Model;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using OpenQA.Selenium.Interactions;
 using KrakenMPSPCrawler.Enum;
-using System.Threading;
+using KrakenMPSPCrawler.Utils;
+using KrakenMPSPCrawler.Business.Enum;
+using KrakenMPSPCrawler.Business.Model;
 
 namespace KrakenMPSPCrawler.Crawlers
 {
     public class ArispCrawler : Crawler
     {
-        private KindPerson type;
-        private String identification;
+        private readonly KindPerson Type;
+        private readonly string Identification;
 
-        public ArispCrawler(KindPerson type, String identification)
+        public ArispCrawler(KindPerson type, string identification)
         {
-            this.type = type;
-            this.identification = identification;
+            Type = type;
+            Identification = identification;
         }
 
         public override CrawlerStatus Execute()
@@ -50,13 +49,13 @@ namespace KrakenMPSPCrawler.Crawlers
                     driver.FindElement(By.Id("Prosseguir")).Click();
 
                     // page 5
-                    if (this.type.Equals(KindPerson.LegalPerson))
+                    if (Type.Equals(KindPerson.LegalPerson))
                     {
                         var campoFilter = new SelectElement(driver.FindElement(By.Id("filterTipo")));
                         campoFilter.SelectByValue("2");
                     }
                     IWebElement campoBusca = driver.FindElement(By.Id("filterDocumento"));
-                    campoBusca.SendKeys(this.identification);
+                    campoBusca.SendKeys(Identification);
                     driver.FindElement(By.Id("btnPesquisar")).Click();
 
                     // page 6
@@ -72,7 +71,7 @@ namespace KrakenMPSPCrawler.Crawlers
                         ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].scrollIntoView(true);", resultado);
                         ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].removeAttribute('href');", resultado);
                         ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].click();", resultado);
-                        Console.WriteLine("ArispCrawler navegou para o RESULTADO em PDF");
+                        Console.Write("ArispCrawler navegou para o RESULTADO em PDF");
 
                         // fechando a janela aberta
                         var tabs = driver.WindowHandles;
@@ -81,20 +80,20 @@ namespace KrakenMPSPCrawler.Crawlers
                         driver.SwitchTo().Window(tabs[tabs.Count - 2]);
                     }
 
-                    Console.WriteLine("ArispCrawler OK");
-                    Console.ReadKey(intercept: true);
+                    driver.Close();
+                    Console.Write("ArispCrawler OK");
                     return CrawlerStatus.Success;
                 }
             }
             catch (NotSupportedException e)
             {
-                Console.WriteLine("{0} Faill loading browser caught.", e.Message);
+                Console.Write("{0} Faill loading browser caught.", e.Message);
                 SetErrorMessage("ArispCrawler", e.Message);
                 return CrawlerStatus.Skipped;
             }
             catch (Exception e)
             {
-                Console.WriteLine("{0} Exception caught.", e.Message);
+                Console.Write("{0} Exception caught.", e.Message);
                 SetErrorMessage("ArispCrawler", e.Message);
                 return CrawlerStatus.Error;
             }
