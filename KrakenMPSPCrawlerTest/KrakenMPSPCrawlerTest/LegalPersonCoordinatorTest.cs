@@ -19,7 +19,7 @@ namespace KrakenMPSPCrawlerTest
             Investigation investigation = coordinator.Run();
 
             // Assert
-            Assert.Equals(investigation.Completed, true);
+            Assert.AreEqual(investigation.Completed, true);
         }
     }
 }
