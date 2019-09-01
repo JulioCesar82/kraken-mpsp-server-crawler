@@ -1,8 +1,7 @@
-﻿using NUnit.Framework;
-
-using KrakenMPSPCrawler;
-using KrakenMPSPCrawler.Models;
+﻿using KrakenMPSPCrawler;
 using KrakenMPSPCrawler.Business.Model;
+using KrakenMPSPCrawler.Models;
+using NUnit.Framework;
 
 namespace KrakenMPSPCrawlerTest
 {

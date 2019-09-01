@@ -26,7 +26,7 @@ namespace KrakenMPSPCrawler.Crawlers
         {
             try
             {
-                using (var driver = WebDriverFactory.CreateWebDriver(WebBrowser.Chrome))
+                using (var driver = WebDriverFactory.CreateWebDriver(WebBrowser.Firefox))
                 {
                     driver.Navigate().GoToUrl(@"http://ec2-18-231-116-58.sa-east-1.compute.amazonaws.com/arisp/login.html");
 
@@ -60,24 +60,30 @@ namespace KrakenMPSPCrawler.Crawlers
                     driver.FindElement(By.Id("btnPesquisar")).Click();
 
                     // page 6
-                    // TODO: implementar WAITING
-                    //
-                    Actions ActionPage6 = new Actions(driver);
                     var buttonSelectAll = driver.FindElement(By.Id("btnSelecionarTudo"));
-                    ActionPage6.MoveToElement(buttonSelectAll).Build().Perform();
+                    ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].scrollIntoView(true);", buttonSelectAll);
+                    buttonSelectAll.Click();
+                    driver.FindElement(By.Id("btnProsseguir")).Click();
 
-                    new WebDriverWait(driver, TimeSpan.FromSeconds(60))
-                        .Until(d => d.FindElement(By.Id("btnSelecionarTudo")));
-                    //driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
+                    // page 7
+                    var resultados = driver.FindElements(By.CssSelector("#panelMatriculas > tr > td:nth-child(4) a.list.listDetails"));
+                    foreach (IWebElement resultado in resultados)
+                    {
+                        ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].scrollIntoView(true);", resultado);
+                        ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].removeAttribute('href');", resultado);
+                        ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].click();", resultado);
+                        Console.WriteLine("ArispCrawler navegou para o RESULTADO em PDF");
 
-                    //buttonSelectAll.Click();
-
-                    // Take a screenshot and save it into screen.png
-                    //driver.GetScreenshot().SaveAsFile(@"screen.png", ImageFormat.Png);
+                        // fechando a janela aberta
+                        var tabs = driver.WindowHandles;
+                        driver.SwitchTo().Window(tabs[tabs.Count - 1]);
+                        driver.Close();
+                        driver.SwitchTo().Window(tabs[tabs.Count - 2]);
+                    }
 
                     Console.WriteLine("ArispCrawler OK");
                     Console.ReadKey(intercept: true);
-                    return CrawlerStatus.Success;              
+                    return CrawlerStatus.Success;
                 }
             }
             catch (NotSupportedException e)
@@ -95,3 +101,4 @@ namespace KrakenMPSPCrawler.Crawlers
         }
     }
 }
+                 
