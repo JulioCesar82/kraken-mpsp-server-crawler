@@ -33,13 +33,13 @@ namespace KrakenMPSPCrawler.Utils
         {
             try
             {
-                var driver = $@"{Environment.CurrentDirectory}/Libs/GeckoDriver";
+                var driver = $@"{Environment.CurrentDirectory}/Libs/geckodriver";
                 var service = FirefoxDriverService.CreateDefaultService(driver);
                 FirefoxOptions options = new FirefoxOptions();
                 //TimeSpan time = TimeSpan.FromSeconds(20);
 
                 //options.AddArgument("--headless");
-                service.FirefoxBinaryPath = @"C:\Program Files\Mozilla Firefox\firefox.exe"; // May not be necessary
+                //service.FirefoxBinaryPath = @"C:\Program Files\Mozilla Firefox\firefox.exe"; // May not be necessary
 
                 return new FirefoxDriver(service, options);//, time);
             }

@@ -9,7 +9,8 @@ namespace KrakenMPSPCrawler
         public LegalPersonCoordinator(LegalPersonModel legalPerson)
         {
             AddModule(new ArispCrawler(legalPerson.Type, legalPerson.CNPJ));
-            AddModule(new SivecCrawler());   
+            AddModule(new SivecCrawler());
+            AddModule(new ArpenpCrawler(legalPerson.Type, legalPerson.CNPJ));
         }
     }
 }
