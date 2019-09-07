@@ -89,6 +89,7 @@ namespace KrakenMPSPCrawler.Crawlers
                         Console.Write("SielCrawler resultado {0}", resultado.Text);
                     }
 
+
                     driver.Close();
                     Console.Write("SielCrawler OK");
                     return CrawlerStatus.Success;

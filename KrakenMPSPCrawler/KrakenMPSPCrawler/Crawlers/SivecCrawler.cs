@@ -20,7 +20,12 @@ namespace KrakenMPSPCrawler.Crawlers
             {
                 using (var driver = WebDriverFactory.CreateWebDriver(WebBrowser.Firefox))
                 {
-                    
+                    driver.Navigate().GoToUrl("http://ec2-18-231-116-58.sa-east-1.compute.amazonaws.com/sivec/login.html");
+                    Console.Write("SivecCrawler resultado");
+
+
+                    driver.Close();
+                    Console.Write("SivecCrawler OK");
                     return CrawlerStatus.Success;
                 }
             }

@@ -65,14 +65,14 @@ namespace KrakenMPSPCrawler.Crawlers
                     buttonSelectAll.Click();
                     driver.FindElement(By.Id("btnProsseguir")).Click();
 
-                    // page 7
+                    // page 7 - Capturar dados
                     var resultados = driver.FindElements(By.CssSelector("#panelMatriculas > tr > td:nth-child(4) a.list.listDetails"));
                     foreach (IWebElement resultado in resultados)
                     {
                         ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].scrollIntoView(true);", resultado);
                         ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].removeAttribute('href');", resultado);
                         ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].click();", resultado);
-                        Console.Write("ArispCrawler navegou para o RESULTADO em PDF");
+                        Console.Write("ArispCrawler resultado");
 
                         // fechando a janela aberta
                         var tabs = driver.WindowHandles;
@@ -80,6 +80,7 @@ namespace KrakenMPSPCrawler.Crawlers
                         driver.Close();
                         driver.SwitchTo().Window(tabs[tabs.Count - 2]);
                     }
+
 
                     driver.Close();
                     Console.Write("ArispCrawler OK");

@@ -10,7 +10,7 @@ namespace KrakenMPSPCrawler
         public LegalPersonCoordinator(LegalPersonModel legalPerson)
         {
             // Classe de Crawler base, apenas duplique
-            // AddModule(new ExampleCrawler());
+            // AddModule(new ExampleCrawler("julio+cesar"));
 
             AddModule(new ArispCrawler(legalPerson.Type, legalPerson.CNPJ));
         }

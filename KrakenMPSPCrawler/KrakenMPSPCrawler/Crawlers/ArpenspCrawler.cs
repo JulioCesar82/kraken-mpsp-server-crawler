@@ -42,6 +42,13 @@ namespace KrakenMPSPCrawler.Crawlers
 
                     driver.FindElement(By.Id("btn_pesquisar")).Click();
 
+                    // page 4 - Capturar dados
+                    var resultadoConjuge1 = driver.FindElement(By.CssSelector("#principal > div > form > table:nth-child(15) > tbody > tr:nth-child(2) > td:nth-child(2)")).Text;
+                    var resultadoConjuge2 = driver.FindElement(By.CssSelector("#principal > div > form > table:nth-child(15) > tbody > tr:nth-child(4) > td:nth-child(2)")).Text;
+                    var resultadoDataCasamento = driver.FindElement(By.CssSelector("#principal > div > form > table:nth-child(15) > tbody > tr:nth-child(6) > td:nth-child(2)")).Text;
+
+                    Console.WriteLine("ArpenspCrawler primeiro Conjuge {0}, segundo Conjuge {1}; casados em {2}", resultadoConjuge1, resultadoConjuge2, resultadoDataCasamento);
+
 
                     driver.Close();
                     Console.WriteLine("ArpenspCrawler OK");
