@@ -8,9 +8,12 @@ namespace KrakenMPSPCrawler
     {
         public PhysicalPersonCoordinator(PhysicalPersonModel physicalPerson)
         {
+            // Classe de Crawler base, apenas duplique
+            // AddModule(new ExampleCrawler());
+
             AddModule(new ArispCrawler(physicalPerson.Type, physicalPerson.CPF));
             AddModule(new SielCrawler("fiap", "fiap123", "123456", physicalPerson.NomeCompleto, physicalPerson.NomeDaMae, physicalPerson.DataDeNascimento));
-            AddModule(new SivecCrawler());
+            AddModule(new ArpenpCrawler();
         }
     }
 }
