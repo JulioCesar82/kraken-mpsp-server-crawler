@@ -1,6 +1,7 @@
 ﻿using System;
 
 using OpenQA.Selenium;
+
 using KrakenMPSPCrawler.Utils;
 using KrakenMPSPCrawler.Business.Enum;
 using KrakenMPSPCrawler.Business.Model;
@@ -11,11 +12,12 @@ namespace KrakenMPSPCrawler.Crawlers
     {
         private readonly string Usuario;
         private readonly string Senha;
+
         private readonly string NomeCompleto;
         private readonly string NomeDaMae;
         private readonly string DataNascimento;
-        private readonly string TituloEleitor;
         private readonly string NumeroProcesso;
+        private readonly string TituloEleitor;
 
         public SielCrawler(string usuario, string senha, string numeroProcesso, string tituloEleitor)
         {

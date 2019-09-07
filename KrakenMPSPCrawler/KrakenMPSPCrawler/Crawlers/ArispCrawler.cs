@@ -3,6 +3,7 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using OpenQA.Selenium.Interactions;
+
 using KrakenMPSPCrawler.Enum;
 using KrakenMPSPCrawler.Utils;
 using KrakenMPSPCrawler.Business.Enum;
@@ -34,9 +35,9 @@ namespace KrakenMPSPCrawler.Crawlers
                     driver.FindElement(By.Id("btnAutenticar")).Click();
 
                     // page 2
-                    Actions ActionPage2 = new Actions(driver);
+                    Actions actionPage2 = new Actions(driver);
                     var menuDropDown = driver.FindElement(By.Id("liInstituicoes"));
-                    ActionPage2.MoveToElement(menuDropDown).Build().Perform();
+                    actionPage2.MoveToElement(menuDropDown).Build().Perform();
 
                     driver.FindElement(By.CssSelector("#liInstituicoes > div > ul > li:nth-child(3) > a")).Click();
 

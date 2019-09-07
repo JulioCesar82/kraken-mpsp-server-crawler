@@ -1,5 +1,6 @@
 ﻿using KrakenMPSPCrawler.Models;
 using KrakenMPSPCrawler.Business;
+using KrakenMPSPCrawler.Business.Model;
 using KrakenMPSPCrawler.Crawlers;
 
 namespace KrakenMPSPCrawler
@@ -12,8 +13,8 @@ namespace KrakenMPSPCrawler
             // AddModule(new ExampleCrawler());
 
             AddModule(new ArispCrawler(physicalPerson.Type, physicalPerson.CPF));
+            AddModule(new ArpenspCrawler("123456"));
             AddModule(new SielCrawler("fiap", "fiap123", "123456", physicalPerson.NomeCompleto, physicalPerson.NomeDaMae, physicalPerson.DataDeNascimento));
-            AddModule(new ArpenpCrawler();
         }
     }
 }

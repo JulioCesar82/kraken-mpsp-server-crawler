@@ -1,18 +1,16 @@
 ﻿using System.Collections.Generic;
-
 using KrakenMPSPCrawler.Business.Enum;
 using KrakenMPSPCrawler.Business.Interface;
-using KrakenMPSPCrawler.Business.Model;
 
-namespace KrakenMPSPCrawler.Business
+namespace KrakenMPSPCrawler.Business.Model
 {
     public class Coordinator : ICoordinator
     {
-        private readonly List<Crawler> _crawlers = new List<Crawler>();
+        private readonly List<Crawler> Crawlers = new List<Crawler>();
 
         public Crawler AddModule(Crawler validation)
         {
-            _crawlers.Add(validation);
+            Crawlers.Add(validation);
             return validation;
         }
 
@@ -26,7 +24,7 @@ namespace KrakenMPSPCrawler.Business
         {
             var result = validationContext ?? new Investigation();
 
-            foreach (var crawler in _crawlers)
+            foreach (var crawler in Crawlers)
             {
                 var searchResult = crawler.Execute();
 

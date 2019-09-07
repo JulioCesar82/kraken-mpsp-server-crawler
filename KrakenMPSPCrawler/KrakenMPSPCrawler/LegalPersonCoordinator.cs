@@ -1,5 +1,6 @@
 ﻿using KrakenMPSPCrawler.Models;
 using KrakenMPSPCrawler.Business;
+using KrakenMPSPCrawler.Business.Model;
 using KrakenMPSPCrawler.Crawlers;
 
 namespace KrakenMPSPCrawler
