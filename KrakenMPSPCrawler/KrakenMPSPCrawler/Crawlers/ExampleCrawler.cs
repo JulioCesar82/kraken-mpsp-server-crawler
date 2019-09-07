@@ -34,7 +34,7 @@ namespace KrakenMPSPCrawler.Crawlers
             }
             catch (NotSupportedException e)
             {
-                Console.Write("{ 0} Faill loading browser caught.", e.Message);
+                Console.Write("{0} Faill loading browser caught.", e.Message);
                 SetErrorMessage("ExampleCrawler", e.Message);
                 return CrawlerStatus.Skipped;
             }

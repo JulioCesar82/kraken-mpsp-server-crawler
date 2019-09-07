@@ -34,12 +34,14 @@ namespace KrakenMPSPCrawler.Crawlers
                     driver.FindElement(By.Id("btnCallLogin")).Click();
                     driver.FindElement(By.Id("btnAutenticar")).Click();
 
+
                     // page 2
                     Actions actionPage2 = new Actions(driver);
                     var menuDropDown = driver.FindElement(By.Id("liInstituicoes"));
                     actionPage2.MoveToElement(menuDropDown).Build().Perform();
 
                     driver.FindElement(By.CssSelector("#liInstituicoes > div > ul > li:nth-child(3) > a")).Click();
+
 
                     // page 3
                     driver.FindElement(By.Id("Prosseguir")).Click();
@@ -48,6 +50,7 @@ namespace KrakenMPSPCrawler.Crawlers
                     driver.FindElement(By.CssSelector("div.selectorAll div.checkbox input")).Click();
                     driver.FindElement(By.Id("chkHabilitar")).Click();
                     driver.FindElement(By.Id("Prosseguir")).Click();
+
 
                     // page 5
                     if (Type.Equals(KindPerson.LegalPerson))
@@ -59,11 +62,13 @@ namespace KrakenMPSPCrawler.Crawlers
                     campoBusca.SendKeys(Identification);
                     driver.FindElement(By.Id("btnPesquisar")).Click();
 
+
                     // page 6
                     var buttonSelectAll = driver.FindElement(By.Id("btnSelecionarTudo"));
                     ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].scrollIntoView(true);", buttonSelectAll);
                     buttonSelectAll.Click();
                     driver.FindElement(By.Id("btnProsseguir")).Click();
+
 
                     // page 7 - Capturar dados
                     var resultados = driver.FindElements(By.CssSelector("#panelMatriculas > tr > td:nth-child(4) a.list.listDetails"));

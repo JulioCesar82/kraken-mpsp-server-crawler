@@ -11,7 +11,7 @@ namespace KrakenMPSPCrawlerTest
         public void TestMethod1()
         {
             // Arrange
-            PhysicalPersonModel phycalPerson = new PhysicalPersonModel("julio cesar", "11298978699", "10/10/2010", "selma irene");
+            PhysicalPersonModel phycalPerson = new PhysicalPersonModel("julio cesar", "11298978699", "395253299", "10/10/2010", "selma irene");
             PhysicalPersonCoordinator coordinator = new PhysicalPersonCoordinator(phycalPerson);
 
             // Act

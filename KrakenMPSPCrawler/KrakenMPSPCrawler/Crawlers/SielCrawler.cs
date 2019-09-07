@@ -13,16 +13,17 @@ namespace KrakenMPSPCrawler.Crawlers
         private readonly string Usuario;
         private readonly string Senha;
 
+        private readonly string NumeroProcesso;
         private readonly string NomeCompleto;
         private readonly string NomeDaMae;
         private readonly string DataNascimento;
-        private readonly string NumeroProcesso;
         private readonly string TituloEleitor;
 
         public SielCrawler(string usuario, string senha, string numeroProcesso, string tituloEleitor)
         {
             Usuario = usuario;
             Senha = senha;
+
             NumeroProcesso = numeroProcesso;
             TituloEleitor = tituloEleitor;
         }
@@ -31,6 +32,7 @@ namespace KrakenMPSPCrawler.Crawlers
         {
             Usuario = usuario;
             Senha = senha;
+
             NumeroProcesso = numeroProcesso;
             NomeCompleto = nomeCompleto;
             NomeDaMae = nomeDaMae;
@@ -41,6 +43,7 @@ namespace KrakenMPSPCrawler.Crawlers
         {
             Usuario = usuario;
             Senha = senha;
+
             NumeroProcesso = numeroProcesso;
             NomeCompleto = nomeCompleto;
             NomeDaMae = nomeDaMae;
