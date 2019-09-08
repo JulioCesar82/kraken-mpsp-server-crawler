@@ -33,7 +33,7 @@ namespace KrakenMPSPCrawler.Utils
         {
             try
             {
-                var driver = $@"{Environment.CurrentDirectory}/Libs/geckodriver";
+                var driver = $@"{AppDomain.CurrentDomain.BaseDirectory}/Libs/geckodriver";
                 var service = FirefoxDriverService.CreateDefaultService(driver);
                 FirefoxOptions options = new FirefoxOptions();
                 //TimeSpan time = TimeSpan.FromSeconds(20);
@@ -54,7 +54,7 @@ namespace KrakenMPSPCrawler.Utils
         {
             try
             {
-                var driver = $@"{Environment.CurrentDirectory}/Libs/ChromeDriver";
+                var driver = $@"{AppDomain.CurrentDomain.BaseDirectory}/Libs/ChromeDriver";
                 var service = ChromeDriverService.CreateDefaultService(driver);
                 ChromeOptions options = new ChromeOptions();
                 //TimeSpan time = TimeSpan.FromSeconds(20);
@@ -75,7 +75,7 @@ namespace KrakenMPSPCrawler.Utils
         {
             try
             {
-                var driver = $@"{Environment.CurrentDirectory}/Libs/EdgeDriver";
+                var driver = $@"{AppDomain.CurrentDomain.BaseDirectory}/Libs/EdgeDriver";
                 var service = InternetExplorerDriverService.CreateDefaultService(driver);
                 InternetExplorerOptions options = new InternetExplorerOptions();
                 //TimeSpan time = TimeSpan.FromSeconds(20);
