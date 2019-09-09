@@ -99,7 +99,7 @@ namespace KrakenMPSPCrawler.Crawlers
                         // fechando a janela aberta
                         driver.Close();
 
-                        // voltando para a jane anterior
+                        // voltando para a janela anterior
                         driver.SwitchTo().Window(tabs[tabs.Count - 2]);
                     }
 
