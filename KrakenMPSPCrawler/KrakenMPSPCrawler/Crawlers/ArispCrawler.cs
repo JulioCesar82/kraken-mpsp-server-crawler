@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.IO;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using OpenQA.Selenium.Interactions;
@@ -70,19 +70,36 @@ namespace KrakenMPSPCrawler.Crawlers
                     driver.FindElement(By.Id("btnProsseguir")).Click();
 
 
-                    // page 7 - Capturar dados
+                    // page 7
+                    var pathTemp = $@"{AppDomain.CurrentDomain.BaseDirectory}/temp/";
+                    var rnd = new Random();
+                    if (!Directory.Exists(pathTemp)) {
+                        Directory.CreateDirectory(pathTemp);
+                    }
+
                     var resultados = driver.FindElements(By.CssSelector("#panelMatriculas > tr > td:nth-child(4) a.list.listDetails"));
                     foreach (IWebElement resultado in resultados)
                     {
                         ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].scrollIntoView(true);", resultado);
                         ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].removeAttribute('href');", resultado);
                         ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].click();", resultado);
-                        Console.Write("ArispCrawler resultado");
+
+                        // page 8 - Capturar dados
+                        var tabs = driver.WindowHandles;
+                        // indo para a janela aberta
+                        driver.SwitchTo().Window(tabs[tabs.Count - 1]);
+
+                        ITakesScreenshot camera = driver as ITakesScreenshot;
+                        Screenshot foto = camera.GetScreenshot();
+
+                        var nameFile = $"{pathTemp}matricula-{rnd.Next(1000, 10001)}.png";
+                        foto.SaveAsFile(nameFile, ScreenshotImageFormat.Png);
+                        Console.Write("ArispCrawler resultado Screenshot em {0}", nameFile);
 
                         // fechando a janela aberta
-                        var tabs = driver.WindowHandles;
-                        driver.SwitchTo().Window(tabs[tabs.Count - 1]);
                         driver.Close();
+
+                        // voltando para a jane anterior
                         driver.SwitchTo().Window(tabs[tabs.Count - 2]);
                     }
 
