@@ -89,24 +89,24 @@ namespace KrakenMPSPCrawler.Crawlers
                     var resultados = driver.FindElements(By.CssSelector(".lista tbody > tr > td:nth-child(2)"));
                     foreach (IWebElement resultado in resultados)
                     {
-                        Console.Write("SielCrawler resultado {0}", resultado.Text);
+                        Console.WriteLine("SielCrawler resultado {0}", resultado.Text);
                     }
 
 
                     driver.Close();
-                    Console.Write("SielCrawler OK");
+                    Console.WriteLine("SielCrawler OK");
                     return CrawlerStatus.Success;
                 }
             }
             catch (NotSupportedException e)
             {
-                Console.Write("{0} Faill loading browser caught.", e.Message);
+                Console.WriteLine("Fail loading browser caught: {0}", e.Message);
                 SetErrorMessage("SielCrawler", e.Message);
                 return CrawlerStatus.Skipped;
             }
             catch (Exception e)
             {
-                Console.Write("{0} Exception caught.", e.Message);
+                Console.WriteLine("Exception caught: {0}", e.Message);
                 SetErrorMessage("SielCrawler", e.Message);
                 return CrawlerStatus.Error;
             }

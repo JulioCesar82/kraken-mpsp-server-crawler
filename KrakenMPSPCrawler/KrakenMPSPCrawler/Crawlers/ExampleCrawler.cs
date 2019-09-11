@@ -16,35 +16,34 @@ namespace KrakenMPSPCrawler.Crawlers
         }
 
     public override CrawlerStatus Execute()
+    {
+        try
         {
-            try
+            using (var driver = WebDriverFactory.CreateWebDriver(WebBrowser.Firefox))
             {
-                using (var driver = WebDriverFactory.CreateWebDriver(WebBrowser.Firefox))
-                {
-                    driver.Navigate().GoToUrl(String.Format("https://www.google.com/search?hl=pt-BR&q={0}&oq={0}", Busca));
+                driver.Navigate().GoToUrl(String.Format("https://www.google.com/search?hl=pt-BR&q={0}&oq={0}", Busca));
 
-                    // page 1 - Capturar dados
-                    Console.Write("ExampleCrawler resultado");
+                // page 1 - Capturar dados
+                Console.WriteLine("ExampleCrawler resultado");
 
 
-                    driver.Close();
-                    Console.Write("ExampleCrawler OK");
-                    return CrawlerStatus.Success;
+                driver.Close();
+                Console.WriteLine("ExampleCrawler OK");
+                return CrawlerStatus.Success;
                 }
             }
             catch (NotSupportedException e)
             {
-                Console.Write("{0} Faill loading browser caught.", e.Message);
+                Console.WriteLine("Fail loading browser caught: {0}", e.Message);
                 SetErrorMessage("ExampleCrawler", e.Message);
                 return CrawlerStatus.Skipped;
             }
             catch (Exception e)
             {
-                Console.Write("{0} Exception caught.", e.Message);
+                Console.WriteLine("Exception caught: {0}", e.Message);
                 SetErrorMessage("ExampleCrawler", e.Message);
                 return CrawlerStatus.Error;
             }
         }
-
     }
 }

@@ -2,13 +2,10 @@
 
 namespace KrakenMPSPCrawler.Models
 {
-    public class PersonModel
+    public abstract class PersonModel
     {
-        public KindPerson Type;
+        //public KindPerson Type;
 
-        public PersonModel(KindPerson type)
-        {
-            Type = type;
-        }
+        public abstract KindPerson getTypePerson();
     }
 }

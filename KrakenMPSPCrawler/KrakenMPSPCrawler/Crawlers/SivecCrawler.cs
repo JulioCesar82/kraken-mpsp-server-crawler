@@ -93,19 +93,19 @@ namespace KrakenMPSPCrawler.Crawlers
 
 
                     driver.Close();
-                    Console.Write("SivecCrawler OK");
+                    Console.WriteLine("SivecCrawler OK");
                     return CrawlerStatus.Success;
                 }
             }
             catch (NotSupportedException e)
             {
-                Console.Write("{0} Faill loading browser caught.", e.Message);
+                Console.WriteLine("Fail loading browser caught: {0}", e.Message);
                 SetErrorMessage("SivecCrawler", e.Message);
                 return CrawlerStatus.Skipped;
             }
             catch (Exception e)
             {
-                Console.Write("{0} Exception caught.", e.Message);
+                Console.WriteLine("Exception caught: {0}", e.Message);
                 SetErrorMessage("SivecCrawler", e.Message);
                 return CrawlerStatus.Error;
             }

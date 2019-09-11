@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+
 using KrakenMPSPCrawler.Business.Enum;
 using KrakenMPSPCrawler.Business.Interface;
 

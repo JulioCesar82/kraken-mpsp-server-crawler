@@ -60,13 +60,13 @@ namespace KrakenMPSPCrawler.Crawlers
             }
             catch (NotSupportedException e)
             {
-                Console.WriteLine("{0} Faill loading browser caught.", e.Message);
+                Console.WriteLine("Fail loading browser caught: {0}", e.Message);
                 SetErrorMessage("ArpenspCrawler", e.Message);
                 return CrawlerStatus.Skipped;
             }
             catch (Exception e)
             {
-                Console.WriteLine("{0} Exception caught.", e.Message);
+                Console.WriteLine("Exception caught: {0}", e.Message);
                 SetErrorMessage("ArpenspCrawler", e.Message);
                 return CrawlerStatus.Error;
             }

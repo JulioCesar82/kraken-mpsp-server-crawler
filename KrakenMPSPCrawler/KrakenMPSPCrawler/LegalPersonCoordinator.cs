@@ -1,7 +1,6 @@
 ﻿using KrakenMPSPCrawler.Models;
-using KrakenMPSPCrawler.Business;
-using KrakenMPSPCrawler.Business.Model;
 using KrakenMPSPCrawler.Crawlers;
+using KrakenMPSPCrawler.Business.Model;
 
 namespace KrakenMPSPCrawler
 {
@@ -12,7 +11,7 @@ namespace KrakenMPSPCrawler
             // Classe de Crawler base, apenas duplique
             // AddModule(new ExampleCrawler("julio+cesar"));
 
-            AddModule(new ArispCrawler(legalPerson.Type, legalPerson.CNPJ));
+            AddModule(new ArispCrawler(legalPerson.getTypePerson(), legalPerson.CNPJ));
         }
     }
 }

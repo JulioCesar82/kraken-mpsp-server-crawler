@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using OpenQA.Selenium.Interactions;
@@ -71,7 +72,7 @@ namespace KrakenMPSPCrawler.Crawlers
 
 
                     // page 7
-                    var pathTemp = $@"{AppDomain.CurrentDomain.BaseDirectory}/temp/";
+                    var pathTemp = $@"{AppDomain.CurrentDomain.BaseDirectory}/temp/arisp";
                     var rnd = new Random();
                     if (!Directory.Exists(pathTemp)) {
                         Directory.CreateDirectory(pathTemp);
@@ -84,6 +85,7 @@ namespace KrakenMPSPCrawler.Crawlers
                         ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].removeAttribute('href');", resultado);
                         ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].click();", resultado);
 
+
                         // page 8 - Capturar dados
                         var tabs = driver.WindowHandles;
                         // indo para a janela aberta
@@ -94,7 +96,7 @@ namespace KrakenMPSPCrawler.Crawlers
 
                         var nameFile = $"{pathTemp}matricula-{rnd.Next(1000, 10001)}.png";
                         foto.SaveAsFile(nameFile, ScreenshotImageFormat.Png);
-                        Console.Write("ArispCrawler resultado Screenshot em {0}", nameFile);
+                        Console.WriteLine("ArispCrawler resultado Screenshot em {0}", nameFile);
 
                         // fechando a janela aberta
                         driver.Close();
@@ -105,19 +107,19 @@ namespace KrakenMPSPCrawler.Crawlers
 
 
                     driver.Close();
-                    Console.Write("ArispCrawler OK");
+                    Console.WriteLine("ArispCrawler OK");
                     return CrawlerStatus.Success;
                 }
             }
             catch (NotSupportedException e)
             {
-                Console.Write("{0} Faill loading browser caught.", e.Message);
+                Console.WriteLine("Fail loading browser caught: {0}", e.Message);
                 SetErrorMessage("ArispCrawler", e.Message);
                 return CrawlerStatus.Skipped;
             }
             catch (Exception e)
             {
-                Console.Write("{0} Exception caught.", e.Message);
+                Console.WriteLine("Exception caught: {0}", e.Message);
                 SetErrorMessage("ArispCrawler", e.Message);
                 return CrawlerStatus.Error;
             }
