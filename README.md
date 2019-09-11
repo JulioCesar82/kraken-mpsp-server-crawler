@@ -21,3 +21,10 @@ http://ec2-18-231-116-58.sa-east-1.compute.amazonaws.com/login
  * [An awesome guide on how to build RESTful APIs with ASP.NET Core](https://www.freecodecamp.org/news/an-awesome-guide-on-how-to-build-restful-apis-with-asp-net-core-87b818123e28/?gi=5827bfeb1996)
  * [ASP.NET Core + JWT + Refit: consumindo uma API protegida de forma descomplicada](https://medium.com/@renato.groffe/asp-net-core-jwt-refit-consumindo-uma-api-protegida-de-forma-descomplicada-9ef4ddfc78ac)
  * [Microservices Using ASP.NET Core](https://www.c-sharpcorner.com/article/microservice-using-asp-net-core/)
+
+### Comands Dot Net
+
+dotnet.exe publish -c Release -r win-x64 -f netcoreapp2.2
+
+dotnet ef migrations add InitialCreate
+dotnet ef database update

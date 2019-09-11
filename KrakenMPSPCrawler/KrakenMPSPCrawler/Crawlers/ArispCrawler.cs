@@ -94,9 +94,9 @@ namespace KrakenMPSPCrawler.Crawlers
                         ITakesScreenshot camera = driver as ITakesScreenshot;
                         Screenshot foto = camera.GetScreenshot();
 
-                        var nameFile = $"{pathTemp}matricula-{rnd.Next(1000, 10001)}.png";
+                        var nameFile = $"{pathTemp}/matricula-{rnd.Next(1000, 10001)}.png";
                         foto.SaveAsFile(nameFile, ScreenshotImageFormat.Png);
-                        Console.WriteLine("ArispCrawler resultado Screenshot em {0}", nameFile);
+                        Console.WriteLine("ArispCrawler resultado Screenshot gravado em {0}", nameFile);
 
                         // fechando a janela aberta
                         driver.Close();
