@@ -35,8 +35,10 @@ namespace KrakenMPSPConsole
                 using (var db = new DataBaseContext(true))
                 {
                     // Run Migrations
+                    Console.WriteLine("Running migrations");
                     db.Database.Migrate();
 
+                    Console.WriteLine("saving legal person");
                     db.LegalPerson.Add(exampleLegalPerson);
                     db.SaveChanges();
 
@@ -46,10 +48,10 @@ namespace KrakenMPSPConsole
                         Console.WriteLine($"Empresa: {empresa.NomeFantasia}");
                         var crawler = new LegalPersonCoordinator(empresa);
                         var result = crawler.Run();
-                        Console.WriteLine("Resultado foi ", result.Completed);
-
+                        Console.WriteLine("Completou a busca? {0}", result.Completed);
                     }
 
+                    Console.WriteLine("saving physical person");
                     db.PhysicalPerson.Add(examplePhysicalPerson);
                     db.SaveChanges();
 
@@ -59,8 +61,7 @@ namespace KrakenMPSPConsole
                         Console.WriteLine($"Pessoa: {pessoa.NomeCompleto}");
                         var crawler = new PhysicalPersonCoordinator(pessoa);
                         var result = crawler.Run();
-                        Console.WriteLine("Resultado foi ", result.Completed);
-
+                        Console.WriteLine("Completou a busca? {0}", result.Completed);
                     }
                 }
             }
