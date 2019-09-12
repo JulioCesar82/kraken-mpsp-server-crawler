@@ -1,7 +1,5 @@
 ﻿using System;
 
-using Microsoft.EntityFrameworkCore;
-
 using KrakenMPSPCrawler;
 using KrakenMPSPCrawler.Models;
 
@@ -13,6 +11,7 @@ namespace KrakenMPSPConsole
         {
             Console.WriteLine("Iniciando a busca");
 
+            #region objetos de teste
             var exampleLegalPerson = new LegalPersonModel
             {
                 NomeFantasia = "PETROBRASIL",
@@ -29,15 +28,12 @@ namespace KrakenMPSPConsole
                 DataDeNascimento = "23/01/1997",
                 NomeDaMae = "SELMA AVILA"
             };
+            #endregion
 
             try
             {
-                using (var db = new DataBaseContext(true))
+                using (var db = new DataBaseContext())
                 {
-                    // Run Migrations
-                    Console.WriteLine("Running migrations");
-                    db.Database.Migrate();
-
                     Console.WriteLine("saving legal person");
                     db.LegalPerson.Add(exampleLegalPerson);
                     db.SaveChanges();
