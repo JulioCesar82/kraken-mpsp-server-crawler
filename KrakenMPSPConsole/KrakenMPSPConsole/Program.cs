@@ -1,5 +1,7 @@
 ﻿using System;
 
+using Microsoft.EntityFrameworkCore;
+
 using KrakenMPSPCrawler;
 using KrakenMPSPCrawler.Models;
 
@@ -34,6 +36,9 @@ namespace KrakenMPSPConsole
             {
                 using (var db = new DataBaseContext())
                 {
+                    Console.WriteLine("running migrations");
+                    db.Database.Migrate();
+
                     Console.WriteLine("saving legal person");
                     db.LegalPerson.Add(exampleLegalPerson);
                     db.SaveChanges();
@@ -65,6 +70,9 @@ namespace KrakenMPSPConsole
             {
                 Console.WriteLine("Search execution error: {0}", e.Message);
             }
+
+            Console.WriteLine("finished application");
+            Console.ReadKey();
         }
     }
 }

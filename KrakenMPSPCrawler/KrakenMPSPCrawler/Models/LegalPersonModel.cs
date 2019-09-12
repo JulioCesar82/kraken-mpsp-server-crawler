@@ -4,7 +4,7 @@ namespace KrakenMPSPCrawler.Models
 {
     public class LegalPersonModel : PersonModel
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
         public string NomeFantasia { get; set; }
         public string CNPJ { get; set; }
         public string CPFDoFundador { get; set; }

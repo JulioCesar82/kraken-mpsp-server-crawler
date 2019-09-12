@@ -1,7 +1,7 @@
-﻿using KrakenMPSPCrawler;
-using KrakenMPSPCrawler.Business.Model;
+﻿using NUnit.Framework;
+
+using KrakenMPSPCrawler;
 using KrakenMPSPCrawler.Models;
-using NUnit.Framework;
 
 namespace KrakenMPSPCrawlerTest
 {
@@ -11,11 +11,18 @@ namespace KrakenMPSPCrawlerTest
         public void TestMethod1()
         {
             // Arrange
-            PhysicalPersonModel phycalPerson = new PhysicalPersonModel("julio cesar", "11298978699", "395253299", "10/10/2010", "selma irene");
-            PhysicalPersonCoordinator coordinator = new PhysicalPersonCoordinator(phycalPerson);
+            var examplePhysicalPerson = new PhysicalPersonModel()
+            {
+                NomeCompleto = "JULIO AVILA",
+                CPF = "1111111111",
+                RG = "22222222222",
+                DataDeNascimento = "23/01/1997",
+                NomeDaMae = "SELMA AVILA"
+            };
+            var coordinator = new PhysicalPersonCoordinator(examplePhysicalPerson);
 
             // Act
-            Investigation investigation = coordinator.Run();
+            var investigation = coordinator.Run();
 
             // Assert
             Assert.Equals(investigation.Completed, true);

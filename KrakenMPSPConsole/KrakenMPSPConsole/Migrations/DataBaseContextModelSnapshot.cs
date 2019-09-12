@@ -13,7 +13,7 @@ namespace KrakenMPSPConsole.Migrations
 
             modelBuilder.Entity("KrakenMPSPCrawler.Models.LegalPersonModel", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("CNPJ");
@@ -31,7 +31,7 @@ namespace KrakenMPSPConsole.Migrations
 
             modelBuilder.Entity("KrakenMPSPCrawler.Models.PhysicalPersonModel", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("CPF");

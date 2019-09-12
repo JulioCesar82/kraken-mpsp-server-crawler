@@ -10,7 +10,7 @@ namespace KrakenMPSPConsole.Migrations
                 name: "LegalPerson",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<long>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     NomeFantasia = table.Column<string>(nullable: true),
                     CNPJ = table.Column<string>(nullable: true),
@@ -26,7 +26,7 @@ namespace KrakenMPSPConsole.Migrations
                 name: "PhysicalPerson",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<long>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     NomeCompleto = table.Column<string>(nullable: true),
                     CPF = table.Column<string>(nullable: true),

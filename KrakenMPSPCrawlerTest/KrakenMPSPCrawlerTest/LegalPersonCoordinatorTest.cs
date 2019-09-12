@@ -2,7 +2,6 @@
 
 using KrakenMPSPCrawler;
 using KrakenMPSPCrawler.Models;
-using KrakenMPSPCrawler.Business.Model;
 
 namespace KrakenMPSPCrawlerTest
 {
@@ -12,11 +11,17 @@ namespace KrakenMPSPCrawlerTest
         public void TestMethod1()
         {
             // Arrange
-            LegalPersonModel legalPerson = new LegalPersonModel("JCGETSOFTWARE", "1233333", "11298978699", "12321321");
-            LegalPersonCoordinator coordinator = new LegalPersonCoordinator(legalPerson);
+            var exampleLegalPerson = new LegalPersonModel
+            {
+                NomeFantasia = "PETROBRASIL",
+                CNPJ = "1111111111",
+                CPFDoFundador = "2222222222",
+                Contador = "333333333",
+            };
+            var coordinator = new LegalPersonCoordinator(exampleLegalPerson);
 
             // Act
-            Investigation investigation = coordinator.Run();
+            var investigation = coordinator.Run();
 
             // Assert
             Assert.AreEqual(investigation.Completed, true);
