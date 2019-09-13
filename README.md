@@ -1,6 +1,6 @@
 ## kraken MPSP Server-Crawler
 
-Projeto em desenvolvimento para o Ministério Público de São Paulo - MPSP, com objetivo de centralizar informações de pessoas e empresas investigadas para agilizar a resolução de processos judiciais.
+Projeto em desenvolvimento para o Ministério Público de São Paulo - MPSP, com objetivo de centralizar informações de pessoas e empresas investigadas agilizando a resolução de processos judiciais.
 Será um Buscador/Web Scraping em ASP.NET Core, armazenamento NoSQL com MongoDb e Redis.
 
 
@@ -8,7 +8,7 @@ Será um Buscador/Web Scraping em ASP.NET Core, armazenamento NoSQL com MongoDb 
 
 The project has dependencies that require manual installation.
 
-* [SDK .NET Core 2.2](https://dotnet.microsoft.com/download)
+* [SDK .NET Core 2.2](https://dotnet.microsoft.com/download "(target|_blank)")
 
 * [Nuget](https://www.nuget.org/downloads)
 

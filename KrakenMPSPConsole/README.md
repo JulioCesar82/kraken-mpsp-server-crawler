@@ -10,7 +10,7 @@ Solução responsável por gerenciar o armazenamento das informações, sendo ex
 
 # 1. Project Configuration
 
-**BEFORE YOU INSTALL:** please read the [requirements](../README.md/#prerequisites)
+**BEFORE YOU INSTALL:** please read the [requirements](../README.md#prerequisites)
 
 ```bash
 Update-Package -reinstall
