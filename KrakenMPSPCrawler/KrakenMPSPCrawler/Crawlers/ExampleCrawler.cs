@@ -8,11 +8,11 @@ namespace KrakenMPSPCrawler.Crawlers
 {
     public class ExampleCrawler : Crawler
     {
-        private readonly string Busca;
+        private readonly string _busca;
 
         public ExampleCrawler(string busca)
         {
-            Busca = busca;
+            _busca = busca;
         }
 
     public override CrawlerStatus Execute()
@@ -21,11 +21,10 @@ namespace KrakenMPSPCrawler.Crawlers
         {
             using (var driver = WebDriverFactory.CreateWebDriver(WebBrowser.Firefox))
             {
-                driver.Navigate().GoToUrl(String.Format("https://www.google.com/search?hl=pt-BR&q={0}&oq={0}", Busca));
+                driver.Navigate().GoToUrl(String.Format("https://www.google.com/search?hl=pt-BR&q={0}&oq={0}", _busca));
 
                 // page 1 - Capturar dados
-                Console.WriteLine("ExampleCrawler resultado");
-
+                SetInformationFound(typeof(ExampleCrawler), new Object());
 
                 driver.Close();
                 Console.WriteLine("ExampleCrawler OK");
@@ -35,13 +34,13 @@ namespace KrakenMPSPCrawler.Crawlers
             catch (NotSupportedException e)
             {
                 Console.WriteLine("Fail loading browser caught: {0}", e.Message);
-                SetErrorMessage("ExampleCrawler", e.Message);
+                SetErrorMessage(typeof(ExampleCrawler), e.Message);
                 return CrawlerStatus.Skipped;
             }
             catch (Exception e)
             {
                 Console.WriteLine("Exception caught: {0}", e.Message);
-                SetErrorMessage("ExampleCrawler", e.Message);
+                SetErrorMessage(typeof(ExampleCrawler), e.Message);
                 return CrawlerStatus.Error;
             }
         }

@@ -5,26 +5,27 @@ using OpenQA.Selenium;
 using KrakenMPSPCrawler.Utils;
 using KrakenMPSPCrawler.Business.Enum;
 using KrakenMPSPCrawler.Business.Model;
+using KrakenMPSPCrawler.Models;
 
 namespace KrakenMPSPCrawler.Crawlers
 {
     public class SivecCrawler : Crawler
     {
-        private readonly string Usuario;
-        private readonly string Senha;
+        private readonly string _usuario;
+        private readonly string _senha;
 
-        private readonly string MatriculaSap;
-        private readonly string NomeCompleto;
-        private readonly string RG;
+        private readonly string _matriculaSap;
+        private readonly string _nomeCompleto;
+        private readonly string _rg;
 
         public SivecCrawler(string usuario, string senha, string matriculaSap, string nomeCompleto, string rg)
         {
-            Usuario = usuario;
-            Senha = senha;
+            _usuario = usuario;
+            _senha = senha;
 
-            MatriculaSap = matriculaSap;
-            NomeCompleto = nomeCompleto;
-            RG = rg;
+            _matriculaSap = matriculaSap;
+            _nomeCompleto = nomeCompleto;
+            _rg = rg;
         }
 
         public override CrawlerStatus Execute()
@@ -36,8 +37,8 @@ namespace KrakenMPSPCrawler.Crawlers
                     driver.Navigate().GoToUrl("http://ec2-18-231-116-58.sa-east-1.compute.amazonaws.com/sivec/login.html");
 
                     // page 1
-                    driver.FindElement(By.Id("nomeusuario")).SendKeys(Usuario);
-                    driver.FindElement(By.Id("senhausuario")).SendKeys(Senha);
+                    driver.FindElement(By.Id("nomeusuario")).SendKeys(_usuario);
+                    driver.FindElement(By.Id("senhausuario")).SendKeys(_senha);
 
                     driver.FindElement(By.Id("Acessar")).Click();
 
@@ -46,34 +47,34 @@ namespace KrakenMPSPCrawler.Crawlers
                     driver.FindElement(By.CssSelector("#navbar-collapse-1 > ul > li:nth-child(4) > a")).Click();
                     driver.FindElement(By.Id("1")).Click();
 
-                    if (!string.IsNullOrEmpty(RG))
+                    if (!string.IsNullOrEmpty(_rg))
                     {
                         driver.FindElement(By.CssSelector("li.open:nth-child(2) > ul:nth-child(2) > li:nth-child(1) > a:nth-child(1)")).Click();
                     }
-                    else if (!string.IsNullOrEmpty(NomeCompleto))
+                    else if (!string.IsNullOrEmpty(_nomeCompleto))
                     {
                         driver.FindElement(By.CssSelector("li.open:nth-child(2) > ul:nth-child(2) > li:nth-child(1) > a:nth-child(2)")).Click();
                     }
-                    else if (!string.IsNullOrEmpty(MatriculaSap))
+                    else if (!string.IsNullOrEmpty(_matriculaSap))
                     {
                         driver.FindElement(By.CssSelector("li.open:nth-child(2) > ul:nth-child(2) > li:nth-child(1) > a:nth-child(3)")).Click();
                     }
 
 
                     // page 3
-                    if (!string.IsNullOrEmpty(RG))
+                    if (!string.IsNullOrEmpty(_rg))
                     {
-                        driver.FindElement(By.Id("idValorPesq")).SendKeys(RG);
+                        driver.FindElement(By.Id("idValorPesq")).SendKeys(_rg);
                         driver.FindElement(By.Id("procurar")).Click();
                     }
-                    else if (!string.IsNullOrEmpty(NomeCompleto))
+                    else if (!string.IsNullOrEmpty(_nomeCompleto))
                     {
-                        driver.FindElement(By.Id("idNomePesq")).SendKeys(NomeCompleto);
+                        driver.FindElement(By.Id("idNomePesq")).SendKeys(_nomeCompleto);
                         driver.FindElement(By.Id("procura")).Click();
                     }
-                    else if (!string.IsNullOrEmpty(MatriculaSap))
+                    else if (!string.IsNullOrEmpty(_matriculaSap))
                     {
-                        driver.FindElement(By.Id("idValorPesq")).SendKeys(MatriculaSap);
+                        driver.FindElement(By.Id("idValorPesq")).SendKeys(_matriculaSap);
                         driver.FindElement(By.Id("procurar")).Click();
                     }
 
@@ -85,12 +86,74 @@ namespace KrakenMPSPCrawler.Crawlers
 
 
                     // page 5 - Capturar dados
-                    var resultadoCorDaPele = driver.FindElement(By.CssSelector("div.col-md-12:nth-child(4) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(7) > td:nth-child(2) > span:nth-child(1)")).Text;
-                    var resultadoCorDoCabelo = driver.FindElement(By.CssSelector("div.col-md-12:nth-child(4) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(6) > td:nth-child(5) > span:nth-child(1)")).Text;
-                    var resultadoProfissao = driver.FindElement(By.CssSelector("div.col-md-12:nth-child(4) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(7) > td:nth-child(5) > span:nth-child(1)")).Text;
+                    const string tabela = "body > form:nth-child(13) > div > ";
+                    var resultado = new SivecCrawlerModel
+                    {
+                        Nome = driver
+                            .FindElement(By.CssSelector($"{tabela}div:nth-child(5) > div.col-md-11 > table > tbody > tr:nth-child(1) > td:nth-child(2)")).Text.Trim(),
+                        Sexo = driver
+                            .FindElement(By.CssSelector($"{tabela}div:nth-child(5) > div.col-md-11 > table > tbody > tr:nth-child(1) > td:nth-child(5)")).Text.Trim(),
+                        DataNascimento = driver
+                            .FindElement(By.CssSelector($"{tabela}div:nth-child(5) > div.col-md-11 > table > tbody > tr:nth-child(2) > td:nth-child(2)")).Text.Trim(),
+                        RG = driver
+                            .FindElement(By.CssSelector($"{tabela}div:nth-child(5) > div.col-md-11 > table > tbody > tr:nth-child(2) > td:nth-child(5)")).Text.Trim(),
+                        NumControle = driver
+                            .FindElement(By.CssSelector($"{tabela}div:nth-child(5) > div.col-md-11 > table > tbody > tr:nth-child(3) > td:nth-child(2)")).Text.Trim(),
+                        TipoRG = driver
+                            .FindElement(By.CssSelector($"{tabela}div:nth-child(5) > div.col-md-11 > table > tbody > tr:nth-child(3) > td:nth-child(5)")).Text.Trim(),
+                        DataEmissaoRG = driver
+                            .FindElement(By.CssSelector($"{tabela}div:nth-child(5) > div.col-md-12.top-buffer25 > table > tbody > tr:nth-child(1) > td:nth-child(2)")).Text.Trim(),
+                        Alcunha = driver
+                            .FindElement(By.CssSelector($"{tabela}div:nth-child(5) > div.col-md-12.top-buffer25 > table > tbody > tr:nth-child(1) > td:nth-child(5)")).Text.Trim(),
+                        EstadoCivil = driver
+                            .FindElement(By.CssSelector($"{tabela}div:nth-child(5) > div.col-md-12.top-buffer25 > table > tbody > tr:nth-child(2) > td:nth-child(2)")).Text.Trim(),
+                        Naturalidade = driver
+                            .FindElement(By.CssSelector($"{tabela}div:nth-child(5) > div.col-md-12.top-buffer25 > table > tbody > tr:nth-child(2) > td:nth-child(5)")).Text.Trim(),
+                        Naturalizado = driver
+                            .FindElement(By.CssSelector($"{tabela}div:nth-child(5) > div.col-md-12.top-buffer25 > table > tbody > tr:nth-child(3) > td:nth-child(2)")).Text.Trim(),
+                        PostoIdentificacao = driver
+                            .FindElement(By.CssSelector($"{tabela}div:nth-child(5) > div.col-md-12.top-buffer25 > table > tbody > tr:nth-child(3) > td:nth-child(5)")).Text.Trim(),
+                        GrauInstrucao = driver
+                            .FindElement(By.CssSelector($"{tabela}div:nth-child(5) > div.col-md-12.top-buffer25 > table > tbody > tr:nth-child(4) > td:nth-child(2)")).Text.Trim(),
+                        FormulaFundamental = driver
+                            .FindElement(By.CssSelector($"{tabela}div:nth-child(5) > div.col-md-12.top-buffer25 > table > tbody > tr:nth-child(4) > td:nth-child(5)")).Text.Trim(),
+                        NomePai = driver
+                            .FindElement(By.CssSelector($"{tabela}div:nth-child(5) > div.col-md-12.top-buffer25 > table > tbody > tr:nth-child(5) > td:nth-child(2)")).Text.Trim(),
+                        CorOlhos = driver
+                            .FindElement(By.CssSelector($"{tabela}div:nth-child(5) > div.col-md-12.top-buffer25 > table > tbody > tr:nth-child(5) > td:nth-child(5)")).Text.Trim(),
+                        NomeMae = driver
+                            .FindElement(By.CssSelector($"{tabela}div:nth-child(5) > div.col-md-12.top-buffer25 > table > tbody > tr:nth-child(6) > td:nth-child(2)")).Text.Trim(),
+                        Cabelo = driver
+                            .FindElement(By.CssSelector($"{tabela}div:nth-child(5) > div.col-md-12.top-buffer25 > table > tbody > tr:nth-child(6) > td:nth-child(5)")).Text.Trim(),
+                        CorPele = driver
+                            .FindElement(By.CssSelector($"{tabela}div:nth-child(5) > div.col-md-12.top-buffer25 > table > tbody > tr:nth-child(7) > td:nth-child(2)")).Text.Trim(),
+                        Profissao = driver
+                            .FindElement(By.CssSelector($"{tabela}div:nth-child(5) > div.col-md-12.top-buffer25 > table > tbody > tr:nth-child(7) > td:nth-child(5)")).Text.Trim(),
+                        EnderecoResidencial = driver
+                            .FindElement(By.CssSelector($"{tabela}div:nth-child(7) > div.col-md-7")).Text.Trim(),
+                        EnderecoTrabalho = driver
+                            .FindElement(By.CssSelector($"{tabela}div:nth-child(8) > div.col-md-7")).Text.Trim()
+                    };
 
-                    Console.WriteLine("SivecCrawler resultado cor da pele {0}, tipo de cabelo {1}; profissao {2}", resultadoCorDaPele, resultadoCorDoCabelo, resultadoProfissao);
+                    /*                    
+                        outros =
+                        {
+                            Nome = driver
+                                .FindElement(By.CssSelector($"{tabela}div:nth-child(10) > div.col-md-9")).Text.Trim(),
+                            RG = driver
+                                .FindElement(By.CssSelector($"{tabela}div:nth-child(11) > div:nth-child(2)")).Text.Trim(),
+                            DataNascimento = driver
+                                .FindElement(By.CssSelector($"{tabela}div:nth-child(12) > div.col-md-5")).Text.Trim(),
+                            Naturalidade = driver
+                                .FindElement(By.CssSelector($"{tabela}div:nth-child(13) > div.col-md-7")).Text.Trim(),
+                            NomePai = driver
+                                .FindElement(By.CssSelector($"{tabela}div:nth-child(14) > div.col-md-9")).Text.Trim(),
+                            NomeMae = driver
+                                .FindElement(By.CssSelector($"{tabela}div:nth-child(15) > div.col-md-9")).Text.Trim()
+                        }
+                     */
 
+                    SetInformationFound(typeof(SivecCrawler),  resultado);
 
                     driver.Close();
                     Console.WriteLine("SivecCrawler OK");
@@ -100,16 +163,15 @@ namespace KrakenMPSPCrawler.Crawlers
             catch (NotSupportedException e)
             {
                 Console.WriteLine("Fail loading browser caught: {0}", e.Message);
-                SetErrorMessage("SivecCrawler", e.Message);
+                SetErrorMessage(typeof(SivecCrawler), e.Message);
                 return CrawlerStatus.Skipped;
             }
             catch (Exception e)
             {
                 Console.WriteLine("Exception caught: {0}", e.Message);
-                SetErrorMessage("SivecCrawler", e.Message);
+                SetErrorMessage(typeof(SivecCrawler), e.Message);
                 return CrawlerStatus.Error;
             }
         }
-
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Collections.Generic;
 
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
@@ -7,6 +8,7 @@ using OpenQA.Selenium.Interactions;
 
 using KrakenMPSPCrawler.Enum;
 using KrakenMPSPCrawler.Utils;
+using KrakenMPSPCrawler.Models;
 using KrakenMPSPCrawler.Business.Enum;
 using KrakenMPSPCrawler.Business.Model;
 
@@ -14,13 +16,13 @@ namespace KrakenMPSPCrawler.Crawlers
 {
     public class ArispCrawler : Crawler
     {
-        private readonly KindPerson Type;
-        private readonly string Identification;
+        private readonly KindPerson _type;
+        private readonly string _identification;
 
         public ArispCrawler(KindPerson type, string identification)
         {
-            Type = type;
-            Identification = identification;
+            _type = type;
+            _identification = identification;
         }
 
         public override CrawlerStatus Execute()
@@ -54,13 +56,13 @@ namespace KrakenMPSPCrawler.Crawlers
 
 
                     // page 5
-                    if (Type.Equals(KindPerson.LegalPerson))
+                    if (_type.Equals(KindPerson.LegalPerson))
                     {
                         var campoFilter = new SelectElement(driver.FindElement(By.Id("filterTipo")));
                         campoFilter.SelectByValue("2");
                     }
                     IWebElement campoBusca = driver.FindElement(By.Id("filterDocumento"));
-                    campoBusca.SendKeys(Identification);
+                    campoBusca.SendKeys(_identification);
                     driver.FindElement(By.Id("btnPesquisar")).Click();
 
 
@@ -78,9 +80,15 @@ namespace KrakenMPSPCrawler.Crawlers
                         Directory.CreateDirectory(pathTemp);
                     }
 
+                    var contador = 0;
                     var resultados = driver.FindElements(By.CssSelector("#panelMatriculas > tr > td:nth-child(4) a.list.listDetails"));
+                    List<Processo> processos = new List<Processo>();
                     foreach (IWebElement resultado in resultados)
                     {
+                        contador++;
+                        var cidade = driver.FindElement(By.CssSelector($"#panelMatriculas > tr:nth-child({contador}) > td:nth-child(1)")).Text.Trim();
+                        var cartorio = driver.FindElement(By.CssSelector($"#panelMatriculas > tr:nth-child({contador}) > td:nth-child(2)")).Text.Trim();
+                        var matricula = driver.FindElement(By.CssSelector($"#panelMatriculas > tr:nth-child({contador}) > td:nth-child(3)")).Text.Trim();
                         ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].scrollIntoView(true);", resultado);
                         ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].removeAttribute('href');", resultado);
                         ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].click();", resultado);
@@ -96,7 +104,14 @@ namespace KrakenMPSPCrawler.Crawlers
 
                         var nameFile = $"{pathTemp}/matricula-{rnd.Next(1000, 10001)}.png";
                         foto.SaveAsFile(nameFile, ScreenshotImageFormat.Png);
-                        Console.WriteLine("ArispCrawler resultado Screenshot gravado em {0}", nameFile);
+
+                        processos.Add(new Processo
+                        {
+                            Cidade = cidade,
+                            Cartorio = cartorio,
+                            Matricula = matricula,
+                            Arquivo = nameFile
+                        });
 
                         // fechando a janela aberta
                         driver.Close();
@@ -105,6 +120,7 @@ namespace KrakenMPSPCrawler.Crawlers
                         driver.SwitchTo().Window(tabs[tabs.Count - 2]);
                     }
 
+                    SetInformationFound(typeof(SielCrawler), processos);
 
                     driver.Close();
                     Console.WriteLine("ArispCrawler OK");
@@ -114,13 +130,13 @@ namespace KrakenMPSPCrawler.Crawlers
             catch (NotSupportedException e)
             {
                 Console.WriteLine("Fail loading browser caught: {0}", e.Message);
-                SetErrorMessage("ArispCrawler", e.Message);
+                SetErrorMessage(typeof(ArispCrawler), e.Message);
                 return CrawlerStatus.Skipped;
             }
             catch (Exception e)
             {
                 Console.WriteLine("Exception caught: {0}", e.Message);
-                SetErrorMessage("ArispCrawler", e.Message);
+                SetErrorMessage(typeof(ArispCrawler), e.Message);
                 return CrawlerStatus.Error;
             }
         }

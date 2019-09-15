@@ -9,25 +9,21 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Libs\ChromeDriver\chromedriver.exe">
+    <None Update="ThirdParty\Drivers\ChromeDriver\chromedriver.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Libs\EdgeDriver\IEDriverServer.exe">
+    <None Update="ThirdParty\Drivers\EdgeDriver\IEDriverServer.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Libs\GeckoDriver\geckodriver.exe">
+    <None Update="ThirdParty\Drivers\GeckoDriver\geckodriver.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Libs\ChromeDriver\chromedriver">
+    <None Update="ThirdParty\Drivers\ChromeDriver\chromedriver">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Libs\GeckoDriver\geckodriver">
+    <None Update="ThirdParty\Drivers\GeckoDriver\geckodriver">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Interface\" />
   </ItemGroup>
 
   <ItemGroup>

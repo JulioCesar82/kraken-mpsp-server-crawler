@@ -4,6 +4,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 
 using KrakenMPSPCrawler.Utils;
+using KrakenMPSPCrawler.Models;
 using KrakenMPSPCrawler.Business.Enum;
 using KrakenMPSPCrawler.Business.Model;
 
@@ -46,12 +47,73 @@ namespace KrakenMPSPCrawler.Crawlers
 
 
                     // page 4 - Capturar dados
-                    var resultadoConjuge1 = driver.FindElement(By.CssSelector("#principal > div > form > table:nth-child(15) > tbody > tr:nth-child(2) > td:nth-child(2)")).Text;
-                    var resultadoConjuge2 = driver.FindElement(By.CssSelector("#principal > div > form > table:nth-child(15) > tbody > tr:nth-child(4) > td:nth-child(2)")).Text;
-                    var resultadoDataCasamento = driver.FindElement(By.CssSelector("#principal > div > form > table:nth-child(15) > tbody > tr:nth-child(6) > td:nth-child(2)")).Text;
-
-                    Console.WriteLine("ArpenspCrawler resultado primeiro Conjuge {0}, segundo Conjuge {1}; casados em {2}", resultadoConjuge1, resultadoConjuge2, resultadoDataCasamento);
-
+                    var resultado = new ArpenspCrawlerModel
+                    {
+                        CartorioRegistro =
+                            driver.FindElement(By.CssSelector(
+                                    "#principal > div > form > table:nth-child(3) > tbody > tr:nth-child(1) > td:nth-child(2)"))
+                                .Text.Trim(),
+                        NumeroCNS = driver
+                            .FindElement(By.CssSelector(
+                                "#principal > div > form > table:nth-child(3) > tbody > tr:nth-child(2) > td:nth-child(2)"))
+                            .Text.Trim(),
+                        UF = driver.FindElement(By.CssSelector(
+                                "#principal > div > form > table:nth-child(3) > tbody > tr:nth-child(3) > td:nth-child(2)"))
+                            .Text.Trim(),
+                        NomeConjugeA1 = driver
+                            .FindElement(By.CssSelector(
+                                "#principal > div > form > table:nth-child(15) > tbody > tr:nth-child(2) > td:nth-child(2)"))
+                            .Text.Trim(),
+                        NovoNomeConjugeA2 =
+                            driver.FindElement(By.CssSelector(
+                                    "#principal > div > form > table:nth-child(15) > tbody > tr:nth-child(3) > td:nth-child(2)"))
+                                .Text.Trim(),
+                        NomeConjugeB1 = driver
+                            .FindElement(By.CssSelector(
+                                "#principal > div > form > table:nth-child(15) > tbody > tr:nth-child(4) > td:nth-child(2)"))
+                            .Text.Trim(),
+                        NovoNomeConjugeB2 =
+                            driver.FindElement(By.CssSelector(
+                                    "#principal > div > form > table:nth-child(15) > tbody > tr:nth-child(5) > td:nth-child(2)"))
+                                .Text.Trim(),
+                        DataCasamento = driver
+                            .FindElement(By.CssSelector(
+                                "#principal > div > form > table:nth-child(15) > tbody > tr:nth-child(6) > td:nth-child(2)"))
+                            .Text.Trim(),
+                        Matricula = driver
+                            .FindElement(By.CssSelector(
+                                "#principal > div > form > table:nth-child(15) > tbody > tr:nth-child(8) > td:nth-child(2)"))
+                            .Text.Trim(),
+                        DataEntrada = driver
+                            .FindElement(By.CssSelector(
+                                "#principal > div > form > table:nth-child(15) > tbody > tr:nth-child(9) > td:nth-child(2)"))
+                            .Text.Trim(),
+                        DataRegistro = driver
+                            .FindElement(By.CssSelector(
+                                "#principal > div > form > table:nth-child(15) > tbody > tr:nth-child(10) > td:nth-child(2)"))
+                            .Text.Trim(),
+                        Acervo = driver
+                            .FindElement(By.CssSelector(
+                                "#principal > div > form > table:nth-child(15) > tbody > tr:nth-child(11) > td:nth-child(2)"))
+                            .Text.Trim(),
+                        NumeroLivro = driver
+                            .FindElement(By.CssSelector(
+                                "#principal > div > form > table:nth-child(15) > tbody > tr:nth-child(12) > td:nth-child(2)"))
+                            .Text.Trim(),
+                        NumeroFolha = driver
+                            .FindElement(By.CssSelector(
+                                "#principal > div > form > table:nth-child(15) > tbody > tr:nth-child(13) > td:nth-child(2)"))
+                            .Text.Trim(),
+                        NumeroRegistro =
+                            driver.FindElement(By.CssSelector(
+                                    "#principal > div > form > table:nth-child(15) > tbody > tr:nth-child(14) > td:nth-child(2)"))
+                                .Text.Trim(),
+                        TipoLivro = driver
+                            .FindElement(By.CssSelector(
+                                "#principal > div > form > table:nth-child(15) > tbody > tr:nth-child(15) > td:nth-child(2)"))
+                            .Text.Trim()
+                    };
+                    SetInformationFound(typeof(SielCrawler), resultado);
 
                     driver.Close();
                     Console.WriteLine("ArpenspCrawler OK");
@@ -61,13 +123,13 @@ namespace KrakenMPSPCrawler.Crawlers
             catch (NotSupportedException e)
             {
                 Console.WriteLine("Fail loading browser caught: {0}", e.Message);
-                SetErrorMessage("ArpenspCrawler", e.Message);
+                SetErrorMessage(typeof(ArpenspCrawler), e.Message);
                 return CrawlerStatus.Skipped;
             }
             catch (Exception e)
             {
                 Console.WriteLine("Exception caught: {0}", e.Message);
-                SetErrorMessage("ArpenspCrawler", e.Message);
+                SetErrorMessage(typeof(ArpenspCrawler), e.Message);
                 return CrawlerStatus.Error;
             }
         }

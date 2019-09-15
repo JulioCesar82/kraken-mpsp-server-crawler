@@ -1,4 +1,6 @@
-﻿using KrakenMPSPCrawler.Business.Enum;
+﻿using System;
+
+using KrakenMPSPCrawler.Business.Enum;
 using KrakenMPSPCrawler.Business.Interface;
 
 namespace KrakenMPSPCrawler.Business.Model
@@ -7,9 +9,10 @@ namespace KrakenMPSPCrawler.Business.Model
     {
         public abstract CrawlerStatus Execute();
 
-        public virtual CrawlerError Error { get; protected set; }
+        public CrawlerError Error { get; protected set; }
+        public Tuple<Type, object> InformationFound { get; protected set; }
 
-        public virtual void SetErrorMessage(string errorMessage)
+        protected void SetErrorMessage(string errorMessage)
         {
             if (Error != null)
             {
@@ -20,9 +23,14 @@ namespace KrakenMPSPCrawler.Business.Model
             Error = new CrawlerError(errorMessage);
         }
 
-        public virtual void SetErrorMessage(string source, string errorMessage)
+        protected void SetErrorMessage(Type source, string errorMessage)
         {
             Error = new CrawlerError(source, errorMessage);
+        }
+
+        protected void SetInformationFound(Type source, object information)
+        {
+            InformationFound = Tuple.Create(source, information);
         }
     }
 }

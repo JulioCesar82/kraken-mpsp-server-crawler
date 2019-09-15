@@ -14,7 +14,8 @@ Solução responsável por gerenciar o armazenamento das informações, sendo ex
 
 ```bash
 Update-Package -reinstall
-net start MongoDB
+
+./KrakenMPSPConsole\KrakenMPSPConsole\ThirdParty\mongodb-win32-x86_64-2012plus-4.2.0\bin\mongod.exe
 ```
 
 ------------

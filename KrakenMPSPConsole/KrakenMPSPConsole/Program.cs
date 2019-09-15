@@ -1,9 +1,11 @@
 ﻿using System;
 
-using Microsoft.EntityFrameworkCore;
+using MongoDB.Driver;
 
 using KrakenMPSPCrawler;
 using KrakenMPSPCrawler.Models;
+using KrakenMPSPConsole.Context;
+
 
 namespace KrakenMPSPConsole
 {
@@ -34,35 +36,40 @@ namespace KrakenMPSPConsole
 
             try
             {
-                using (var db = new DataBaseContext())
+                using (var db = new MongoDbContext())
                 {
-                    Console.WriteLine("running migrations");
-                    db.Database.Migrate();
-
                     Console.WriteLine("saving legal person");
-                    db.LegalPerson.Add(exampleLegalPerson);
-                    db.SaveChanges();
+                    db.LegalPerson.InsertOne(exampleLegalPerson);
 
-                    var empresas = db.LegalPerson;
+                    
+                     var empresas = db.LegalPerson.Find(x => true).ToList();
+
                     foreach (var empresa in empresas)
                     {
                         Console.WriteLine($"Empresa: {empresa.NomeFantasia}");
                         var crawler = new LegalPersonCoordinator(empresa);
                         var result = crawler.Run();
                         Console.WriteLine("Completou a busca? {0}", result.Completed);
+                        Console.WriteLine("Informacoes encontradas: {0}", result.Informations);
+
+                        //Console.WriteLine("Salvando informações obtidas de LegalPerson...");
+                        //db.LegalPerson.ReplaceOne(p => p.Id == exampleLegalPerson.Id, exampleLegalPerson);
                     }
 
                     Console.WriteLine("saving physical person");
-                    db.PhysicalPerson.Add(examplePhysicalPerson);
-                    db.SaveChanges();
-
-                    var pessoas = db.PhysicalPerson;
+                    db.PhysicalPerson.InsertOne(examplePhysicalPerson);
+                    
+                    var pessoas = db.PhysicalPerson.Find(x => true).ToList();
                     foreach (var pessoa in pessoas)
                     {
                         Console.WriteLine($"Pessoa: {pessoa.NomeCompleto}");
                         var crawler = new PhysicalPersonCoordinator(pessoa);
                         var result = crawler.Run();
                         Console.WriteLine("Completou a busca? {0}", result.Completed);
+                        Console.WriteLine("Informacoes encontradas: {0}", result.Informations);
+                        
+                        //Console.WriteLine("Salvando informações obtidas de LegalPerson...");
+                        //db.LegalPerson.ReplaceOne(p => p.Id == exampleLegalPerson.Id, exampleLegalPerson);
                     }
                 }
             }

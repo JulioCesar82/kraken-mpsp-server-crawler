@@ -7,11 +7,11 @@ namespace KrakenMPSPCrawler.Business.Model
 {
     public class Coordinator : ICoordinator
     {
-        private readonly List<Crawler> Crawlers = new List<Crawler>();
+        private readonly List<Crawler> _crawlers = new List<Crawler>();
 
         public Crawler AddModule(Crawler validation)
         {
-            Crawlers.Add(validation);
+            _crawlers.Add(validation);
             return validation;
         }
 
@@ -25,14 +25,17 @@ namespace KrakenMPSPCrawler.Business.Model
         {
             var result = validationContext ?? new Investigation();
 
-            foreach (var crawler in Crawlers)
+            foreach (var crawler in _crawlers)
             {
                 var searchResult = crawler.Execute();
 
                 if (searchResult == CrawlerStatus.Error)
                 {
                     result.AddError(crawler.Error);
+                    continue;
                 };
+
+                result.AddInformation(crawler.InformationFound);
             }
 
             return result;

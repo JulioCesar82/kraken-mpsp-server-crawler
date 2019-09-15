@@ -20,11 +20,10 @@ namespace KrakenMPSPCrawler.Utils
                 case WebBrowser.Chrome:
                     return CreateChromeDriver();
                 case WebBrowser.IE:
-                case WebBrowser.Edge:
                 case WebBrowser.InternetExplorer:
                     return CreateIEDriver();
+                //case WebBrowser.Edge:
                 //case WebBrowser.Safari:
-                //    return new RemoteWebDriver(new Uri("http://mac-ip-address:the-opened-port"), DesiredCapabilities.Safari());
                 default:
                     throw new NotSupportedException("Not supported browser");
             }
@@ -34,13 +33,12 @@ namespace KrakenMPSPCrawler.Utils
         {
             try
             {
-                var driver = $@"{AppDomain.CurrentDomain.BaseDirectory}/Libs/geckodriver";
+                var driver = $@"{AppDomain.CurrentDomain.BaseDirectory}/ThirdParty/Drivers/geckodriver";
                 var service = FirefoxDriverService.CreateDefaultService(driver);
                 FirefoxOptions options = new FirefoxOptions();
                 //TimeSpan time = TimeSpan.FromSeconds(20);
 
                 //options.AddArgument("--headless");
-                //service.FirefoxBinaryPath = @"C:\Program Files\Mozilla Firefox\firefox.exe"; // May not be necessary
 
                 return new FirefoxDriver(service, options);//, time);
             }
@@ -55,7 +53,7 @@ namespace KrakenMPSPCrawler.Utils
         {
             try
             {
-                var driver = $@"{AppDomain.CurrentDomain.BaseDirectory}/Libs/ChromeDriver";
+                var driver = $@"{AppDomain.CurrentDomain.BaseDirectory}/ThirdParty/Drivers/ChromeDriver";
                 var service = ChromeDriverService.CreateDefaultService(driver);
                 ChromeOptions options = new ChromeOptions();
                 //TimeSpan time = TimeSpan.FromSeconds(20);
@@ -76,7 +74,7 @@ namespace KrakenMPSPCrawler.Utils
         {
             try
             {
-                var driver = $@"{AppDomain.CurrentDomain.BaseDirectory}/Libs/EdgeDriver";
+                var driver = $@"{AppDomain.CurrentDomain.BaseDirectory}/ThirdParty/Drivers/EdgeDriver";
                 var service = InternetExplorerDriverService.CreateDefaultService(driver);
                 InternetExplorerOptions options = new InternetExplorerOptions();
                 //TimeSpan time = TimeSpan.FromSeconds(20);

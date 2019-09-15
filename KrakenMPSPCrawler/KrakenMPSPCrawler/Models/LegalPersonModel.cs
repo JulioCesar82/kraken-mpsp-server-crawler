@@ -1,18 +1,18 @@
-﻿using KrakenMPSPCrawler.Enum;
+﻿using System;
+
+using KrakenMPSPCrawler.Enum;
+using KrakenMPSPCrawler.Interface;
 
 namespace KrakenMPSPCrawler.Models
 {
-    public class LegalPersonModel : PersonModel
+    public class LegalPersonModel : IPerson
     {
-        public long Id { get; set; }
+        public Guid Id { get; set; }
         public string NomeFantasia { get; set; }
         public string CNPJ { get; set; }
         public string CPFDoFundador { get; set; }
         public string Contador { get; set; }
 
-        public override KindPerson getTypePerson()
-        {
-            return KindPerson.LegalPerson;
-        }
+        public KindPerson Type => KindPerson.LegalPerson;
     }
 }
