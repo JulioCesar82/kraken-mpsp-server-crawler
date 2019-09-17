@@ -1,11 +1,13 @@
 ﻿using System;
 
+using AutoMapper;
 using MongoDB.Driver;
 
 using KrakenMPSPCrawler;
 using KrakenMPSPCrawler.Models;
+using KrakenMPSPConsole.Models;
+using KrakenMPSPConsole.Mapper;
 using KrakenMPSPConsole.Context;
-
 
 namespace KrakenMPSPConsole
 {
@@ -13,6 +15,14 @@ namespace KrakenMPSPConsole
     {
         static void Main(string[] args)
         {
+            /*
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new MappingResourcesFound());
+            });
+            IMapper mapper = mappingConfig.CreateMapper();
+            */
+
             Console.WriteLine("Iniciando a busca");
 
             #region objetos de teste
@@ -38,38 +48,78 @@ namespace KrakenMPSPConsole
             {
                 using (var db = new MongoDbContext())
                 {
-                    Console.WriteLine("saving legal person");
                     db.LegalPerson.InsertOne(exampleLegalPerson);
-
-                    
-                     var empresas = db.LegalPerson.Find(x => true).ToList();
-
-                    foreach (var empresa in empresas)
-                    {
+                    var empresas = db.LegalPerson.Find(x => !x.Completed).ToList();
+                     foreach (var empresa in empresas)
+                     {
                         Console.WriteLine($"Empresa: {empresa.NomeFantasia}");
                         var crawler = new LegalPersonCoordinator(empresa);
                         var result = crawler.Run();
                         Console.WriteLine("Completou a busca? {0}", result.Completed);
-                        Console.WriteLine("Informacoes encontradas: {0}", result.Informations);
 
-                        //Console.WriteLine("Salvando informações obtidas de LegalPerson...");
-                        //db.LegalPerson.ReplaceOne(p => p.Id == exampleLegalPerson.Id, exampleLegalPerson);
-                    }
+                        Console.WriteLine("Salvando informações obtidas...");
+                        var resourcesFound = new ResourcesFound();
+                        foreach (var (item1, item2) in result.Informations)
+                        {
+                            Console.WriteLine("Recebido informacoes do {0}", item1);
+                            //resourcesFound = mapper.Map<ArispCrawlerModel>(resourcesFound);
+                            if (item2.GetType().ToString() == typeof(ArispCrawlerModel).ToString())
+                            {
+                                resourcesFound.Arisp = (ArispCrawlerModel)item2;
+                            }
+                            else if (item2.GetType().ToString() == typeof(ArpenspCrawlerModel).ToString())
+                            {
+                                resourcesFound.Arpensp = (ArpenspCrawlerModel)item2;
+                            }
+                            else if (item2.GetType().ToString() == typeof(SielCrawlerModel).ToString())
+                            {
+                                resourcesFound.Siel = (SielCrawlerModel)item2;
+                            }
+                            else if (item2.GetType().ToString() == typeof(SivecCrawlerModel).ToString())
+                            {
+                                resourcesFound.Sivec = (SivecCrawlerModel)item2;
+                            }
+                        }
+                        db.ResourcesFound.InsertOne(resourcesFound);
+                        exampleLegalPerson.Completed = true;
+                        db.LegalPerson.ReplaceOne(p => p.Id == exampleLegalPerson.Id, exampleLegalPerson);
+                     }
 
-                    Console.WriteLine("saving physical person");
                     db.PhysicalPerson.InsertOne(examplePhysicalPerson);
-                    
-                    var pessoas = db.PhysicalPerson.Find(x => true).ToList();
+                    var pessoas = db.PhysicalPerson.Find(x => !x.Completed).ToList();
                     foreach (var pessoa in pessoas)
                     {
                         Console.WriteLine($"Pessoa: {pessoa.NomeCompleto}");
                         var crawler = new PhysicalPersonCoordinator(pessoa);
                         var result = crawler.Run();
                         Console.WriteLine("Completou a busca? {0}", result.Completed);
-                        Console.WriteLine("Informacoes encontradas: {0}", result.Informations);
-                        
-                        //Console.WriteLine("Salvando informações obtidas de LegalPerson...");
-                        //db.LegalPerson.ReplaceOne(p => p.Id == exampleLegalPerson.Id, exampleLegalPerson);
+
+                        Console.WriteLine("Salvando informações obtidas...");
+                        var resourcesFound = new ResourcesFound();
+                        foreach (var (item1, item2) in result.Informations)
+                        {
+                            Console.WriteLine("Recebido informacoes do {0}", item1);
+                            //resourcesFound = mapper.Map<ArispCrawlerModel>(resourcesFound);
+                            if (item2.GetType().ToString() == typeof(ArispCrawlerModel).ToString())
+                            {
+                                resourcesFound.Arisp = (ArispCrawlerModel)item2;
+                            }
+                            else if (item2.GetType().ToString() == typeof(ArpenspCrawlerModel).ToString())
+                            {
+                                resourcesFound.Arpensp = (ArpenspCrawlerModel)item2;
+                            }
+                            else if (item2.GetType().ToString() == typeof(SielCrawlerModel).ToString())
+                            {
+                                resourcesFound.Siel = (SielCrawlerModel)item2;
+                            }
+                            else if (item2.GetType().ToString() == typeof(SivecCrawlerModel).ToString())
+                            {
+                                resourcesFound.Sivec = (SivecCrawlerModel)item2;
+                            }
+                        }
+                        db.ResourcesFound.InsertOne(resourcesFound);
+                        exampleLegalPerson.Completed = true;
+                        db.LegalPerson.ReplaceOne(p => p.Id == exampleLegalPerson.Id, exampleLegalPerson);
                     }
                 }
             }

@@ -128,7 +128,6 @@ namespace KrakenMPSPCrawler.Crawlers
                     );
 
                     driver.Close();
-                    Console.WriteLine("ArispCrawler OK");
                     return CrawlerStatus.Success;
                 }
             }

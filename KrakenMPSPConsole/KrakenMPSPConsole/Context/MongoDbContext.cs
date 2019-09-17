@@ -3,6 +3,7 @@ using System.Security.Authentication;
 
 using MongoDB.Driver;
 
+using KrakenMPSPConsole.Models;
 using KrakenMPSPCrawler.Models;
 
 namespace KrakenMPSPConsole.Context
@@ -11,6 +12,7 @@ namespace KrakenMPSPConsole.Context
     {
         public IMongoCollection<LegalPersonModel> LegalPerson => Database.GetCollection<LegalPersonModel>("LegalPerson");
         public IMongoCollection<PhysicalPersonModel> PhysicalPerson => Database.GetCollection<PhysicalPersonModel>("PhysicalPerson");
+        public IMongoCollection<ResourcesFound> ResourcesFound => Database.GetCollection<ResourcesFound>("ResourcesFound");
 
         private readonly string _connection = "mongodb://localhost:27017";
         public IMongoDatabase Database { get; }

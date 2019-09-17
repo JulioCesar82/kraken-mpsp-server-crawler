@@ -15,5 +15,6 @@ namespace KrakenMPSPCrawler.Models
         public string NomeDaMae { get; set; }
 
         public KindPerson Type => KindPerson.PhysicalPerson;
+        public bool Completed { get; set; }
     }
 }
