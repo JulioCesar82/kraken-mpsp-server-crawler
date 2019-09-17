@@ -1,4 +1,10 @@
-## kraken MPSP Server-Crawler
+<p align="center">
+  <a href="https://material-ui.com/" rel="noopener" target="_blank">
+    <img width="150" src="./docs/kraken-icon.png" alt="Material-UI logo">
+  </a>
+</p>
+
+<h1 align="center">kraken MPSP Server-Crawler</h1>
 
 Projeto em desenvolvimento para o Ministério Público de São Paulo - MPSP, com objetivo de centralizar informações de pessoas e empresas investigadas agilizando a resolução de processos judiciais.
 Será um Buscador/Web Scraping em ASP.NET Core, armazenamento NoSQL com MongoDb e Redis.

@@ -4,7 +4,7 @@ namespace KrakenMPSPCrawler.Models
 {
     public class ArispCrawlerModel
     {
-        private List<Processo> Processos { get; set; }
+        public List<Processo> Processos { get; set; }
     }
 
     public class Processo

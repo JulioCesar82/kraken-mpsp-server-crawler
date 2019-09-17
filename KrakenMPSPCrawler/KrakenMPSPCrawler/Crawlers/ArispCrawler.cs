@@ -49,6 +49,7 @@ namespace KrakenMPSPCrawler.Crawlers
                     // page 3
                     driver.FindElement(By.Id("Prosseguir")).Click();
 
+
                     // page 4
                     driver.FindElement(By.CssSelector("div.selectorAll div.checkbox input")).Click();
                     driver.FindElement(By.Id("chkHabilitar")).Click();
@@ -81,17 +82,17 @@ namespace KrakenMPSPCrawler.Crawlers
                     }
 
                     var contador = 0;
-                    var resultados = driver.FindElements(By.CssSelector("#panelMatriculas > tr > td:nth-child(4) a.list.listDetails"));
-                    List<Processo> processos = new List<Processo>();
-                    foreach (IWebElement resultado in resultados)
+                    var processos = driver.FindElements(By.CssSelector("#panelMatriculas > tr > td:nth-child(4) a.list.listDetails"));
+                    List<Processo> resultados = new List<Processo>();
+                    foreach (IWebElement processo in processos)
                     {
                         contador++;
                         var cidade = driver.FindElement(By.CssSelector($"#panelMatriculas > tr:nth-child({contador}) > td:nth-child(1)")).Text.Trim();
                         var cartorio = driver.FindElement(By.CssSelector($"#panelMatriculas > tr:nth-child({contador}) > td:nth-child(2)")).Text.Trim();
                         var matricula = driver.FindElement(By.CssSelector($"#panelMatriculas > tr:nth-child({contador}) > td:nth-child(3)")).Text.Trim();
-                        ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].scrollIntoView(true);", resultado);
-                        ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].removeAttribute('href');", resultado);
-                        ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].click();", resultado);
+                        ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].scrollIntoView(true);", processo);
+                        ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].removeAttribute('href');", processo);
+                        ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].click();", processo);
 
 
                         // page 8 - Capturar dados
@@ -99,19 +100,19 @@ namespace KrakenMPSPCrawler.Crawlers
                         // indo para a janela aberta
                         driver.SwitchTo().Window(tabs[tabs.Count - 1]);
 
-                        ITakesScreenshot camera = driver as ITakesScreenshot;
-                        Screenshot foto = camera.GetScreenshot();
-
                         var nameFile = $"{pathTemp}/matricula-{rnd.Next(1000, 10001)}.png";
-                        foto.SaveAsFile(nameFile, ScreenshotImageFormat.Png);
+                        Screenshot screenshot = ((ITakesScreenshot)driver).GetScreenshot();
+                        screenshot.SaveAsFile(nameFile, ScreenshotImageFormat.Png);
 
-                        processos.Add(new Processo
+                        #region Objeto com os dados capturados
+                        resultados.Add(new Processo
                         {
                             Cidade = cidade,
                             Cartorio = cartorio,
                             Matricula = matricula,
                             Arquivo = nameFile
                         });
+                        #endregion
 
                         // fechando a janela aberta
                         driver.Close();
@@ -120,7 +121,11 @@ namespace KrakenMPSPCrawler.Crawlers
                         driver.SwitchTo().Window(tabs[tabs.Count - 2]);
                     }
 
-                    SetInformationFound(typeof(SielCrawler), processos);
+                    SetInformationFound(typeof(ArispCrawlerModel), new ArispCrawlerModel
+                    {
+                        Processos = resultados
+                    }
+                    );
 
                     driver.Close();
                     Console.WriteLine("ArispCrawler OK");

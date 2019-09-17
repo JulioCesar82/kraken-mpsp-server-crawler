@@ -77,6 +77,8 @@ namespace KrakenMPSPCrawler.Crawlers
 
                     // page 3 - Capturar dados
                     var dados = driver.FindElements(By.CssSelector(".lista tbody > tr > td:nth-child(2)"));
+
+                    #region Objeto com os dados capturados
                     var resultado = new SielCrawlerModel
                     {
                         Nome = dados[0].Text,
@@ -92,7 +94,9 @@ namespace KrakenMPSPCrawler.Crawlers
                         Naturalidade = dados[10].Text,
                         CodValidacao = dados[11].Text
                     };
-                    SetInformationFound(typeof(SielCrawler), resultado);
+                    #endregion
+
+                    SetInformationFound(typeof(SielCrawlerModel), resultado);
 
                     driver.Close();
                     Console.WriteLine("SielCrawler OK");

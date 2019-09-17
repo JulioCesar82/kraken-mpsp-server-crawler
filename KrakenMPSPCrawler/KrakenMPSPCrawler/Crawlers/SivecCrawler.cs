@@ -3,9 +3,9 @@
 using OpenQA.Selenium;
 
 using KrakenMPSPCrawler.Utils;
+using KrakenMPSPCrawler.Models;
 using KrakenMPSPCrawler.Business.Enum;
 using KrakenMPSPCrawler.Business.Model;
-using KrakenMPSPCrawler.Models;
 
 namespace KrakenMPSPCrawler.Crawlers
 {
@@ -86,74 +86,76 @@ namespace KrakenMPSPCrawler.Crawlers
 
 
                     // page 5 - Capturar dados
-                    const string tabela = "body > form:nth-child(13) > div > ";
+                    const string caminhoTabela = "body > form:nth-child(13) > div > ";
+
+                    #region Objeto com os dados capturados
+                    var outrasInfo = new Outros
+                    {
+                        Nome = driver
+                            .FindElement(By.CssSelector($"{caminhoTabela}div:nth-child(10) > div.col-md-9")).Text.Trim(),
+                        RG = driver
+                            .FindElement(By.CssSelector($"{caminhoTabela}div:nth-child(11) > div:nth-child(2)")).Text.Trim(),
+                        DataNascimento = driver
+                            .FindElement(By.CssSelector($"{caminhoTabela}div:nth-child(12) > div.col-md-5")).Text.Trim(),
+                        Naturalidade = driver
+                            .FindElement(By.CssSelector($"{caminhoTabela}div:nth-child(13) > div.col-md-7")).Text.Trim(),
+                        NomePai = driver
+                            .FindElement(By.CssSelector($"{caminhoTabela}div:nth-child(14) > div.col-md-9")).Text.Trim(),
+                        NomeMae = driver
+                            .FindElement(By.CssSelector($"{caminhoTabela}div:nth-child(15) > div.col-md-9")).Text.Trim()
+                    };
+
                     var resultado = new SivecCrawlerModel
                     {
                         Nome = driver
-                            .FindElement(By.CssSelector($"{tabela}div:nth-child(5) > div.col-md-11 > table > tbody > tr:nth-child(1) > td:nth-child(2)")).Text.Trim(),
+                            .FindElement(By.CssSelector($"{caminhoTabela}div:nth-child(5) > div.col-md-11 > table > tbody > tr:nth-child(1) > td:nth-child(2)")).Text.Trim(),
                         Sexo = driver
-                            .FindElement(By.CssSelector($"{tabela}div:nth-child(5) > div.col-md-11 > table > tbody > tr:nth-child(1) > td:nth-child(5)")).Text.Trim(),
+                            .FindElement(By.CssSelector($"{caminhoTabela}div:nth-child(5) > div.col-md-11 > table > tbody > tr:nth-child(1) > td:nth-child(5)")).Text.Trim(),
                         DataNascimento = driver
-                            .FindElement(By.CssSelector($"{tabela}div:nth-child(5) > div.col-md-11 > table > tbody > tr:nth-child(2) > td:nth-child(2)")).Text.Trim(),
+                            .FindElement(By.CssSelector($"{caminhoTabela}div:nth-child(5) > div.col-md-11 > table > tbody > tr:nth-child(2) > td:nth-child(2)")).Text.Trim(),
                         RG = driver
-                            .FindElement(By.CssSelector($"{tabela}div:nth-child(5) > div.col-md-11 > table > tbody > tr:nth-child(2) > td:nth-child(5)")).Text.Trim(),
+                            .FindElement(By.CssSelector($"{caminhoTabela}div:nth-child(5) > div.col-md-11 > table > tbody > tr:nth-child(2) > td:nth-child(5)")).Text.Trim(),
                         NumControle = driver
-                            .FindElement(By.CssSelector($"{tabela}div:nth-child(5) > div.col-md-11 > table > tbody > tr:nth-child(3) > td:nth-child(2)")).Text.Trim(),
+                            .FindElement(By.CssSelector($"{caminhoTabela}div:nth-child(5) > div.col-md-11 > table > tbody > tr:nth-child(3) > td:nth-child(2)")).Text.Trim(),
                         TipoRG = driver
-                            .FindElement(By.CssSelector($"{tabela}div:nth-child(5) > div.col-md-11 > table > tbody > tr:nth-child(3) > td:nth-child(5)")).Text.Trim(),
+                            .FindElement(By.CssSelector($"{caminhoTabela}div:nth-child(5) > div.col-md-11 > table > tbody > tr:nth-child(3) > td:nth-child(5)")).Text.Trim(),
                         DataEmissaoRG = driver
-                            .FindElement(By.CssSelector($"{tabela}div:nth-child(5) > div.col-md-12.top-buffer25 > table > tbody > tr:nth-child(1) > td:nth-child(2)")).Text.Trim(),
+                            .FindElement(By.CssSelector($"{caminhoTabela}div:nth-child(5) > div.col-md-12.top-buffer25 > table > tbody > tr:nth-child(1) > td:nth-child(2)")).Text.Trim(),
                         Alcunha = driver
-                            .FindElement(By.CssSelector($"{tabela}div:nth-child(5) > div.col-md-12.top-buffer25 > table > tbody > tr:nth-child(1) > td:nth-child(5)")).Text.Trim(),
+                            .FindElement(By.CssSelector($"{caminhoTabela}div:nth-child(5) > div.col-md-12.top-buffer25 > table > tbody > tr:nth-child(1) > td:nth-child(5)")).Text.Trim(),
                         EstadoCivil = driver
-                            .FindElement(By.CssSelector($"{tabela}div:nth-child(5) > div.col-md-12.top-buffer25 > table > tbody > tr:nth-child(2) > td:nth-child(2)")).Text.Trim(),
+                            .FindElement(By.CssSelector($"{caminhoTabela}div:nth-child(5) > div.col-md-12.top-buffer25 > table > tbody > tr:nth-child(2) > td:nth-child(2)")).Text.Trim(),
                         Naturalidade = driver
-                            .FindElement(By.CssSelector($"{tabela}div:nth-child(5) > div.col-md-12.top-buffer25 > table > tbody > tr:nth-child(2) > td:nth-child(5)")).Text.Trim(),
+                            .FindElement(By.CssSelector($"{caminhoTabela}div:nth-child(5) > div.col-md-12.top-buffer25 > table > tbody > tr:nth-child(2) > td:nth-child(5)")).Text.Trim(),
                         Naturalizado = driver
-                            .FindElement(By.CssSelector($"{tabela}div:nth-child(5) > div.col-md-12.top-buffer25 > table > tbody > tr:nth-child(3) > td:nth-child(2)")).Text.Trim(),
+                            .FindElement(By.CssSelector($"{caminhoTabela}div:nth-child(5) > div.col-md-12.top-buffer25 > table > tbody > tr:nth-child(3) > td:nth-child(2)")).Text.Trim(),
                         PostoIdentificacao = driver
-                            .FindElement(By.CssSelector($"{tabela}div:nth-child(5) > div.col-md-12.top-buffer25 > table > tbody > tr:nth-child(3) > td:nth-child(5)")).Text.Trim(),
+                            .FindElement(By.CssSelector($"{caminhoTabela}div:nth-child(5) > div.col-md-12.top-buffer25 > table > tbody > tr:nth-child(3) > td:nth-child(5)")).Text.Trim(),
                         GrauInstrucao = driver
-                            .FindElement(By.CssSelector($"{tabela}div:nth-child(5) > div.col-md-12.top-buffer25 > table > tbody > tr:nth-child(4) > td:nth-child(2)")).Text.Trim(),
+                            .FindElement(By.CssSelector($"{caminhoTabela}div:nth-child(5) > div.col-md-12.top-buffer25 > table > tbody > tr:nth-child(4) > td:nth-child(2)")).Text.Trim(),
                         FormulaFundamental = driver
-                            .FindElement(By.CssSelector($"{tabela}div:nth-child(5) > div.col-md-12.top-buffer25 > table > tbody > tr:nth-child(4) > td:nth-child(5)")).Text.Trim(),
+                            .FindElement(By.CssSelector($"{caminhoTabela}div:nth-child(5) > div.col-md-12.top-buffer25 > table > tbody > tr:nth-child(4) > td:nth-child(5)")).Text.Trim(),
                         NomePai = driver
-                            .FindElement(By.CssSelector($"{tabela}div:nth-child(5) > div.col-md-12.top-buffer25 > table > tbody > tr:nth-child(5) > td:nth-child(2)")).Text.Trim(),
+                            .FindElement(By.CssSelector($"{caminhoTabela}div:nth-child(5) > div.col-md-12.top-buffer25 > table > tbody > tr:nth-child(5) > td:nth-child(2)")).Text.Trim(),
                         CorOlhos = driver
-                            .FindElement(By.CssSelector($"{tabela}div:nth-child(5) > div.col-md-12.top-buffer25 > table > tbody > tr:nth-child(5) > td:nth-child(5)")).Text.Trim(),
+                            .FindElement(By.CssSelector($"{caminhoTabela}div:nth-child(5) > div.col-md-12.top-buffer25 > table > tbody > tr:nth-child(5) > td:nth-child(5)")).Text.Trim(),
                         NomeMae = driver
-                            .FindElement(By.CssSelector($"{tabela}div:nth-child(5) > div.col-md-12.top-buffer25 > table > tbody > tr:nth-child(6) > td:nth-child(2)")).Text.Trim(),
+                            .FindElement(By.CssSelector($"{caminhoTabela}div:nth-child(5) > div.col-md-12.top-buffer25 > table > tbody > tr:nth-child(6) > td:nth-child(2)")).Text.Trim(),
                         Cabelo = driver
-                            .FindElement(By.CssSelector($"{tabela}div:nth-child(5) > div.col-md-12.top-buffer25 > table > tbody > tr:nth-child(6) > td:nth-child(5)")).Text.Trim(),
+                            .FindElement(By.CssSelector($"{caminhoTabela}div:nth-child(5) > div.col-md-12.top-buffer25 > table > tbody > tr:nth-child(6) > td:nth-child(5)")).Text.Trim(),
                         CorPele = driver
-                            .FindElement(By.CssSelector($"{tabela}div:nth-child(5) > div.col-md-12.top-buffer25 > table > tbody > tr:nth-child(7) > td:nth-child(2)")).Text.Trim(),
+                            .FindElement(By.CssSelector($"{caminhoTabela}div:nth-child(5) > div.col-md-12.top-buffer25 > table > tbody > tr:nth-child(7) > td:nth-child(2)")).Text.Trim(),
                         Profissao = driver
-                            .FindElement(By.CssSelector($"{tabela}div:nth-child(5) > div.col-md-12.top-buffer25 > table > tbody > tr:nth-child(7) > td:nth-child(5)")).Text.Trim(),
+                            .FindElement(By.CssSelector($"{caminhoTabela}div:nth-child(5) > div.col-md-12.top-buffer25 > table > tbody > tr:nth-child(7) > td:nth-child(5)")).Text.Trim(),
                         EnderecoResidencial = driver
-                            .FindElement(By.CssSelector($"{tabela}div:nth-child(7) > div.col-md-7")).Text.Trim(),
+                            .FindElement(By.CssSelector($"{caminhoTabela}div:nth-child(7) > div.col-md-7")).Text.Trim(),
                         EnderecoTrabalho = driver
-                            .FindElement(By.CssSelector($"{tabela}div:nth-child(8) > div.col-md-7")).Text.Trim()
+                            .FindElement(By.CssSelector($"{caminhoTabela}div:nth-child(8) > div.col-md-7")).Text.Trim(),
+                        outros = outrasInfo
                     };
+                    #endregion
 
-                    /*                    
-                        outros =
-                        {
-                            Nome = driver
-                                .FindElement(By.CssSelector($"{tabela}div:nth-child(10) > div.col-md-9")).Text.Trim(),
-                            RG = driver
-                                .FindElement(By.CssSelector($"{tabela}div:nth-child(11) > div:nth-child(2)")).Text.Trim(),
-                            DataNascimento = driver
-                                .FindElement(By.CssSelector($"{tabela}div:nth-child(12) > div.col-md-5")).Text.Trim(),
-                            Naturalidade = driver
-                                .FindElement(By.CssSelector($"{tabela}div:nth-child(13) > div.col-md-7")).Text.Trim(),
-                            NomePai = driver
-                                .FindElement(By.CssSelector($"{tabela}div:nth-child(14) > div.col-md-9")).Text.Trim(),
-                            NomeMae = driver
-                                .FindElement(By.CssSelector($"{tabela}div:nth-child(15) > div.col-md-9")).Text.Trim()
-                        }
-                     */
-
-                    SetInformationFound(typeof(SivecCrawler),  resultado);
+                    SetInformationFound(typeof(SivecCrawlerModel), resultado);
 
                     driver.Close();
                     Console.WriteLine("SivecCrawler OK");

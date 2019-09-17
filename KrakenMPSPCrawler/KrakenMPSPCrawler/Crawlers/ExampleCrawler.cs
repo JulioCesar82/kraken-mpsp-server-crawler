@@ -15,20 +15,20 @@ namespace KrakenMPSPCrawler.Crawlers
             _busca = busca;
         }
 
-    public override CrawlerStatus Execute()
-    {
-        try
+        public override CrawlerStatus Execute()
         {
-            using (var driver = WebDriverFactory.CreateWebDriver(WebBrowser.Firefox))
+            try
             {
-                driver.Navigate().GoToUrl(String.Format("https://www.google.com/search?hl=pt-BR&q={0}&oq={0}", _busca));
+                using (var driver = WebDriverFactory.CreateWebDriver(WebBrowser.Firefox))
+                {
+                    driver.Navigate().GoToUrl(String.Format("https://www.google.com/search?hl=pt-BR&q={0}&oq={0}", _busca));
 
-                // page 1 - Capturar dados
-                SetInformationFound(typeof(ExampleCrawler), new Object());
+                    // page 1 - Capturar dados
+                    SetInformationFound(typeof(ExampleCrawler), new Object());
 
-                driver.Close();
-                Console.WriteLine("ExampleCrawler OK");
-                return CrawlerStatus.Success;
+                    driver.Close();
+                    Console.WriteLine("ExampleCrawler OK");
+                    return CrawlerStatus.Success;
                 }
             }
             catch (NotSupportedException e)

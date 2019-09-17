@@ -47,6 +47,7 @@ namespace KrakenMPSPCrawler.Crawlers
 
 
                     // page 4 - Capturar dados
+                    #region Objeto com os dados capturados
                     var resultado = new ArpenspCrawlerModel
                     {
                         CartorioRegistro =
@@ -113,7 +114,9 @@ namespace KrakenMPSPCrawler.Crawlers
                                 "#principal > div > form > table:nth-child(15) > tbody > tr:nth-child(15) > td:nth-child(2)"))
                             .Text.Trim()
                     };
-                    SetInformationFound(typeof(SielCrawler), resultado);
+                    #endregion
+
+                    SetInformationFound(typeof(ArpenspCrawlerModel), resultado);
 
                     driver.Close();
                     Console.WriteLine("ArpenspCrawler OK");
