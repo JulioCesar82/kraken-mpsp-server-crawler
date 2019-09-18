@@ -1,6 +1,6 @@
 ﻿using System;
 
-using KrakenMPSPCrawler.Utils;
+using KrakenMPSPCrawler.Services;
 using KrakenMPSPCrawler.Business.Enum;
 using KrakenMPSPCrawler.Business.Model;
 
@@ -19,12 +19,12 @@ namespace KrakenMPSPCrawler.Crawlers
         {
             try
             {
-                using (var driver = WebDriverFactory.CreateWebDriver(WebBrowser.Firefox))
+                using (var driver = WebDriverService.CreateWebDriver(WebBrowser.Firefox))
                 {
                     driver.Navigate().GoToUrl(String.Format("https://www.google.com/search?hl=pt-BR&q={0}&oq={0}", _busca));
 
                     // page 1 - Capturar dados
-                    SetInformationFound(typeof(ExampleCrawler), new Object());
+                    SetInformationFound(new Object());
 
                     driver.Close();
                     return CrawlerStatus.Success;

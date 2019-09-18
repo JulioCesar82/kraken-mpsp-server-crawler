@@ -1,15 +1,15 @@
 ﻿using System;
 
 using OpenQA.Selenium;
-using OpenQA.Selenium.IE;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
+using OpenQA.Selenium.IE;
 
 using KrakenMPSPCrawler.Business.Enum;
 
-namespace KrakenMPSPCrawler.Utils
+namespace KrakenMPSPCrawler.Services
 {
-    public static class WebDriverFactory
+    public static class WebDriverService
     {
         public static IWebDriver CreateWebDriver(WebBrowser name)
         {
@@ -38,7 +38,9 @@ namespace KrakenMPSPCrawler.Utils
                 FirefoxOptions options = new FirefoxOptions();
                 //TimeSpan time = TimeSpan.FromSeconds(20);
 
-                //options.AddArgument("--headless");
+                #if Release
+                    options.AddArgument("--headless");
+                #endif
 
                 return new FirefoxDriver(service, options);//, time);
             }
@@ -58,7 +60,9 @@ namespace KrakenMPSPCrawler.Utils
                 ChromeOptions options = new ChromeOptions();
                 //TimeSpan time = TimeSpan.FromSeconds(20);
 
-                //options.AddArgument("--headless");
+                #if Release
+                    options.AddArgument("--headless");
+                #endif
                 options.AddArguments("--disable-extensions");
 
                 return new ChromeDriver(service, options);//, time);
@@ -78,6 +82,10 @@ namespace KrakenMPSPCrawler.Utils
                 var service = InternetExplorerDriverService.CreateDefaultService(driver);
                 InternetExplorerOptions options = new InternetExplorerOptions();
                 //TimeSpan time = TimeSpan.FromSeconds(20);
+
+                #if Release
+                    options.AddArgument("--headless");
+                #endif
 
                 return new InternetExplorerDriver(service, options);//, time);
             }

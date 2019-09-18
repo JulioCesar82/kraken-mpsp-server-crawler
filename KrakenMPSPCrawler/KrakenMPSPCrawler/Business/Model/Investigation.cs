@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace KrakenMPSPCrawler.Business.Model
 {
@@ -8,7 +7,7 @@ namespace KrakenMPSPCrawler.Business.Model
         public bool Completed => Errors.Count == 0;
 
         public List<CrawlerError> Errors = new List<CrawlerError>();
-        public List<Tuple<Type, object>> Informations = new List<Tuple<Type, object>>();
+        public List<object> Informations = new List<object>();
 
         public void AddError(CrawlerError error)
         {
@@ -19,11 +18,11 @@ namespace KrakenMPSPCrawler.Business.Model
             Errors.AddRange(errors);
         }
 
-        public void AddInformation(Tuple<Type, object> information)
+        public void AddInformation(object information)
         {
             Informations.Add(information);
         }
-        public void AddInformation(List<Tuple<Type, object>> informations)
+        public void AddInformation(List<object> informations)
         {
             Informations.AddRange(informations);
         }

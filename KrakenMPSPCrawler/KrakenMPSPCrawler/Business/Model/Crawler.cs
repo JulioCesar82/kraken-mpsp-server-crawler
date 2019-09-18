@@ -10,7 +10,7 @@ namespace KrakenMPSPCrawler.Business.Model
         public abstract CrawlerStatus Execute();
 
         public CrawlerError Error { get; protected set; }
-        public Tuple<Type, object> InformationFound { get; protected set; }
+        public object InformationFound { get; protected set; }
 
         protected void SetErrorMessage(string errorMessage)
         {
@@ -28,9 +28,9 @@ namespace KrakenMPSPCrawler.Business.Model
             Error = new CrawlerError(source, errorMessage);
         }
 
-        protected void SetInformationFound(Type source, object information)
+        protected void SetInformationFound(object information)
         {
-            InformationFound = Tuple.Create(source, information);
+            InformationFound = information;
         }
     }
 }

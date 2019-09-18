@@ -15,7 +15,7 @@ namespace KrakenMPSPConsole.Context
         public IMongoCollection<ResourcesFound> ResourcesFound => Database.GetCollection<ResourcesFound>("ResourcesFound");
 
         private readonly string _connection = "mongodb://localhost:27017";
-        public IMongoDatabase Database { get; }
+        public IMongoDatabase Database { get; set; }
 
         public MongoDbContext()
         {
@@ -40,7 +40,7 @@ namespace KrakenMPSPConsole.Context
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            Database = null;
         }
     }
 }

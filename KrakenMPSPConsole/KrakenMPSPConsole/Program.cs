@@ -1,12 +1,11 @@
 ﻿using System;
+using System.Linq;
 
-using AutoMapper;
 using MongoDB.Driver;
 
 using KrakenMPSPCrawler;
 using KrakenMPSPCrawler.Models;
 using KrakenMPSPConsole.Models;
-using KrakenMPSPConsole.Mapper;
 using KrakenMPSPConsole.Context;
 
 namespace KrakenMPSPConsole
@@ -17,20 +16,10 @@ namespace KrakenMPSPConsole
         {
             MockData();
             Search();
-
-            Console.WriteLine("finished application");
-            Console.ReadKey();
         }
 
         static void Search()
         {
-            // configurando o AutoMapper
-            var mappingConfig = new MapperConfiguration(mc =>
-            {
-                mc.AddProfile(new MappingResourcesFound());
-            });
-            IMapper mapper = mappingConfig.CreateMapper();
-
             try
             {
                 using (var db = new MongoDbContext())
@@ -44,16 +33,21 @@ namespace KrakenMPSPConsole
                         var result = crawler.Run();
                         Console.WriteLine("Completou a busca? {0}", result.Completed);
 
-                        Console.WriteLine("Salvando informações obtidas...");
-                        var resourcesFound = new ResourcesFound();
-                        foreach (var (item1, item2) in result.Informations)
+                        // gerando arquivo com os resultados
+                        var resourcesFound = new ResourcesFound
                         {
-                            Console.WriteLine("Recebido informacoes do {0}", item1);
-                            resourcesFound = mapper.Map<SielCrawlerModel, ResourcesFound>((SielCrawlerModel)item2);
-                            //resourcesFound = mapper.Map<SielCrawlerModel, ResourcesFound>((SielCrawlerModel)item2);
+                            ArquivoReferencia = empresa.Id,
+                            Type = empresa.Type
+                        };
+                        foreach (var information in result.Informations)
+                        {
+                            CopyValues<ResourcesFound>(resourcesFound, information);
                         }
+
+                        Console.WriteLine("Salvando informações obtidas...");
                         db.ResourcesFound.InsertOne(resourcesFound);
-                        empresa.Completed = true;
+
+                        empresa.Completed = result.Completed;
                         db.LegalPerson.ReplaceOne(p => p.Id == empresa.Id, empresa);
                     }
 
@@ -65,15 +59,21 @@ namespace KrakenMPSPConsole
                         var result = crawler.Run();
                         Console.WriteLine("Completou a busca? {0}", result.Completed);
 
-                        Console.WriteLine("Salvando informações obtidas...");
-                        var resourcesFound = new ResourcesFound();
-                        foreach (var (item1, item2) in result.Informations)
+                        // gerando arquivo com os resultados
+                        var resourcesFound = new ResourcesFound
                         {
-                            Console.WriteLine("Recebido informacoes do {0}", item1);
-                            //resourcesFound = mapper.Map<SielCrawlerModel, ResourcesFound>((SielCrawlerModel)item2);
+                            ArquivoReferencia = pessoa.Id,
+                            Type = pessoa.Type
+                        };
+                        foreach (var information in result.Informations)
+                        {
+                            CopyValues<ResourcesFound>(resourcesFound, information);
                         }
+
+                        Console.WriteLine("Salvando informações obtidas...");
                         db.ResourcesFound.InsertOne(resourcesFound);
-                        pessoa.Completed = true;
+
+                        pessoa.Completed = result.Completed;
                         db.PhysicalPerson.ReplaceOne(p => p.Id == pessoa.Id, pessoa);
                     }
                 }
@@ -81,6 +81,25 @@ namespace KrakenMPSPConsole
             catch (Exception e)
             {
                 Console.WriteLine("Search execution error: {0}", e.Message);
+            }
+            Console.WriteLine("finished application");
+            Console.ReadKey();
+        }
+
+        static void CopyValues<T>(T target, object source)
+        {
+            Type t = typeof(T);
+
+            var properties = t.GetProperties().Where(prop => prop.CanRead && prop.CanWrite);
+
+            foreach (var prop in properties)
+            {
+                var targetType = prop.PropertyType.ToString();
+                var sourceType = source.GetType().ToString();
+                if (targetType == sourceType)
+                {
+                    prop.SetValue(target, source);
+                }
             }
         }
 
@@ -91,7 +110,7 @@ namespace KrakenMPSPConsole
                 NomeFantasia = "PETROBRASIL",
                 CNPJ = "1111111111",
                 CPFDoFundador = "2222222222",
-                Contador = "333333333",
+                Contador = "333333333"
             };
 
             var examplePhysicalPerson = new PhysicalPersonModel()

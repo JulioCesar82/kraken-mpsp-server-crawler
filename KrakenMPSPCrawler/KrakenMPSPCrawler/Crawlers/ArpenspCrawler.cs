@@ -3,8 +3,8 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 
-using KrakenMPSPCrawler.Utils;
 using KrakenMPSPCrawler.Models;
+using KrakenMPSPCrawler.Services;
 using KrakenMPSPCrawler.Business.Enum;
 using KrakenMPSPCrawler.Business.Model;
 
@@ -23,7 +23,7 @@ namespace KrakenMPSPCrawler.Crawlers
         {
             try
             {
-                using (var driver = WebDriverFactory.CreateWebDriver(WebBrowser.Firefox))
+                using (var driver = WebDriverService.CreateWebDriver(WebBrowser.Firefox))
                 {
                     driver.Navigate().GoToUrl(@"http://ec2-18-231-116-58.sa-east-1.compute.amazonaws.com/arpensp/login.html");
 
@@ -116,7 +116,7 @@ namespace KrakenMPSPCrawler.Crawlers
                     };
                     #endregion
 
-                    SetInformationFound(typeof(ArpenspCrawlerModel), resultado);
+                    SetInformationFound(resultado);
 
                     driver.Close();
                     return CrawlerStatus.Success;
