@@ -14,5 +14,6 @@ namespace KrakenMPSPCrawler.Models
         public string Contador { get; set; }
 
         public KindPerson Type => KindPerson.LegalPerson;
+        public bool Completed { get; set; }
     }
 }

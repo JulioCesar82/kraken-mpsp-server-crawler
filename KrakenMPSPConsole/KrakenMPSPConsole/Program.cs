@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Linq;
 
 using MongoDB.Driver;
 
 using KrakenMPSPCrawler;
 using KrakenMPSPCrawler.Models;
+using KrakenMPSPConsole.Models;
 using KrakenMPSPConsole.Context;
-
 
 namespace KrakenMPSPConsole
 {
@@ -13,15 +14,103 @@ namespace KrakenMPSPConsole
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Iniciando a busca");
+            MockData();
+            Search();
+        }
 
-            #region objetos de teste
+        static void Search()
+        {
+            try
+            {
+                using (var db = new MongoDbContext())
+                {
+                    Console.WriteLine("Iniciando a busca");
+                    var empresas = db.LegalPerson.Find(x => !x.Completed).ToList();
+                    foreach (var empresa in empresas)
+                    {
+                        Console.WriteLine($"Empresa: {empresa.NomeFantasia}");
+                        var crawler = new LegalPersonCoordinator(empresa);
+                        var result = crawler.Run();
+                        Console.WriteLine("Completou a busca? {0}", result.Completed);
+
+                        // gerando arquivo com os resultados
+                        var resourcesFound = new ResourcesFound
+                        {
+                            ArquivoReferencia = empresa.Id,
+                            Type = empresa.Type
+                        };
+                        foreach (var information in result.Informations)
+                        {
+                            CopyValues<ResourcesFound>(resourcesFound, information);
+                        }
+
+                        Console.WriteLine("Salvando informações obtidas...");
+                        db.ResourcesFound.InsertOne(resourcesFound);
+
+                        empresa.Completed = result.Completed;
+                        db.LegalPerson.ReplaceOne(p => p.Id == empresa.Id, empresa);
+                    }
+
+                    var pessoas = db.PhysicalPerson.Find(x => !x.Completed).ToList();
+                    foreach (var pessoa in pessoas)
+                    {
+                        Console.WriteLine($"Pessoa: {pessoa.NomeCompleto}");
+                        var crawler = new PhysicalPersonCoordinator(pessoa);
+                        var result = crawler.Run();
+                        Console.WriteLine("Completou a busca? {0}", result.Completed);
+
+                        // gerando arquivo com os resultados
+                        var resourcesFound = new ResourcesFound
+                        {
+                            ArquivoReferencia = pessoa.Id,
+                            Type = pessoa.Type
+                        };
+                        foreach (var information in result.Informations)
+                        {
+                            CopyValues<ResourcesFound>(resourcesFound, information);
+                        }
+
+                        Console.WriteLine("Salvando informações obtidas...");
+                        db.ResourcesFound.InsertOne(resourcesFound);
+
+                        pessoa.Completed = result.Completed;
+                        db.PhysicalPerson.ReplaceOne(p => p.Id == pessoa.Id, pessoa);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Search execution error: {0}", e.Message);
+            }
+            Console.WriteLine("finished application");
+            Console.ReadKey();
+        }
+
+        static void CopyValues<T>(T target, object source)
+        {
+            Type t = typeof(T);
+
+            var properties = t.GetProperties().Where(prop => prop.CanRead && prop.CanWrite);
+
+            foreach (var prop in properties)
+            {
+                var targetType = prop.PropertyType.ToString();
+                var sourceType = source.GetType().ToString();
+                if (targetType == sourceType)
+                {
+                    prop.SetValue(target, source);
+                }
+            }
+        }
+
+        static void MockData()
+        {
             var exampleLegalPerson = new LegalPersonModel
             {
                 NomeFantasia = "PETROBRASIL",
                 CNPJ = "1111111111",
                 CPFDoFundador = "2222222222",
-                Contador = "333333333",
+                Contador = "333333333"
             };
 
             var examplePhysicalPerson = new PhysicalPersonModel()
@@ -32,54 +121,18 @@ namespace KrakenMPSPConsole
                 DataDeNascimento = "23/01/1997",
                 NomeDaMae = "SELMA AVILA"
             };
-            #endregion
-
-            try
-            {
+            try {
                 using (var db = new MongoDbContext())
                 {
-                    Console.WriteLine("saving legal person");
+                    Console.WriteLine("Inserindo buscas de teste");
                     db.LegalPerson.InsertOne(exampleLegalPerson);
-
-                    
-                     var empresas = db.LegalPerson.Find(x => true).ToList();
-
-                    foreach (var empresa in empresas)
-                    {
-                        Console.WriteLine($"Empresa: {empresa.NomeFantasia}");
-                        var crawler = new LegalPersonCoordinator(empresa);
-                        var result = crawler.Run();
-                        Console.WriteLine("Completou a busca? {0}", result.Completed);
-                        Console.WriteLine("Informacoes encontradas: {0}", result.Informations);
-
-                        //Console.WriteLine("Salvando informações obtidas de LegalPerson...");
-                        //db.LegalPerson.ReplaceOne(p => p.Id == exampleLegalPerson.Id, exampleLegalPerson);
-                    }
-
-                    Console.WriteLine("saving physical person");
                     db.PhysicalPerson.InsertOne(examplePhysicalPerson);
-                    
-                    var pessoas = db.PhysicalPerson.Find(x => true).ToList();
-                    foreach (var pessoa in pessoas)
-                    {
-                        Console.WriteLine($"Pessoa: {pessoa.NomeCompleto}");
-                        var crawler = new PhysicalPersonCoordinator(pessoa);
-                        var result = crawler.Run();
-                        Console.WriteLine("Completou a busca? {0}", result.Completed);
-                        Console.WriteLine("Informacoes encontradas: {0}", result.Informations);
-                        
-                        //Console.WriteLine("Salvando informações obtidas de LegalPerson...");
-                        //db.LegalPerson.ReplaceOne(p => p.Id == exampleLegalPerson.Id, exampleLegalPerson);
-                    }
                 }
             }
             catch (Exception e)
             {
-                Console.WriteLine("Search execution error: {0}", e.Message);
+                Console.WriteLine("MockData execution error: {0}", e.Message);
             }
-
-            Console.WriteLine("finished application");
-            Console.ReadKey();
         }
     }
 }

@@ -7,8 +7,8 @@ using OpenQA.Selenium.Support.UI;
 using OpenQA.Selenium.Interactions;
 
 using KrakenMPSPCrawler.Enum;
-using KrakenMPSPCrawler.Utils;
 using KrakenMPSPCrawler.Models;
+using KrakenMPSPCrawler.Services;
 using KrakenMPSPCrawler.Business.Enum;
 using KrakenMPSPCrawler.Business.Model;
 
@@ -29,7 +29,7 @@ namespace KrakenMPSPCrawler.Crawlers
         {
             try
             {
-                using (var driver = WebDriverFactory.CreateWebDriver(WebBrowser.Firefox))
+                using (var driver = WebDriverService.CreateWebDriver(WebBrowser.Firefox))
                 {
                     driver.Navigate().GoToUrl(@"http://ec2-18-231-116-58.sa-east-1.compute.amazonaws.com/arisp/login.html");
 
@@ -121,14 +121,13 @@ namespace KrakenMPSPCrawler.Crawlers
                         driver.SwitchTo().Window(tabs[tabs.Count - 2]);
                     }
 
-                    SetInformationFound(typeof(ArispCrawlerModel), new ArispCrawlerModel
+                    SetInformationFound(new ArispCrawlerModel
                     {
                         Processos = resultados
                     }
                     );
 
                     driver.Close();
-                    Console.WriteLine("ArispCrawler OK");
                     return CrawlerStatus.Success;
                 }
             }

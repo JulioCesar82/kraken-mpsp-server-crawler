@@ -2,8 +2,8 @@
 
 using OpenQA.Selenium;
 
-using KrakenMPSPCrawler.Utils;
 using KrakenMPSPCrawler.Models;
+using KrakenMPSPCrawler.Services;
 using KrakenMPSPCrawler.Business.Enum;
 using KrakenMPSPCrawler.Business.Model;
 
@@ -32,7 +32,7 @@ namespace KrakenMPSPCrawler.Crawlers
         {
             try
             {
-                using (var driver = WebDriverFactory.CreateWebDriver(WebBrowser.Firefox))
+                using (var driver = WebDriverService.CreateWebDriver(WebBrowser.Firefox))
                 {
                     driver.Navigate().GoToUrl("http://ec2-18-231-116-58.sa-east-1.compute.amazonaws.com/sivec/login.html");
 
@@ -155,10 +155,9 @@ namespace KrakenMPSPCrawler.Crawlers
                     };
                     #endregion
 
-                    SetInformationFound(typeof(SivecCrawlerModel), resultado);
+                    SetInformationFound(resultado);
 
                     driver.Close();
-                    Console.WriteLine("SivecCrawler OK");
                     return CrawlerStatus.Success;
                 }
             }

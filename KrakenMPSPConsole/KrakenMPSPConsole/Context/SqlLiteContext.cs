@@ -3,6 +3,7 @@
 using Microsoft.EntityFrameworkCore;
 
 using KrakenMPSPCrawler.Models;
+using KrakenMPSPConsole.Models;
 
 namespace KrakenMPSPConsole.Context
 {
@@ -10,6 +11,7 @@ namespace KrakenMPSPConsole.Context
     {
         public DbSet<LegalPersonModel> LegalPerson { get; set; }
         public DbSet<PhysicalPersonModel> PhysicalPerson { get; set; }
+        public DbSet<ResourcesFound> ResourcesFound { get; set; }
 
         private readonly string _connection = $@"{AppDomain.CurrentDomain.BaseDirectory}/database.db";
 
