@@ -10,16 +10,62 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
+// ReSharper disable All
 
 namespace KrakenMPSPCrawler.Crawlers
 {
     class CagedCrawler : Crawler
     {
+        //Login - Input externo
         private readonly string Usuario = "fiap";
         private readonly string Senha = "MPSP";
-        private readonly string ChavePesquisaResponsavel = "00111222333344";
-        private readonly string ChavePesquisaTrabalhador = "00011111223";
-        private readonly string CNPJRaiz = "00111222";
+
+        //Parâmetros de pesquisa
+        private readonly string cnpj = "20501854000169";
+
+
+        //Autorizado / Responsável
+        private string razaoSocial = "";
+        private string logradouro = "";
+        private string bairro = "";
+        private string municipio = "";
+        private string estado = "";
+        private string cep = "";
+
+        private string nomeContato = "";
+        private string cpfContato = "";
+        private string telefoneContato = "";
+        private string ramalContato = "";
+        private string emailContato = "";
+
+        private string cnae = "";
+        private string atividadeEconomica = "";
+        private int noFilias = 0;
+        private int totalVinculos = 0;
+
+        //Trabalhador
+        private readonly string cpf = "00011111223";
+
+        private string nomeTrabalhador = "";
+        private string pisBaseTrabalhador = "";
+        private string ctpsTrabalhador = "";
+        private string faixaPisTrabalhador = "";
+        private string nacionalidadeTrabalhador = "";
+        private string grauInstrucaoTrabalhador = "";
+        private string deficienteTrabalhador = "";
+
+        private string dataNascimentoTrabalhador = "";
+        private string ufCtpsTrabalhador = "";
+        private string sexoTrabalhador = "";
+        private string corTrabalhador = "";
+
+        private string cepTrabalhador = "";
+        private string tempoTrabalhoCaged = "";
+        private string tempoTrabalhoRais = "";
+
+
+        //Empresa
+        
 
         public override CrawlerStatus Execute()
         {
@@ -52,11 +98,27 @@ namespace KrakenMPSPCrawler.Crawlers
                     dropdown.SelectByIndex(0);*/
 
                     driver.FindElement(By.Id("formPesquisarAutorizado:txtChavePesquisaAutorizado014")).Click();
-                    driver.FindElement(By.Id("formPesquisarAutorizado:txtChavePesquisaAutorizado014")).SendKeys(Keys.Home + ChavePesquisaResponsavel);
+                    driver.FindElement(By.Id("formPesquisarAutorizado:txtChavePesquisaAutorizado014")).SendKeys(Keys.Home + cnpj);
 
                     driver.FindElement(By.Id("formPesquisarAutorizado:bt027_8")).Click();
 
                     //page 4 - Capturar dados responsável
+                    /*
+                    razaoSocial = driver.FindElement(By.Id("txtrazaosocial020_4")).Text;
+                    logradouro = driver.FindElement(By.Id("txt3_logradouro020")).Text;
+                    bairro = driver.FindElement(By.Id("txt4_bairro020")).Text;
+                    municipio = driver.FindElement(By.Id("txt6_municipio020")).Text;
+                    estado = driver.FindElement(By.Id("txt7_uf020")).Text;
+                    cep = driver.FindElement(By.Id("txt8_cep020")).Text;
+                    
+                    nomeContato = driver.FindElement(By.Id("txt_nome_contato")).Text;
+                    cpfContato = driver.FindElement(By.Id("txt_contato_cpf")).Text;
+                    telefoneContato = driver.FindElement(By.Id("txt21_ddd020")).Text + 
+                                      driver.FindElement(By.Id("txt9_telefone020")).Text;
+                    ramalContato = driver.FindElement(By.Id("txt10_ramal020")).Text;
+                    emailContato = driver.FindElement(By.Id("txt11_email")).Text;
+
+                    */
 
                     //--- passar para a próxima página
 
@@ -67,12 +129,18 @@ namespace KrakenMPSPCrawler.Crawlers
                     driver.FindElement(By.Id("j_idt12:idMenuLinkEmpresaCaged")).Click();
 
                     // page 5 - Consultar Empresa
+
                     driver.FindElement(By.Id("formPesquisarEmpresaCAGED:txtcnpjRaiz")).Click();
-                    driver.FindElement(By.Id("formPesquisarEmpresaCAGED:txtcnpjRaiz")).SendKeys(Keys.Home + CNPJRaiz);
+                    driver.FindElement(By.Id("formPesquisarEmpresaCAGED:txtcnpjRaiz")).SendKeys(Keys.Home + cnpj.Substring(0, 8));
 
                     driver.FindElement(By.Id("formPesquisarEmpresaCAGED:btConsultar")).Click();
 
                     //page 6 - Capturar dados empresa
+
+                    cnae = driver.FindElement(By.Id("formResumoEmpresaCaged:txtCodigoAtividadeEconomica")).Text;
+                    atividadeEconomica = driver.FindElement(By.Id("formResumoEmpresaCaged:txtDescricaoAtividadeEconomica")).Text;
+                    noFilias = Int32.Parse(driver.FindElement(By.Id("formResumoEmpresaCaged:txtNumFiliais")).Text);
+                    totalVinculos = Int32.Parse(driver.FindElement(By.Id("formResumoEmpresaCaged:txtTotalVinculos")).Text);
 
                     //--- passar para a próxima página
                     Actions actionPage6 = new Actions(driver);
@@ -87,7 +155,7 @@ namespace KrakenMPSPCrawler.Crawlers
                     new SelectElement(pesquisarPorDropDown).SelectByIndex(0);
 
                     driver.FindElement(By.Id("formPesquisarTrabalhador:txtChavePesquisa")).Click();
-                    driver.FindElement(By.Id("formPesquisarTrabalhador:txtChavePesquisa")).SendKeys(Keys.Home + ChavePesquisaTrabalhador);
+                    driver.FindElement(By.Id("formPesquisarTrabalhador:txtChavePesquisa")).SendKeys(Keys.Home + cpf);
 
                     driver.FindElement(By.Id("formPesquisarTrabalhador:submitPesqTrab")).Click();
 
