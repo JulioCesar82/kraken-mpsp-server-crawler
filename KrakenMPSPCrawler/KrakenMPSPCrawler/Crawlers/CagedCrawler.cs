@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO;
+using System.Linq;
 using System.Net;
 using System.Text;
 using KrakenMPSPCrawler.Business.Enum;
 using KrakenMPSPCrawler.Business.Model;
-using KrakenMPSPCrawler.Utils;
+using KrakenMPSPCrawler.Services;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Interactions;
@@ -55,7 +58,7 @@ namespace KrakenMPSPCrawler.Crawlers
         private string deficienteTrabalhador = "";
 
         private string dataNascimentoTrabalhador = "";
-        private string ufCtpsTrabalhador = "";
+        //private string ufCtpsTrabalhador = "";
         private string sexoTrabalhador = "";
         private string corTrabalhador = "";
 
@@ -71,7 +74,7 @@ namespace KrakenMPSPCrawler.Crawlers
         {
             try
             {
-                using (var driver = WebDriverFactory.CreateWebDriver(WebBrowser.Firefox))
+                using (var driver = WebDriverService.CreateWebDriver(WebBrowser.Firefox))
                 {
                     driver.Navigate().GoToUrl(@"http://ec2-18-231-116-58.sa-east-1.compute.amazonaws.com/caged/login.html");
 
@@ -94,7 +97,6 @@ namespace KrakenMPSPCrawler.Crawlers
                     /*
                     IWebElement pesquisarDropDown = driver.FindElement(By.Id("formPesquisarAutorizado:slctTipoPesquisaAutorizado"));
                     var dropdown = new SelectElement(pesquisarDropDown);
-                    dropdown.SelectByIndex(1);
                     dropdown.SelectByIndex(0);*/
 
                     driver.FindElement(By.Id("formPesquisarAutorizado:txtChavePesquisaAutorizado014")).Click();
@@ -103,22 +105,20 @@ namespace KrakenMPSPCrawler.Crawlers
                     driver.FindElement(By.Id("formPesquisarAutorizado:bt027_8")).Click();
 
                     //page 4 - Capturar dados responsável
-                    /*
+
                     razaoSocial = driver.FindElement(By.Id("txtrazaosocial020_4")).Text;
                     logradouro = driver.FindElement(By.Id("txt3_logradouro020")).Text;
                     bairro = driver.FindElement(By.Id("txt4_bairro020")).Text;
                     municipio = driver.FindElement(By.Id("txt6_municipio020")).Text;
                     estado = driver.FindElement(By.Id("txt7_uf020")).Text;
                     cep = driver.FindElement(By.Id("txt8_cep020")).Text;
-                    
+
                     nomeContato = driver.FindElement(By.Id("txt_nome_contato")).Text;
                     cpfContato = driver.FindElement(By.Id("txt_contato_cpf")).Text;
-                    telefoneContato = driver.FindElement(By.Id("txt21_ddd020")).Text + 
+                    telefoneContato = driver.FindElement(By.Id("txt21_ddd020")).Text +
                                       driver.FindElement(By.Id("txt9_telefone020")).Text;
                     ramalContato = driver.FindElement(By.Id("txt10_ramal020")).Text;
                     emailContato = driver.FindElement(By.Id("txt11_email")).Text;
-
-                    */
 
                     //--- passar para a próxima página
 
@@ -151,7 +151,6 @@ namespace KrakenMPSPCrawler.Crawlers
 
                     //page 7 - Consultar trabalhador
                     IWebElement pesquisarPorDropDown = driver.FindElement(By.Id("formPesquisarTrabalhador:slctTipoPesquisaTrabalhador"));
-                    new SelectElement(pesquisarPorDropDown).SelectByIndex(1);
                     new SelectElement(pesquisarPorDropDown).SelectByIndex(0);
 
                     driver.FindElement(By.Id("formPesquisarTrabalhador:txtChavePesquisa")).Click();
@@ -159,33 +158,57 @@ namespace KrakenMPSPCrawler.Crawlers
 
                     driver.FindElement(By.Id("formPesquisarTrabalhador:submitPesqTrab")).Click();
 
+
                     //Page 8 - Capturar dados trabalhador
-
-                    //--- passar para a próxima página
-
-                    driver.Navigate().GoToUrl(@"http://ec2-18-231-116-58.sa-east-1.compute.amazonaws.com/caged/pagina9-dados-trabalhador.html?formPesquisarTrabalhador=formPesquisarTrabalhador&formPesquisarTrabalhador%3AslctTipoPesquisaTrabalhador=1&formPesquisarTrabalhador%3AperfilRaisCaged=1&formPesquisarTrabalhador%3AtxtChavePesquisa=&formPesquisarTrabalhador%3AsubmitPesqTrab=Consultar&formPesquisarTrabalhador%3Aj_idt65=&javax.faces.ViewState=5832164626526760368%3A-4226066932030001535");
-                    //Page 8/9 - Salvar PDF
-                    //Pegar o nome do trabalhador capturado na página 8
-                    var nomeTrabalhador = "teste";
-                    //TODO : Alterar caminho
-                    var downloadFolderPath = "d:\\mpsp\\pdfs\\caged\\" + nomeTrabalhador;
-                    var wgetDriver = $"{Environment.CurrentDirectory}\\Libs\\Wget\\wget.exe";
-                    var pdfLink = driver.FindElement(By.CssSelector(".link > a:nth-child(1)")).GetAttribute("href");
-
-                    var strCmdText = "/C " + wgetDriver + " -x -nd -P " + downloadFolderPath + " " + pdfLink;
-                    Console.WriteLine();
+                    nomeTrabalhador = driver.FindElement(By.Id("txt2_Nome027")).Text;
+                    pisBaseTrabalhador = driver.FindElement(By.Id("txt1_Pis028")).Text;
+                    ctpsTrabalhador = driver.FindElement(By.Id("txt5_Ctps027")).Text;
+                    faixaPisTrabalhador = driver.FindElement(By.Id("txt4_SitPis027")).Text;
+                    nacionalidadeTrabalhador = driver.FindElement(By.Id("txt8_Nac027")).Text;
+                    grauInstrucaoTrabalhador = driver.FindElement(By.Id("txt12_Instr027")).Text;
+                    deficienteTrabalhador = driver.FindElement(By.Id("txt13_Def027")).Text;
                     
+                    dataNascimentoTrabalhador = driver.FindElement(By.Id("txt4_datanasc027")).Text;
+                    //ufCtpsTrabalhador = driver.FindElement(By.Id("")).Text;
+                    sexoTrabalhador = driver.FindElement(By.Id("txt6_Sexo027")).Text;
+                    corTrabalhador = driver.FindElement(By.Id("txt10_Raca027")).Text;
+
+                    cepTrabalhador = driver.FindElement(By.Id("txtEstabCep91")).Text;
+                    tempoTrabalhoCaged = driver.FindElement(By.Id("txt26_Caged027")).Text + " meses";
+                    
+                    tempoTrabalhoRais = driver.FindElement(By.Id("txt27_Rais027")).Text + " meses";
+                    
+                    //Page 9 - Salvar PDF
+
+                    driver.FindElement(By.CssSelector(".link > a:nth-child(1)")).Click();
+
+                    IWait<IWebDriver> wait = new WebDriverWait(driver, TimeSpan.FromSeconds(30.00));
+
+                    wait.Until(driver1 => ((IJavaScriptExecutor)driver).ExecuteScript("return document.readyState").Equals("complete"));
+                    
+                   var downloadFolderPath = $@"{AppDomain.CurrentDomain.BaseDirectory}temp\caged\";
+                   if (!Directory.Exists(downloadFolderPath))
+                       Directory.CreateDirectory(downloadFolderPath);
+                   
+
+                    ReadOnlyCollection<string> windowHandles = driver.WindowHandles;
+                    driver.SwitchTo().Window(windowHandles.Last());
+
+
                     try
                     {
-                        Process.Start("CMD.exe", strCmdText)?.WaitForExit();
+                        using (var client = new WebClient())
+                        {
+
+                            client.DownloadFileAsync(new Uri(driver.Url), $@"{downloadFolderPath}{nomeTrabalhador}.pdf");
+                        }
                     }
                     catch (Exception e)
                     {
-                        Console.WriteLine(e);
-                        throw;
+                        Console.WriteLine("[CAGED] Ocorreu um erro ao tentar baixar o PDF! \nMensagem de erro: " + e);
                     }
 
-
+                    
                     driver.Close();
                     Console.Write("CagedCrawler OK");
                     return CrawlerStatus.Success;
@@ -194,13 +217,13 @@ namespace KrakenMPSPCrawler.Crawlers
             catch (NotSupportedException e)
             {
                 Console.Write("{0} Faill loading browser caught.", e.Message);
-                SetErrorMessage("CagedCrawler", e.Message);
+                SetErrorMessage(typeof(CagedCrawler), e.Message);
                 return CrawlerStatus.Skipped;
             }
             catch (Exception e)
             {
                 Console.Write("{0} Exception caught.", e.Message);
-                SetErrorMessage("CagedCrawler", e.Message);
+                SetErrorMessage(typeof(CagedCrawler), e.Message);
                 return CrawlerStatus.Error;
             }
         }
