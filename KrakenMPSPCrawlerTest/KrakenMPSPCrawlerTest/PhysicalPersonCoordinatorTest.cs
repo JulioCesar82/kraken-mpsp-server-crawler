@@ -14,7 +14,7 @@ namespace KrakenMPSPCrawlerTest
             var examplePhysicalPerson = new PhysicalPersonModel()
             {
                 NomeCompleto = "JULIO AVILA",
-                CPF = "1111111111",
+                CPF = "11122233344",
                 RG = "22222222222",
                 DataDeNascimento = "23/01/1997",
                 NomeDaMae = "SELMA AVILA"
@@ -25,7 +25,7 @@ namespace KrakenMPSPCrawlerTest
             var investigation = coordinator.Run();
 
             // Assert
-            Assert.Equals(investigation.Completed, true);
+            Assert.AreEqual(investigation.Completed, true);
         }
     }
 }
