@@ -13,5 +13,7 @@ namespace KrakenMPSPBusiness.Models
         public ArpenspCrawlerModel Arpensp { get; set; }
         public SielCrawlerModel Siel { get; set; }
         public SivecCrawlerModel Sivec { get; set; }
+        public CagedCrawlerModelPJ CagedPJ { get; set; }
+        public CagedCrawlerModelPF CagedPF { get; set; }
     }
 }

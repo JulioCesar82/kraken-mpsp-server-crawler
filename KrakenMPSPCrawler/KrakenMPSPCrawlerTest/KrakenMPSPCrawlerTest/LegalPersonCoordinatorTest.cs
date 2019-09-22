@@ -14,8 +14,8 @@ namespace KrakenMPSPCrawlerTest
             var exampleLegalPerson = new LegalPersonModel
             {
                 NomeFantasia = "PETROBRASIL",
-                CNPJ = "1111111111",
-                CPFDoFundador = "2222222222",
+                CNPJ = "11222333000044",
+                CPFDoFundador = "22222222222",
                 Contador = "333333333",
             };
             var coordinator = new LegalPersonCoordinator(exampleLegalPerson);

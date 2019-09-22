@@ -99,6 +99,7 @@ namespace KrakenMPSPCrawler.Crawlers
                     SetInformationFound(resultado);
 
                     driver.Close();
+                    Console.Write("SielCrawler OK");
                     return CrawlerStatus.Success;
                 }
             }
