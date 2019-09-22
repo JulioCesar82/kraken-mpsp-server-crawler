@@ -1,4 +1,4 @@
-﻿namespace KrakenMPSPCrawler.Models
+﻿namespace KrakenMPSPBusiness.Models
 {
     public class CagedCrawlerModelPJ
     {

@@ -38,7 +38,7 @@ namespace KrakenMPSPCrawler.Services
                 FirefoxOptions options = new FirefoxOptions();
                 //TimeSpan time = TimeSpan.FromSeconds(20);
 
-                #if Release
+                #if !DEBUG
                     options.AddArgument("--headless");
                 #endif
 
@@ -60,7 +60,7 @@ namespace KrakenMPSPCrawler.Services
                 ChromeOptions options = new ChromeOptions();
                 //TimeSpan time = TimeSpan.FromSeconds(20);
 
-                #if Release
+                #if !DEBUG
                     options.AddArgument("--headless");
                 #endif
                 options.AddArguments("--disable-extensions");
@@ -83,8 +83,8 @@ namespace KrakenMPSPCrawler.Services
                 InternetExplorerOptions options = new InternetExplorerOptions();
                 //TimeSpan time = TimeSpan.FromSeconds(20);
 
-                #if Release
-                    options.AddArgument("--headless");
+                #if !DEBUG
+                    //options.AddArgument("--headless");
                 #endif
 
                 return new InternetExplorerDriver(service, options);//, time);

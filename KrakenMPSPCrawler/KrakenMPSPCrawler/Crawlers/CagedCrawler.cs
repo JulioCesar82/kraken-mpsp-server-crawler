@@ -8,11 +8,12 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
 
+using KrakenMPSPBusiness.Enum;
+using KrakenMPSPBusiness.Models;
+
 using KrakenMPSPCrawler.Enum;
-using KrakenMPSPCrawler.Models;
+using KrakenMPSPCrawler.Model;
 using KrakenMPSPCrawler.Services;
-using KrakenMPSPCrawler.Business.Enum;
-using KrakenMPSPCrawler.Business.Model;
 
 namespace KrakenMPSPCrawler.Crawlers
 {
