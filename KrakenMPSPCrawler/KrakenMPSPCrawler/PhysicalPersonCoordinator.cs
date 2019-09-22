@@ -21,8 +21,7 @@ namespace KrakenMPSPCrawler
                 physicalPerson.NomeDaMae,
                 physicalPerson.DataDeNascimento));
             AddModule(new SivecCrawler("fiap", "fiap123", "123456", physicalPerson.NomeCompleto, physicalPerson.RG));
-            
-            AddModule(new CagedCrawler());
+            AddModule(new CagedCrawler(physicalPerson.Type,"fiap", "fiap123", physicalPerson.CPF));
         }
     }
 }
