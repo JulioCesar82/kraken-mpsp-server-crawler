@@ -14,6 +14,7 @@ namespace KrakenMPSPCrawler
 
             AddModule(new ArispCrawler(legalPerson.Type, legalPerson.CNPJ));
             AddModule(new CagedCrawler(legalPerson.Type, "fiap", "senha", legalPerson.CNPJ));
+            AddModule(new CensecCrawler("fiap", "fiap123", legalPerson.CNPJ));
         }
     }
 }
