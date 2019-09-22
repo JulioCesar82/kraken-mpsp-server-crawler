@@ -1,8 +1,8 @@
 ﻿using System;
 
+using KrakenMPSPCrawler.Enum;
+using KrakenMPSPCrawler.Model;
 using KrakenMPSPCrawler.Services;
-using KrakenMPSPCrawler.Business.Enum;
-using KrakenMPSPCrawler.Business.Model;
 
 namespace KrakenMPSPCrawler.Crawlers
 {

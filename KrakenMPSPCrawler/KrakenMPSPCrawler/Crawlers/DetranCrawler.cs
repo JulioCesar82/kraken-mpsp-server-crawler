@@ -1,15 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Net;
 
 using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
 using OpenQA.Selenium.Interactions;
 
+using KrakenMPSPCrawler.Enum;
+using KrakenMPSPCrawler.Model;
 using KrakenMPSPCrawler.Services;
-using KrakenMPSPCrawler.Business.Enum;
-using KrakenMPSPCrawler.Business.Model;
-using OpenQA.Selenium.Support.UI;
 
 namespace KrakenMPSPCrawler.Crawlers
 {
@@ -37,7 +36,6 @@ namespace KrakenMPSPCrawler.Crawlers
             {
                 Directory.CreateDirectory(_pathTemp);
             }
-
         }
 
         public override CrawlerStatus Execute()

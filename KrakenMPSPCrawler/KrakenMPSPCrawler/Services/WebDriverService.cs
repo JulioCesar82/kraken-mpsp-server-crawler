@@ -1,11 +1,11 @@
 ﻿using System;
 
 using OpenQA.Selenium;
+using OpenQA.Selenium.IE;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
-using OpenQA.Selenium.IE;
 
-using KrakenMPSPCrawler.Business.Enum;
+using KrakenMPSPCrawler.Enum;
 
 namespace KrakenMPSPCrawler.Services
 {

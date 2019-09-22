@@ -3,10 +3,10 @@ using System.Linq;
 
 using MongoDB.Driver;
 
+using KrakenMPSPBusiness.Context;
+using KrakenMPSPBusiness.Models;
+
 using KrakenMPSPCrawler;
-using KrakenMPSPCrawler.Models;
-using KrakenMPSPConsole.Models;
-using KrakenMPSPConsole.Context;
 
 namespace KrakenMPSPConsole
 {

@@ -31,4 +31,8 @@
     <PackageReference Include="Selenium.WebDriver" Version="3.141.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\KrakenMPSPBusiness\KrakenMPSPBusiness\KrakenMPSPBusiness.csproj" />
+  </ItemGroup>
+
 </Project>
