@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -13,6 +14,32 @@ namespace KrakenMPSPBusiness.Context
         public DbSet<ResourcesFound> ResourcesFound { get; set; }
 
         private readonly string _connection = $@"{AppDomain.CurrentDomain.BaseDirectory}/database.db";
+
+        public SqlLiteContext()
+        {
+            try
+            {
+                var directoryPath = Path.GetDirectoryName(_connection);
+                if (!Directory.Exists(directoryPath))
+                {
+                    Directory.CreateDirectory(directoryPath);
+                }
+
+                if (File.Exists(_connection))
+                {
+                    File.Delete(_connection);
+                }
+
+                File.Create(_connection);
+
+                //Database.Migrate();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error creating SqLite database: {0}", e.Message);
+            }
+        }
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

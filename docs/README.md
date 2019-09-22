@@ -18,6 +18,7 @@ http://ec2-18-231-116-58.sa-east-1.compute.amazonaws.com/login
 
 #### Create API Guide
  * [ASP .NET Core - Usando o MongoDB](http://www.macoratti.net/17/11/aspncore_mongo1.htm)
+ * [Documentando uma ASP.NET Core Web API com o Swagger](https://www.treinaweb.com.br/blog/documentando-uma-asp-net-core-web-api-com-o-swagger/)
  * [Criando um banco de dados SQLite](http://www.andrealveslima.com.br/blog/index.php/2016/09/28/trabalhando-com-sqlite-no-c-e-vb-net/)
  * [How YOU can use an ORM in .NET Core and C# to type less SQL -starring Entity Framework](https://dev.to/dotnet/how-you-can-use-an-orm-in-net-core-and-c-to-type-less-sql-starring-entity-framework-49ka)
  * [An awesome guide on how to build RESTful APIs with ASP.NET Core](https://www.freecodecamp.org/news/an-awesome-guide-on-how-to-build-restful-apis-with-asp-net-core-87b818123e28/?gi=5827bfeb1996)
