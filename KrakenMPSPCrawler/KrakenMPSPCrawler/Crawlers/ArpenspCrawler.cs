@@ -119,6 +119,7 @@ namespace KrakenMPSPCrawler.Crawlers
                     SetInformationFound(resultado);
 
                     driver.Close();
+                    Console.Write("ArpenspCrawler OK");
                     return CrawlerStatus.Success;
                 }
             }

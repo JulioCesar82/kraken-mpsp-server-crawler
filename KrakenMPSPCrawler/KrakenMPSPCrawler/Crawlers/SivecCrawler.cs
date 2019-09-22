@@ -158,6 +158,7 @@ namespace KrakenMPSPCrawler.Crawlers
                     SetInformationFound(resultado);
 
                     driver.Close();
+                    Console.Write("SivecCrawler OK");
                     return CrawlerStatus.Success;
                 }
             }

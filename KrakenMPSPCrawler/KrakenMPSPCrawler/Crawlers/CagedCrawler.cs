@@ -1,22 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Data;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Text;
-using KrakenMPSPCrawler.Business.Enum;
-using KrakenMPSPCrawler.Business.Model;
+using System.Linq;
+using System.Collections.ObjectModel;
+
+using OpenQA.Selenium;
+using OpenQA.Selenium.Interactions;
+using OpenQA.Selenium.Support.UI;
+
 using KrakenMPSPCrawler.Enum;
 using KrakenMPSPCrawler.Models;
 using KrakenMPSPCrawler.Services;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Firefox;
-using OpenQA.Selenium.Interactions;
-using OpenQA.Selenium.Support.UI;
-// ReSharper disable All
+using KrakenMPSPCrawler.Business.Enum;
+using KrakenMPSPCrawler.Business.Model;
 
 namespace KrakenMPSPCrawler.Crawlers
 {
@@ -41,7 +37,6 @@ namespace KrakenMPSPCrawler.Crawlers
                 _cpf = identificador;
         }
 
-        
         public override CrawlerStatus Execute()
         {
             try
@@ -56,12 +51,11 @@ namespace KrakenMPSPCrawler.Crawlers
 
                     driver.FindElement(By.Id("btn-submit")).Click();
 
-                    IWebElement menuDropDown;
 
                     //page 2 - Autorizado/Responsável
+                    IWebElement menuDropDown;
                     if (_cnpj != null)
                     {
-
                         Actions actionPage2 = new Actions(driver);
                         menuDropDown = driver.FindElement(By.Id("j_idt12:lk_menu_consultas"));
                         actionPage2.MoveToElement(menuDropDown).Build().Perform();
@@ -69,12 +63,12 @@ namespace KrakenMPSPCrawler.Crawlers
                         driver.FindElement(By.Id("j_idt12:idMenuLinkAutorizado")).Click();
 
                         //page 3 - Consultar responsável
-
-                        //BUG NO WEBSITE : Ao trocar o valor do campo, ele automaticamente passa para a página seguinte
+                        //TODO: BUG NO WEBSITE ao trocar o valor do campo, ele automaticamente passa para a página seguinte
                         /*
                         IWebElement pesquisarDropDown = driver.FindElement(By.Id("formPesquisarAutorizado:slctTipoPesquisaAutorizado"));
                         var dropdown = new SelectElement(pesquisarDropDown);
-                        dropdown.SelectByIndex(0);*/
+                        dropdown.SelectByIndex(0);
+                        */
 
                         driver.FindElement(By.Id("formPesquisarAutorizado:txtChavePesquisaAutorizado014")).Click();
                         driver.FindElement(By.Id("formPesquisarAutorizado:txtChavePesquisaAutorizado014"))
@@ -82,8 +76,8 @@ namespace KrakenMPSPCrawler.Crawlers
 
                         driver.FindElement(By.Id("formPesquisarAutorizado:bt027_8")).Click();
 
-                        //page 4 - Capturar dados responsável
 
+                        //page 4 - Capturar dados responsável
                         var razaoSocial = driver.FindElement(By.Id("txtrazaosocial020_4")).Text;
                         var logradouro = driver.FindElement(By.Id("txt3_logradouro020")).Text;
                         var bairro = driver.FindElement(By.Id("txt4_bairro020")).Text;
@@ -106,8 +100,8 @@ namespace KrakenMPSPCrawler.Crawlers
 
                         driver.FindElement(By.Id("j_idt12:idMenuLinkEmpresaCaged")).Click();
 
-                        // page 5 - Consultar Empresa
 
+                        // page 5 - Consultar Empresa
                         driver.FindElement(By.Id("formPesquisarEmpresaCAGED:txtcnpjRaiz")).Click();
                         driver.FindElement(By.Id("formPesquisarEmpresaCAGED:txtcnpjRaiz"))
                             .SendKeys(Keys.Home + _cnpj.Substring(0, 8));
@@ -115,7 +109,6 @@ namespace KrakenMPSPCrawler.Crawlers
                         driver.FindElement(By.Id("formPesquisarEmpresaCAGED:btConsultar")).Click();
 
                         //page 6 - Capturar dados empresa
-
                         var cnae = driver.FindElement(By.Id("formResumoEmpresaCaged:txtCodigoAtividadeEconomica")).Text;
                         var atividadeEconomica = driver
                             .FindElement(By.Id("formResumoEmpresaCaged:txtDescricaoAtividadeEconomica")).Text;
@@ -124,30 +117,28 @@ namespace KrakenMPSPCrawler.Crawlers
                         var totalVinculos =
                             Int32.Parse(driver.FindElement(By.Id("formResumoEmpresaCaged:txtTotalVinculos")).Text);
 
-
                         #region Salvar dados de pessoa jurídica no objeto
-
-                        var pessoaJuridica = new CagedCrawlerModelPJ(
-                            _cnpj,
-                            razaoSocial,
-                            logradouro,
-                            bairro,
-                            municipio,
-                            estado,
-                            cep,
-                            nomeContato,
-                            cpfContato,
-                            telefoneContato,
-                            ramalContato,
-                            emailContato,
-                            cnae,
-                            atividadeEconomica,
-                            noFilias,
-                            totalVinculos
-                        );
-
+                        var pessoaJuridica = new CagedCrawlerModelPJ { 
+                            Cnpj = _cnpj,
+                            RazaoSocial = razaoSocial,
+                            Logradouro = logradouro,
+                            Bairro = bairro,
+                            Municipio = municipio,
+                            Estado = estado,
+                            Cep = cep,
+                            NomeContato = nomeContato,
+                            CpfContato = cpfContato,
+                            TelefoneContato = telefoneContato,
+                            RamalContato = ramalContato,
+                            EmailContato = emailContato,
+                            Cnae = cnae,
+                            AtividadeEconomica = atividadeEconomica,
+                            NoFilias = noFilias,
+                            TotalVinculos = totalVinculos
+                        };
                         #endregion
 
+                        SetInformationFound(pessoaJuridica);
                     }
 
                     if (_cpf != null)
@@ -157,6 +148,7 @@ namespace KrakenMPSPCrawler.Crawlers
                         actionPage6.MoveToElement(menuDropDown).Build().Perform();
 
                         driver.FindElement(By.Id("j_idt12:idMenuLinkTrabalhador")).Click();
+
 
                         //page 7 - Consultar trabalhador
                         IWebElement pesquisarPorDropDown =
@@ -171,36 +163,33 @@ namespace KrakenMPSPCrawler.Crawlers
 
 
                         //Page 8 - Capturar dados trabalhador
-
-
                         var nomeTrabalhador = driver.FindElement(By.Id("txt2_Nome027")).Text;
 
                         #region Salvar dados de pessoa física no objeto
-
-                        var pessoaFisica = new CagedCrawlerModelPF(
-                            _cpf,
-                            nomeTrabalhador,
-                            driver.FindElement(By.Id("txt1_Pis028")).Text,
-                            driver.FindElement(By.Id("txt5_Ctps027")).Text,
-                            driver.FindElement(By.Id("txt4_SitPis027")).Text,
-                            driver.FindElement(By.Id("txt8_Nac027")).Text,
-                            driver.FindElement(By.Id("txt12_Instr027")).Text,
-                            driver.FindElement(By.Id("txt13_Def027")).Text,
-                            driver.FindElement(By.Id("txt4_datanasc027")).Text,
-                            driver.FindElement(By.Id("txt6_Sexo027")).Text,
-                            driver.FindElement(By.Id("txt10_Raca027")).Text,
-                            driver.FindElement(By.Id("txtEstabCep91")).Text,
-                            driver.FindElement(By.Id("txt26_Caged027")).Text + " meses",
-                            driver.FindElement(By.Id("txt27_Rais027")).Text + " meses"
-                        );
-
+                        var pessoaFisica = new CagedCrawlerModelPF {
+                            Cpf = _cpf,
+                            NomeTrabalhador = nomeTrabalhador,
+                            PisBaseTrabalhador = driver.FindElement(By.Id("txt1_Pis028")).Text,
+                            CtpsTrabalhador = driver.FindElement(By.Id("txt5_Ctps027")).Text,
+                            FaixaPisTrabalhador = driver.FindElement(By.Id("txt4_SitPis027")).Text,
+                            NacionalidadeTrabalhador = driver.FindElement(By.Id("txt8_Nac027")).Text,
+                            GrauInstrucaoTrabalhador = driver.FindElement(By.Id("txt12_Instr027")).Text,
+                            DeficienteTrabalhador = driver.FindElement(By.Id("txt13_Def027")).Text,
+                            DataNascimentoTrabalhador = driver.FindElement(By.Id("txt4_datanasc027")).Text,
+                            SexoTrabalhador = driver.FindElement(By.Id("txt6_Sexo027")).Text,
+                            CorTrabalhador = driver.FindElement(By.Id("txt10_Raca027")).Text,
+                            CepTrabalhador = driver.FindElement(By.Id("txtEstabCep91")).Text,
+                            TempoTrabalhoCaged = driver.FindElement(By.Id("txt26_Caged027")).Text + " meses",
+                            TempoTrabalhoRais = driver.FindElement(By.Id("txt27_Rais027")).Text + " meses"
+                        };
                         #endregion
 
+                        SetInformationFound(pessoaFisica);
 
                         driver.FindElement(By.CssSelector(".link > a:nth-child(1)")).Click();
 
-                        //Page 9 - Salvar PDF
 
+                        //Page 9 - Salvar PDF
                         ReadOnlyCollection<string> windowHandles = driver.WindowHandles;
                         driver.SwitchTo().Window(windowHandles.Last());
 
@@ -208,7 +197,6 @@ namespace KrakenMPSPCrawler.Crawlers
                         wait.Until(driver1 =>
                             ((IJavaScriptExecutor) driver).ExecuteScript("return document.readyState")
                             .Equals("complete"));
-
 
                         var downloadFolderPath = $@"{AppDomain.CurrentDomain.BaseDirectory}temp\caged\";
                         if (!Directory.Exists(downloadFolderPath))
@@ -227,8 +215,8 @@ namespace KrakenMPSPCrawler.Crawlers
                         }
                         catch (Exception e)
                         {
-                            Console.WriteLine(
-                                "[CAGED] Ocorreu um erro ao tentar baixar o PDF! \nMensagem de erro: " + e);
+                            Console.WriteLine("[CAGED] Ocorreu um erro ao tentar baixar o PDF! \nMensagem de erro: " + e);
+                            return CrawlerStatus.Skipped;
                         }
                     }
 
