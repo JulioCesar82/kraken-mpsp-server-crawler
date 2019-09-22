@@ -2,6 +2,7 @@
 {
     public class ArpenspCrawlerModel
     {
+        public long Id { get; set; }
         public string CartorioRegistro { get; set; }
         public string NumeroCNS { get; set; }
         public string UF { get; set; }

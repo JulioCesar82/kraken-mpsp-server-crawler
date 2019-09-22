@@ -1,0 +1,11 @@
+D:\testes\kraken-mpsp-server-crawler\KrakenMPSPBusiness\KrakenMPSPBusiness\bin\Debug\netcoreapp2.2\KrakenMPSPBusiness.deps.json
+D:\testes\kraken-mpsp-server-crawler\KrakenMPSPBusiness\KrakenMPSPBusiness\bin\Debug\netcoreapp2.2\KrakenMPSPBusiness.dll
+D:\testes\kraken-mpsp-server-crawler\KrakenMPSPBusiness\KrakenMPSPBusiness\obj\Debug\netcoreapp2.2\KrakenMPSPBusiness.csprojAssemblyReference.cache
+D:\testes\kraken-mpsp-server-crawler\KrakenMPSPBusiness\KrakenMPSPBusiness\obj\Debug\netcoreapp2.2\KrakenMPSPBusiness.csproj.CoreCompileInputs.cache
+D:\testes\kraken-mpsp-server-crawler\KrakenMPSPBusiness\KrakenMPSPBusiness\obj\Debug\netcoreapp2.2\KrakenMPSPBusiness.AssemblyInfoInputs.cache
+D:\testes\kraken-mpsp-server-crawler\KrakenMPSPBusiness\KrakenMPSPBusiness\obj\Debug\netcoreapp2.2\KrakenMPSPBusiness.AssemblyInfo.cs
+D:\testes\kraken-mpsp-server-crawler\KrakenMPSPBusiness\KrakenMPSPBusiness\bin\Debug\netcoreapp2.2\KrakenMPSPBusiness.pdb
+D:\testes\kraken-mpsp-server-crawler\KrakenMPSPBusiness\KrakenMPSPBusiness\obj\Debug\netcoreapp2.2\KrakenMPSPBusiness.dll
+D:\testes\kraken-mpsp-server-crawler\KrakenMPSPBusiness\KrakenMPSPBusiness\obj\Debug\netcoreapp2.2\KrakenMPSPBusiness.pdb
+D:\testes\kraken-mpsp-server-crawler\KrakenMPSPBusiness\KrakenMPSPBusiness\bin\Debug\netcoreapp2.2\KrakenMPSPBusiness.runtimeconfig.json
+D:\testes\kraken-mpsp-server-crawler\KrakenMPSPBusiness\KrakenMPSPBusiness\bin\Debug\netcoreapp2.2\KrakenMPSPBusiness.runtimeconfig.dev.json

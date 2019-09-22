@@ -2,6 +2,7 @@
 {
     public class CagedCrawlerModelPJ
     {
+        public long Id { get; set; }
         public string Cnpj { get; set; }
         public string RazaoSocial { get; set; }
         public string Logradouro { get; set; }
@@ -22,6 +23,7 @@
 
     public class CagedCrawlerModelPF
     {
+        public long Id { get; set; }
         public string Cpf { get; set; }
         public string NomeTrabalhador { get; set; }
         public string PisBaseTrabalhador { get; set; }
