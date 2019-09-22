@@ -222,7 +222,7 @@ namespace KrakenMPSPCrawler.Crawlers
                     }
 
                     driver.Close();
-                    Console.Write("CagedCrawler OK");
+                    Console.WriteLine("CagedCrawler OK");
                     return CrawlerStatus.Success;
                 }
             }

@@ -27,7 +27,7 @@ namespace KrakenMPSPCrawler.Crawlers
                     SetInformationFound(new Object());
 
                     driver.Close();
-                    Console.Write("ExampleCrawler OK");
+                    Console.WriteLine("ExampleCrawler OK");
                     return CrawlerStatus.Success;
                 }
             }

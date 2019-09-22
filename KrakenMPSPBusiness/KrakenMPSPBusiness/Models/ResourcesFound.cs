@@ -15,5 +15,6 @@ namespace KrakenMPSPBusiness.Models
         public SivecCrawlerModel Sivec { get; set; }
         public CagedCrawlerModelPJ CagedPJ { get; set; }
         public CagedCrawlerModelPF CagedPF { get; set; }
+        public CensecCrawlerModel Censesc { get; set; }
     }
 }

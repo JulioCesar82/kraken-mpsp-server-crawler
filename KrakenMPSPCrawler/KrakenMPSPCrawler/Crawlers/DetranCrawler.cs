@@ -134,6 +134,7 @@ namespace KrakenMPSPCrawler.Crawlers
 
 
                     driver.Close();
+                    Console.WriteLine("DetranCrawler OK");
                     return CrawlerStatus.Success;
                 }
             }
