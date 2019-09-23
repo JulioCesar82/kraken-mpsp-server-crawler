@@ -1,14 +1,16 @@
-﻿using System;
+using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 
 using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
 using OpenQA.Selenium.Interactions;
 
-using KrakenMPSPCrawler.Enum;
-using KrakenMPSPCrawler.Model;
 using KrakenMPSPCrawler.Services;
+using KrakenMPSPCrawler.Business.Enum;
+using KrakenMPSPCrawler.Business.Model;
+using KrakenMPSPCrawler.Utils;
+using OpenQA.Selenium.Support.UI;
 
 namespace KrakenMPSPCrawler.Crawlers
 {
@@ -36,13 +38,14 @@ namespace KrakenMPSPCrawler.Crawlers
             {
                 Directory.CreateDirectory(_pathTemp);
             }
+
         }
 
         public override CrawlerStatus Execute()
         {
             try
             {
-                using (var driver = WebDriverService.CreateWebDriver(WebBrowser.Firefox))
+                using (var driver = WebDriverFactory.CreateWebDriver(WebBrowser.Firefox))
                 {
                     driver.Navigate().GoToUrl(@"http://ec2-18-231-116-58.sa-east-1.compute.amazonaws.com/detran/login.html");
 
@@ -95,17 +98,19 @@ namespace KrakenMPSPCrawler.Crawlers
 
 
                     // page 5 - Capturar dados 2
-                    var resultadoRenach = driver.FindElement(By.XPath("/html/body/div[4]/div/table/tbody/tr/td/div/div/form/div[3]/div/table/tbody/tr/td/table/tbody/tr[2]/td/table/tbody/tr/td[2]/table/tbody/tr[1]/td/table/tbody/tr/td[1]/span")).Text.Trim();
-                    var resultadoCategoria = driver.FindElement(By.XPath("/html/body/div[4]/div/table/tbody/tr/td/div/div/form/div[3]/div/table/tbody/tr/td/table/tbody/tr[2]/td/table/tbody/tr/td[2]/table/tbody/tr[1]/td/table/tbody/tr/td[2]/span")).Text.Trim();
-                    var resultadoEmissão = driver.FindElement(By.XPath("/html/body/div[4]/div/table/tbody/tr/td/div/div/form/div[3]/div/table/tbody/tr/td/table/tbody/tr[2]/td/table/tbody/tr/td[2]/table/tbody/tr[1]/td/table/tbody/tr/td[3]/span")).Text.Trim();
-                    var resultadoNascimento = driver.FindElement(By.XPath("/html/body/div[4]/div/table/tbody/tr/td/div/div/form/div[3]/div/table/tbody/tr/td/table/tbody/tr[2]/td/table/tbody/tr/td[2]/table/tbody/tr[1]/td/table/tbody/tr/td[4]/span")).Text.Trim();
-                    var resultadoNomeCondutor = driver.FindElement(By.XPath("/html/body/div[4]/div/table/tbody/tr/td/div/div/form/div[3]/div/table/tbody/tr/td/table/tbody/tr[2]/td/table/tbody/tr/td[2]/table/tbody/tr[2]/td/table/tbody/tr[2]/td/span")).Text.Trim();
-                    var resultadoNomePai = driver.FindElement(By.XPath("/html/body/div[4]/div/table/tbody/tr/td/div/div/form/div[3]/div/table/tbody/tr/td/table/tbody/tr[2]/td/table/tbody/tr/td[2]/table/tbody/tr[3]/td/table/tbody/tr[2]/td/span")).Text.Trim();
-                    var resultadoNomeMae = driver.FindElement(By.XPath("/html/body/div[4]/div/table/tbody/tr/td/div/div/form/div[3]/div/table/tbody/tr/td/table/tbody/tr[2]/td/table/tbody/tr/td[2]/table/tbody/tr[4]/td/table/tbody/tr[2]/td/span")).Text.Trim();
-                    var resultadoRegistro = driver.FindElement(By.XPath("/html/body/div[4]/div/table/tbody/tr/td/div/div/form/div[3]/div/table/tbody/tr/td/table/tbody/tr[2]/td/table/tbody/tr/td[2]/table/tbody/tr[5]/td/table/tbody/tr/td[1]/span")).Text.Trim();
-                    var resultadoTipografico = driver.FindElement(By.XPath("/html/body/div[4]/div/table/tbody/tr/td/div/div/form/div[3]/div/table/tbody/tr/td/table/tbody/tr[2]/td/table/tbody/tr/td[2]/table/tbody/tr[5]/td/table/tbody/tr/td[2]/span")).Text.Trim();
-                    var resultadoIdentidade = driver.FindElement(By.XPath("/html/body/div[4]/div/table/tbody/tr/td/div/div/form/div[3]/div/table/tbody/tr/td/table/tbody/tr[2]/td/table/tbody/tr/td[2]/table/tbody/tr[5]/td/table/tbody/tr/td[3]/span")).Text.Trim();
-                    var resultadoCpf = driver.FindElement(By.XPath("/html/body/div[4]/div/table/tbody/tr/td/div/div/form/div[3]/div/table/tbody/tr/td/table/tbody/tr[2]/td/table/tbody/tr/td[2]/table/tbody/tr[5]/td/table/tbody/tr/td[4]/span")).Text.Trim();
+                    var resultadoRenach = driver.FindElement(By.CssSelector("#form\\pnCNH > tbody:nth-child(1) > tr:nth-child(2) > td:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(2) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > span:nth-child(2)")).Text.Trim();
+                    /*
+                    var resultadoCategoria = driver.FindElement(By.CssSelector("")).Text.Trim();
+                    var resultadoEmissão = driver.FindElement(By.CssSelector("")).Text.Trim();
+                    var resultadoNascimento = driver.FindElement(By.CssSelector("")).Text.Trim();
+                    var resultadoNomeCondutor = driver.FindElement(By.CssSelector("")).Text.Trim();
+                    var resultadoNomePai = driver.FindElement(By.CssSelector("")).Text.Trim();
+                    var resultadoNomeMae = driver.FindElement(By.CssSelector("")).Text.Trim();
+                    var resultadoRegistro = driver.FindElement(By.CssSelector("")).Text.Trim();
+                    var resultadoTipografico = driver.FindElement(By.CssSelector("")).Text.Trim();
+                    var resultadoIdentidade = driver.FindElement(By.CssSelector("")).Text.Trim();
+                    var resultadoCpf = driver.FindElement(By.CssSelector("")).Text.Trim();
+                    */
                     var fotoSrc = driver.FindElement(By.Id("form:imgFoto")).GetAttribute("src");
                     var assinaturaSrc = driver.FindElement(By.Id("form:imgAssinatura")).GetAttribute("src");
 
@@ -134,20 +139,19 @@ namespace KrakenMPSPCrawler.Crawlers
 
 
                     driver.Close();
-                    Console.WriteLine("DetranCrawler OK");
                     return CrawlerStatus.Success;
                 }
             }
             catch (NotSupportedException e)
             {
                 Console.WriteLine("Fail loading browser caught: {0}", e.Message);
-                SetErrorMessage(typeof(DetranCrawler), e.Message);
+                SetErrorMessage("DetranCrawler", e.Message);
                 return CrawlerStatus.Skipped;
             }
             catch (Exception e)
             {
                 Console.WriteLine("Exception caught: {0}", e.Message);
-                SetErrorMessage(typeof(DetranCrawler), e.Message);
+                SetErrorMessage("DetranCrawler", e.Message);
                 return CrawlerStatus.Error;
             }
         }
