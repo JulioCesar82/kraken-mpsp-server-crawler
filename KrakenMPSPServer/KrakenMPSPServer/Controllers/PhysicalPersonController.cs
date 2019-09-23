@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.EntityFrameworkCore;
 
 using KrakenMPSPBusiness.Context;
@@ -11,6 +12,7 @@ using KrakenMPSPBusiness.Models;
 namespace KrakenMPSPServer.Controllers
 {
     [Route("api/[controller]")]
+    [EnableCors("AllowOrigin")]
     [ApiController]
     public class PhysicalPersonController : ControllerBase
     {

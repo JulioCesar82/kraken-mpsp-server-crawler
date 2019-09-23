@@ -7699,11 +7699,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\testes\\kraken-mpsp-server-crawler\\KrakenMPSPBusiness\\KrakenMPSPBusiness\\KrakenMPSPBusiness.csproj",
+      "projectUniqueName": "D:\\projetos\\kraken-mpsp-server-crawler\\KrakenMPSPBusiness\\KrakenMPSPBusiness\\KrakenMPSPBusiness.csproj",
       "projectName": "KrakenMPSPBusiness",
-      "projectPath": "D:\\testes\\kraken-mpsp-server-crawler\\KrakenMPSPBusiness\\KrakenMPSPBusiness\\KrakenMPSPBusiness.csproj",
+      "projectPath": "D:\\projetos\\kraken-mpsp-server-crawler\\KrakenMPSPBusiness\\KrakenMPSPBusiness\\KrakenMPSPBusiness.csproj",
       "packagesPath": "C:\\Users\\julio avila\\.nuget\\packages\\",
-      "outputPath": "D:\\testes\\kraken-mpsp-server-crawler\\KrakenMPSPBusiness\\KrakenMPSPBusiness\\obj\\",
+      "outputPath": "D:\\projetos\\kraken-mpsp-server-crawler\\KrakenMPSPBusiness\\KrakenMPSPBusiness\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Microsoft\\Xamarin\\NuGet\\",
