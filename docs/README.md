@@ -17,7 +17,10 @@ http://ec2-18-231-116-58.sa-east-1.compute.amazonaws.com/login
  * [Learn Selenium With Real Examples](https://www.softwaretestinghelp.com/selenium-tutorial-1/)
 
 #### Create API Guide
+ * [.NET Core: classe HttpClient](https://imasters.com.br/back-end/net-core-classe-httpclient-c-parte-01)
  * [ASP .NET Core - Usando o MongoDB](http://www.macoratti.net/17/11/aspncore_mongo1.htm)
+ * [Scaffolding DbContext e Models usando CLI](http://www.macoratti.net/17/11/efcore_dbctxt1.htm
+)
  * [Documentando uma ASP.NET Core Web API com o Swagger](https://www.treinaweb.com.br/blog/documentando-uma-asp-net-core-web-api-com-o-swagger/)
  * [Criando um banco de dados SQLite](http://www.andrealveslima.com.br/blog/index.php/2016/09/28/trabalhando-com-sqlite-no-c-e-vb-net/)
  * [How YOU can use an ORM in .NET Core and C# to type less SQL -starring Entity Framework](https://dev.to/dotnet/how-you-can-use-an-orm-in-net-core-and-c-to-type-less-sql-starring-entity-framework-49ka)

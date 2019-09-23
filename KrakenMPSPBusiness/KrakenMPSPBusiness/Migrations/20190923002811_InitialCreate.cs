@@ -101,10 +101,40 @@ namespace KrakenMPSPBusiness.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "CensecCrawlerModel",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Livro = table.Column<string>(nullable: true),
+                    Carga = table.Column<string>(nullable: true),
+                    Data = table.Column<string>(nullable: true),
+                    Ato = table.Column<string>(nullable: true),
+                    DataAto = table.Column<string>(nullable: true),
+                    Folha = table.Column<string>(nullable: true),
+                    Nomes = table.Column<string>(nullable: true),
+                    CpfsCnpjs = table.Column<string>(nullable: true),
+                    Qualidads = table.Column<string>(nullable: true),
+                    Uf = table.Column<string>(nullable: true),
+                    Municipio = table.Column<string>(nullable: true),
+                    Cartorio = table.Column<string>(nullable: true),
+                    Telefones = table.Column<string>(nullable: true),
+                    TipoTel = table.Column<string>(nullable: true),
+                    Ramal = table.Column<string>(nullable: true),
+                    Contato = table.Column<string>(nullable: true),
+                    Status = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CensecCrawlerModel", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "LegalPerson",
                 columns: table => new
                 {
-                    Id = table.Column<long>(nullable: false),
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
                     NomeFantasia = table.Column<string>(nullable: true),
                     CNPJ = table.Column<string>(nullable: true),
                     CPFDoFundador = table.Column<string>(nullable: true),
@@ -138,7 +168,8 @@ namespace KrakenMPSPBusiness.Migrations
                 name: "PhysicalPerson",
                 columns: table => new
                 {
-                    Id = table.Column<long>(nullable: false),
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
                     NomeCompleto = table.Column<string>(nullable: true),
                     CPF = table.Column<string>(nullable: true),
                     RG = table.Column<string>(nullable: true),
@@ -243,7 +274,8 @@ namespace KrakenMPSPBusiness.Migrations
                 name: "ResourcesFound",
                 columns: table => new
                 {
-                    Id = table.Column<long>(nullable: false),
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
                     ArquivoReferencia = table.Column<long>(nullable: false),
                     Type = table.Column<int>(nullable: false),
                     ArispId = table.Column<long>(nullable: true),
@@ -251,7 +283,8 @@ namespace KrakenMPSPBusiness.Migrations
                     SielId = table.Column<long>(nullable: true),
                     SivecId = table.Column<long>(nullable: true),
                     CagedPJId = table.Column<long>(nullable: true),
-                    CagedPFId = table.Column<long>(nullable: true)
+                    CagedPFId = table.Column<long>(nullable: true),
+                    CensescId = table.Column<long>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -278,6 +311,12 @@ namespace KrakenMPSPBusiness.Migrations
                         name: "FK_ResourcesFound_CagedCrawlerModelPJ_CagedPJId",
                         column: x => x.CagedPJId,
                         principalTable: "CagedCrawlerModelPJ",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ResourcesFound_CensecCrawlerModel_CensescId",
+                        column: x => x.CensescId,
+                        principalTable: "CensecCrawlerModel",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -320,6 +359,11 @@ namespace KrakenMPSPBusiness.Migrations
                 column: "CagedPJId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ResourcesFound_CensescId",
+                table: "ResourcesFound",
+                column: "CensescId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ResourcesFound_SielId",
                 table: "ResourcesFound",
                 column: "SielId");
@@ -360,6 +404,9 @@ namespace KrakenMPSPBusiness.Migrations
 
             migrationBuilder.DropTable(
                 name: "CagedCrawlerModelPJ");
+
+            migrationBuilder.DropTable(
+                name: "CensecCrawlerModel");
 
             migrationBuilder.DropTable(
                 name: "SielCrawlerModel");

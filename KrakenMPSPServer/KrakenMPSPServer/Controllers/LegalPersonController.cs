@@ -19,6 +19,7 @@ namespace KrakenMPSPServer.Controllers
         public LegalPersonController(SqlLiteContext context)
         {
             _context = context;
+            _context.Database.MigrateAsync();
         }
 
         // GET: api/LegalPerson

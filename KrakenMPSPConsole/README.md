@@ -22,11 +22,11 @@ Update-Package -reinstall
 
 # 2. Manage database
 
-http://www.macoratti.net/17/11/efcore_dbctxt1.htm
-
 Create new migrations:
 ```bash
 dotnet ef migrations add <your_name>
+
+dotnet ef migrations add InitialCreate -c SqlLiteContext
 ```
 
 Run migrations:

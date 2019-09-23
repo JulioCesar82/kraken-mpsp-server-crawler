@@ -2,7 +2,6 @@
 using KrakenMPSPBusiness.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-
 namespace KrakenMPSPBusiness.Migrations
 {
     [DbContext(typeof(SqlLiteContext))]
@@ -10,6 +9,7 @@ namespace KrakenMPSPBusiness.Migrations
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
+#pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.2.6-servicing-10079");
 
@@ -145,6 +145,50 @@ namespace KrakenMPSPBusiness.Migrations
                     b.ToTable("CagedCrawlerModelPJ");
                 });
 
+            modelBuilder.Entity("KrakenMPSPBusiness.Models.CensecCrawlerModel", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Ato");
+
+                    b.Property<string>("Carga");
+
+                    b.Property<string>("Cartorio");
+
+                    b.Property<string>("Contato");
+
+                    b.Property<string>("CpfsCnpjs");
+
+                    b.Property<string>("Data");
+
+                    b.Property<string>("DataAto");
+
+                    b.Property<string>("Folha");
+
+                    b.Property<string>("Livro");
+
+                    b.Property<string>("Municipio");
+
+                    b.Property<string>("Nomes");
+
+                    b.Property<string>("Qualidads");
+
+                    b.Property<string>("Ramal");
+
+                    b.Property<string>("Status");
+
+                    b.Property<string>("Telefones");
+
+                    b.Property<string>("TipoTel");
+
+                    b.Property<string>("Uf");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CensecCrawlerModel");
+                });
+
             modelBuilder.Entity("KrakenMPSPBusiness.Models.LegalPersonModel", b =>
                 {
                     b.Property<long>("Id")
@@ -246,6 +290,8 @@ namespace KrakenMPSPBusiness.Migrations
 
                     b.Property<long?>("CagedPJId");
 
+                    b.Property<long?>("CensescId");
+
                     b.Property<long?>("SielId");
 
                     b.Property<long?>("SivecId");
@@ -261,6 +307,8 @@ namespace KrakenMPSPBusiness.Migrations
                     b.HasIndex("CagedPFId");
 
                     b.HasIndex("CagedPJId");
+
+                    b.HasIndex("CensescId");
 
                     b.HasIndex("SielId");
 
@@ -386,6 +434,10 @@ namespace KrakenMPSPBusiness.Migrations
                         .WithMany()
                         .HasForeignKey("CagedPJId");
 
+                    b.HasOne("KrakenMPSPBusiness.Models.CensecCrawlerModel", "Censesc")
+                        .WithMany()
+                        .HasForeignKey("CensescId");
+
                     b.HasOne("KrakenMPSPBusiness.Models.SielCrawlerModel", "Siel")
                         .WithMany()
                         .HasForeignKey("SielId");
@@ -401,6 +453,7 @@ namespace KrakenMPSPBusiness.Migrations
                         .WithMany()
                         .HasForeignKey("outrosId");
                 });
+#pragma warning restore 612, 618
         }
     }
 }
