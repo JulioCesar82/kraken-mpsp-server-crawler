@@ -3,13 +3,12 @@ using System.IO;
 using System.Net;
 
 using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
 using OpenQA.Selenium.Interactions;
 
+using KrakenMPSPCrawler.Enum;
+using KrakenMPSPCrawler.Model;
 using KrakenMPSPCrawler.Services;
-using KrakenMPSPCrawler.Business.Enum;
-using KrakenMPSPCrawler.Business.Model;
-using KrakenMPSPCrawler.Utils;
-using OpenQA.Selenium.Support.UI;
 
 namespace KrakenMPSPCrawler.Crawlers
 {
