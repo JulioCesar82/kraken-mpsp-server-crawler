@@ -1,16 +1,14 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Net;
 
 using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
 using OpenQA.Selenium.Interactions;
 
+using KrakenMPSPCrawler.Enum;
+using KrakenMPSPCrawler.Model;
 using KrakenMPSPCrawler.Services;
-using KrakenMPSPCrawler.Business.Enum;
-using KrakenMPSPCrawler.Business.Model;
-using KrakenMPSPCrawler.Utils;
-using OpenQA.Selenium.Support.UI;
 
 namespace KrakenMPSPCrawler.Crawlers
 {
@@ -38,14 +36,13 @@ namespace KrakenMPSPCrawler.Crawlers
             {
                 Directory.CreateDirectory(_pathTemp);
             }
-
         }
 
         public override CrawlerStatus Execute()
         {
             try
             {
-                using (var driver = WebDriverFactory.CreateWebDriver(WebBrowser.Firefox))
+                using (var driver = WebDriverService.CreateWebDriver(WebBrowser.Firefox))
                 {
                     driver.Navigate().GoToUrl(@"http://ec2-18-231-116-58.sa-east-1.compute.amazonaws.com/detran/login.html");
 
@@ -74,8 +71,8 @@ namespace KrakenMPSPCrawler.Crawlers
                     // indo para a janela aberta
                     driver.SwitchTo().Window(tabs[tabs.Count - 1]);
                     var rndPdf = new Random();
-                    var nameFile = $"{_pathTemp}/linhadeVida-{rndPdf.Next(1000, 10001)}.pdf";
-                    client.DownloadFile(driver.Url, nameFile);
+                    var nameFileLinhaVida = $"{_pathTemp}/linhadeVida-{rndPdf.Next(1000, 10001)}.pdf";
+                    client.DownloadFile((string)driver.Url, nameFileLinhaVida);
 
                     // fechando a janela aberta
                     driver.Close();
@@ -116,8 +113,8 @@ namespace KrakenMPSPCrawler.Crawlers
 
                     var rndPicture = new Random();
                     var nextRndPicture = rndPicture.Next(1000, 10001);
-                    client.DownloadFile(fotoSrc, $"{_pathTemp}/foto-{nextRndPicture}.png");
-                    client.DownloadFile(assinaturaSrc, $"{_pathTemp}/assinatura-{nextRndPicture}.png");
+                    client.DownloadFile((string)fotoSrc, $"{_pathTemp}/foto-{nextRndPicture}.png");
+                    client.DownloadFile((string)assinaturaSrc, $"{_pathTemp}/assinatura-{nextRndPicture}.png");
 
 
                     // page 3
@@ -134,24 +131,28 @@ namespace KrakenMPSPCrawler.Crawlers
 
 
                     // page 5 - Capturar dados 3
-                    client.DownloadFile(driver.Url, "relatorioveiculo.pdf");
+                    var nameFileVeiculo = $"{_pathTemp}/relatorioveiculo-{rndPdf.Next(1000, 10001)}.pdf";
+                    client.DownloadFile((string)driver.Url, nameFileVeiculo);
                     driver.Close();
+
+                    //SetInformationFound(new Object());
 
 
                     driver.Close();
+                    Console.WriteLine("DetranCrawler OK");
                     return CrawlerStatus.Success;
                 }
             }
             catch (NotSupportedException e)
             {
                 Console.WriteLine("Fail loading browser caught: {0}", e.Message);
-                SetErrorMessage("DetranCrawler", e.Message);
+                SetErrorMessage(typeof(DetranCrawler), e.Message);
                 return CrawlerStatus.Skipped;
             }
             catch (Exception e)
             {
                 Console.WriteLine("Exception caught: {0}", e.Message);
-                SetErrorMessage("DetranCrawler", e.Message);
+                SetErrorMessage(typeof(DetranCrawler), e.Message);
                 return CrawlerStatus.Error;
             }
         }
