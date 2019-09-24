@@ -3,10 +3,11 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 
-using KrakenMPSPCrawler.Models;
+using KrakenMPSPBusiness.Models;
+
+using KrakenMPSPCrawler.Enum;
+using KrakenMPSPCrawler.Model;
 using KrakenMPSPCrawler.Services;
-using KrakenMPSPCrawler.Business.Enum;
-using KrakenMPSPCrawler.Business.Model;
 
 namespace KrakenMPSPCrawler.Crawlers
 {
@@ -119,6 +120,7 @@ namespace KrakenMPSPCrawler.Crawlers
                     SetInformationFound(resultado);
 
                     driver.Close();
+                    Console.WriteLine("ArpenspCrawler OK");
                     return CrawlerStatus.Success;
                 }
             }

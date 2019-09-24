@@ -1,6 +1,7 @@
-﻿using KrakenMPSPCrawler.Models;
+﻿using KrakenMPSPBusiness.Models;
+
+using KrakenMPSPCrawler.Model;
 using KrakenMPSPCrawler.Crawlers;
-using KrakenMPSPCrawler.Business.Model;
 
 namespace KrakenMPSPCrawler
 {
@@ -12,6 +13,9 @@ namespace KrakenMPSPCrawler
             // AddModule(new ExampleCrawler("julio+cesar"));
 
             AddModule(new ArispCrawler(legalPerson.Type, legalPerson.CNPJ));
+            AddModule(new CagedCrawler(legalPerson.Type, "fiap", "senha", legalPerson.CNPJ));
+            AddModule(new CensecCrawler("fiap", "fiap123", legalPerson.CNPJ));
+            AddModule(new DetranCrawler("12345678", "fiap123", legalPerson.CNPJ));
         }
     }
 }

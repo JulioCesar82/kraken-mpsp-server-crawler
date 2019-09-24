@@ -25,6 +25,8 @@ Update-Package -reinstall
 Create new migrations:
 ```bash
 dotnet ef migrations add <your_name>
+
+dotnet ef migrations add InitialCreate -c SqlLiteContext
 ```
 
 Run migrations:
