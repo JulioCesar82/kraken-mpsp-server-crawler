@@ -1,9 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
-using KrakenMPSPBusiness.Models;
+using System.Collections.Generic;
+
 using Newtonsoft.Json;
+
+using KrakenMPSPBusiness.Models;
 
 namespace KrakenMPSPConsole
 {
@@ -28,10 +30,10 @@ namespace KrakenMPSPConsole
             if (response.IsSuccessStatusCode)
             {
                 string responseBodyAsText = await response.Content.ReadAsStringAsync();
-                Console.WriteLine(responseBodyAsText);
                 List<LegalPersonModel> listaLegalPerson = JsonConvert.DeserializeObject<List<LegalPersonModel>>(responseBodyAsText);
                 Console.WriteLine(listaLegalPerson);
             }
+
             Console.WriteLine("finished search");
             Console.ReadLine();
         }

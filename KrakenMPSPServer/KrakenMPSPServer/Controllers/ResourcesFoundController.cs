@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
@@ -6,8 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.EntityFrameworkCore;
 
-using KrakenMPSPBusiness.Context;
 using KrakenMPSPBusiness.Models;
+using KrakenMPSPBusiness.Context;
 
 namespace KrakenMPSPServer.Controllers
 {
@@ -17,11 +18,9 @@ namespace KrakenMPSPServer.Controllers
     public class ResourcesFoundController : ControllerBase
     {
         private readonly SqlLiteContext _context;
-
         public ResourcesFoundController(SqlLiteContext context)
         {
             _context = context;
-            _context.Database.MigrateAsync();
         }
 
         // GET: api/ResourcesFound

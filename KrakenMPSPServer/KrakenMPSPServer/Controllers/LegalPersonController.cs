@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
@@ -6,8 +8,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.EntityFrameworkCore;
 
-using KrakenMPSPBusiness.Context;
 using KrakenMPSPBusiness.Models;
+using KrakenMPSPBusiness.Context;
+using KrakenMPSPBusiness.Repository;
 
 namespace KrakenMPSPServer.Controllers
 {
@@ -16,19 +19,20 @@ namespace KrakenMPSPServer.Controllers
     [ApiController]
     public class LegalPersonController : ControllerBase
     {
+        private readonly LegalPersonRepository _repository;
         private readonly SqlLiteContext _context;
 
         public LegalPersonController(SqlLiteContext context)
         {
             _context = context;
-            _context.Database.MigrateAsync();
+            _repository = new LegalPersonRepository();
         }
 
         // GET: api/LegalPerson
         [HttpGet]
         public async Task<ActionResult<IEnumerable<LegalPersonModel>>> GetLegalPerson()
         {
-            return await _context.LegalPerson.ToListAsync();
+            return await _repository.GetAll();
         }
 
         // GET: api/LegalPerson/5
@@ -47,7 +51,7 @@ namespace KrakenMPSPServer.Controllers
 
         // PUT: api/LegalPerson/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutLegalPersonModel(long id, LegalPersonModel legalPersonModel)
+        public async Task<IActionResult> PutLegalPersonModel(Guid id, LegalPersonModel legalPersonModel)
         {
             if (id != legalPersonModel.Id)
             {
@@ -62,14 +66,14 @@ namespace KrakenMPSPServer.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!LegalPersonModelExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
+                //if (!LegalPersonModelExists(id))
+                //{
+                //    return NotFound();
+                //}
+                //else
+                //{
                     throw;
-                }
+                //}
             }
 
             return NoContent();
@@ -87,7 +91,7 @@ namespace KrakenMPSPServer.Controllers
 
         // DELETE: api/LegalPerson/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<LegalPersonModel>> DeleteLegalPersonModel(long id)
+        public async Task<ActionResult<LegalPersonModel>> DeleteLegalPersonModel(Guid id)
         {
             var legalPersonModel = await _context.LegalPerson.FindAsync(id);
             if (legalPersonModel == null)
@@ -101,7 +105,7 @@ namespace KrakenMPSPServer.Controllers
             return legalPersonModel;
         }
 
-        private bool LegalPersonModelExists(long id)
+        private bool LegalPersonModelExists(Guid id)
         {
             return _context.LegalPerson.Any(e => e.Id == id);
         }
