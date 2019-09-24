@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 using System.Threading.Tasks;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.EntityFrameworkCore;
 
 using KrakenMPSPBusiness.Models;
-using KrakenMPSPBusiness.Context;
+using KrakenMPSPBusiness.Repository;
 
 namespace KrakenMPSPServer.Controllers
 {
@@ -17,51 +18,50 @@ namespace KrakenMPSPServer.Controllers
     [ApiController]
     public class ResourcesFoundController : ControllerBase
     {
-        private readonly SqlLiteContext _context;
-        public ResourcesFoundController(SqlLiteContext context)
+        private readonly ResourcesFoundRepository _repository;
+
+        public ResourcesFoundController()
         {
-            _context = context;
+            _repository = new ResourcesFoundRepository();
         }
 
         // GET: api/ResourcesFound
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ResourcesFound>>> GetResourcesFound()
+        public async Task<ActionResult<IEnumerable<ResourcesFoundModel>>> GetResourcesFound()
         {
-            return await _context.ResourcesFound.ToListAsync();
+            return await _repository.GetAll();
         }
 
         // GET: api/ResourcesFound/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<ResourcesFound>> GetResourcesFound(long id)
+        public async Task<ActionResult<ResourcesFoundModel>> GetResourcesFoundModel(Guid id)
         {
-            var resourcesFound = await _context.ResourcesFound.FindAsync(id);
+            var resourcesFoundModel = await _repository.FindById(id);
 
-            if (resourcesFound == null)
+            if (resourcesFoundModel == null)
             {
                 return NotFound();
             }
 
-            return resourcesFound;
+            return resourcesFoundModel;
         }
 
         // PUT: api/ResourcesFound/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutResourcesFound(long id, ResourcesFound resourcesFound)
+        public async Task<IActionResult> PutResourcesFoundModel(Guid id, ResourcesFoundModel resourcesFoundModel)
         {
-            if (id != resourcesFound.Id)
+            if (id != resourcesFoundModel.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(resourcesFound).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                _repository.UpdateById(id, resourcesFoundModel);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ResourcesFoundExists(id))
+                if (!ResourcesFoundModelExists(id))
                 {
                     return NotFound();
                 }
@@ -74,35 +74,33 @@ namespace KrakenMPSPServer.Controllers
             return NoContent();
         }
 
-        // POST: api/ResourceFound
+        // POST: api/ResourcesFound
         [HttpPost]
-        public async Task<ActionResult<ResourcesFound>> PostResourcesFound(ResourcesFound resourcesFound)
+        public async Task<ActionResult<ResourcesFoundModel>> PostResourcesFoundModel(ResourcesFoundModel resourcesFoundModel)
         {
-            _context.ResourcesFound.Add(resourcesFound);
-            await _context.SaveChangesAsync();
+            _repository.Save(resourcesFoundModel);
 
-            return CreatedAtAction("GetResourcesFound", new { id = resourcesFound.Id }, resourcesFound);
+            return CreatedAtAction("GetResourcesFoundModel", new { id = resourcesFoundModel.Id }, resourcesFoundModel);
         }
 
         // DELETE: api/ResourcesFound/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<ResourcesFound>> DeleteResourcesFound(long id)
+        public async Task<ActionResult<ResourcesFoundModel>> DeleteResourcesFoundModel(Guid id)
         {
-            var resourcesFound = await _context.ResourcesFound.FindAsync(id);
-            if (resourcesFound == null)
+            var resourcesFoundModel = await _repository.FindById(id);
+            if (resourcesFoundModel == null)
             {
                 return NotFound();
             }
 
-            _context.ResourcesFound.Remove(resourcesFound);
-            await _context.SaveChangesAsync();
+            _repository.Delete(resourcesFoundModel);
 
-            return resourcesFound;
+            return resourcesFoundModel;
         }
 
-        private bool ResourcesFoundExists(long id)
+        private bool ResourcesFoundModelExists(Guid id)
         {
-            return _context.ResourcesFound.Any(e => e.Id == id);
+            return _repository.FindById(id).IsCompleted;
         }
     }
 }

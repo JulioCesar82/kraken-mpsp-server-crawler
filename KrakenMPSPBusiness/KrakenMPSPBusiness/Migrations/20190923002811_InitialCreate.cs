@@ -271,7 +271,7 @@ namespace KrakenMPSPBusiness.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ResourcesFound",
+                name: "ResourcesFoundModel",
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
@@ -340,37 +340,37 @@ namespace KrakenMPSPBusiness.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_ResourcesFound_ArispId",
-                table: "ResourcesFound",
+                table: "ResourcesFoundModel",
                 column: "ArispId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ResourcesFound_ArpenspId",
-                table: "ResourcesFound",
+                table: "ResourcesFoundModel",
                 column: "ArpenspId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ResourcesFound_CagedPFId",
-                table: "ResourcesFound",
+                table: "ResourcesFoundModel",
                 column: "CagedPFId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ResourcesFound_CagedPJId",
-                table: "ResourcesFound",
+                table: "ResourcesFoundModel",
                 column: "CagedPJId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ResourcesFound_CensescId",
-                table: "ResourcesFound",
+                table: "ResourcesFoundModel",
                 column: "CensescId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ResourcesFound_SielId",
-                table: "ResourcesFound",
+                table: "ResourcesFoundModel",
                 column: "SielId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ResourcesFound_SivecId",
-                table: "ResourcesFound",
+                table: "ResourcesFoundModel",
                 column: "SivecId");
 
             migrationBuilder.CreateIndex(
@@ -391,7 +391,7 @@ namespace KrakenMPSPBusiness.Migrations
                 name: "Processo");
 
             migrationBuilder.DropTable(
-                name: "ResourcesFound");
+                name: "ResourcesFoundModel");
 
             migrationBuilder.DropTable(
                 name: "ArispCrawlerModel");

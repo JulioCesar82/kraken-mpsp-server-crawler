@@ -26,7 +26,6 @@ namespace KrakenMPSPServer
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             // Configurations
-            services.AddDbContext<SqlLiteContext>();
 
             services.AddSwaggerGen(c =>
             {

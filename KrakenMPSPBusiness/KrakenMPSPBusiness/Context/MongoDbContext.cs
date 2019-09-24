@@ -11,7 +11,7 @@ namespace KrakenMPSPBusiness.Context
     {
         public IMongoCollection<LegalPersonModel> LegalPerson => Database.GetCollection<LegalPersonModel>("LegalPerson");
         public IMongoCollection<PhysicalPersonModel> PhysicalPerson => Database.GetCollection<PhysicalPersonModel>("PhysicalPerson");
-        public IMongoCollection<ResourcesFound> ResourcesFound => Database.GetCollection<ResourcesFound>("ResourcesFound");
+        public IMongoCollection<ResourcesFoundModel> ResourcesFound => Database.GetCollection<ResourcesFoundModel>("ResourcesFound");
 
         private readonly string _connection = "mongodb://localhost:27017";
         public IMongoDatabase Database { get; set; }

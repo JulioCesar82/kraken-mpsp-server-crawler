@@ -5,7 +5,7 @@ namespace KrakenMPSPConsole.Helpers
 {
     public static class ManagerObjectHelper
     {
-        static void CopyValues<T>(T target, object source)
+        public static void CopyValues<T>(T target, object source)
         {
             Type t = typeof(T);
 

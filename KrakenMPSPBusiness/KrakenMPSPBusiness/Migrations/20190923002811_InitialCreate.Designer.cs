@@ -278,7 +278,7 @@ namespace KrakenMPSPBusiness.Migrations
                     b.ToTable("Processo");
                 });
 
-            modelBuilder.Entity("KrakenMPSPBusiness.Models.ResourcesFound", b =>
+            modelBuilder.Entity("KrakenMPSPBusiness.Models.ResourcesFoundModel", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
@@ -317,7 +317,7 @@ namespace KrakenMPSPBusiness.Migrations
 
                     b.HasIndex("SivecId");
 
-                    b.ToTable("ResourcesFound");
+                    b.ToTable("ResourcesFoundModel");
                 });
 
             modelBuilder.Entity("KrakenMPSPBusiness.Models.SielCrawlerModel", b =>
@@ -419,7 +419,7 @@ namespace KrakenMPSPBusiness.Migrations
                         .HasForeignKey("ArispCrawlerModelId");
                 });
 
-            modelBuilder.Entity("KrakenMPSPBusiness.Models.ResourcesFound", b =>
+            modelBuilder.Entity("KrakenMPSPBusiness.Models.ResourcesFoundModel", b =>
                 {
                     b.HasOne("KrakenMPSPBusiness.Models.ArispCrawlerModel", "Arisp")
                         .WithMany()

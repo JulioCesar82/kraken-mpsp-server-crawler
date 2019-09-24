@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.EntityFrameworkCore;
 
 using KrakenMPSPBusiness.Models;
-using KrakenMPSPBusiness.Context;
 using KrakenMPSPBusiness.Repository;
 
 namespace KrakenMPSPServer.Controllers
@@ -20,11 +19,9 @@ namespace KrakenMPSPServer.Controllers
     public class LegalPersonController : ControllerBase
     {
         private readonly LegalPersonRepository _repository;
-        private readonly SqlLiteContext _context;
 
-        public LegalPersonController(SqlLiteContext context)
+        public LegalPersonController()
         {
-            _context = context;
             _repository = new LegalPersonRepository();
         }
 
@@ -37,9 +34,9 @@ namespace KrakenMPSPServer.Controllers
 
         // GET: api/LegalPerson/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<LegalPersonModel>> GetLegalPersonModel(long id)
+        public async Task<ActionResult<LegalPersonModel>> GetLegalPersonModel(Guid id)
         {
-            var legalPersonModel = await _context.LegalPerson.FindAsync(id);
+            var legalPersonModel = await _repository.FindById(id);
 
             if (legalPersonModel == null)
             {
@@ -58,22 +55,20 @@ namespace KrakenMPSPServer.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(legalPersonModel).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                _repository.UpdateById(id, legalPersonModel);
             }
             catch (DbUpdateConcurrencyException)
             {
-                //if (!LegalPersonModelExists(id))
-                //{
-                //    return NotFound();
-                //}
-                //else
-                //{
+                if (!LegalPersonModelExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
                     throw;
-                //}
+                }
             }
 
             return NoContent();
@@ -83,8 +78,7 @@ namespace KrakenMPSPServer.Controllers
         [HttpPost]
         public async Task<ActionResult<LegalPersonModel>> PostLegalPersonModel(LegalPersonModel legalPersonModel)
         {
-            _context.LegalPerson.Add(legalPersonModel);
-            await _context.SaveChangesAsync();
+            _repository.Save(legalPersonModel);
 
             return CreatedAtAction("GetLegalPersonModel", new { id = legalPersonModel.Id }, legalPersonModel);
         }
@@ -93,21 +87,20 @@ namespace KrakenMPSPServer.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<LegalPersonModel>> DeleteLegalPersonModel(Guid id)
         {
-            var legalPersonModel = await _context.LegalPerson.FindAsync(id);
+            var legalPersonModel = await _repository.FindById(id);
             if (legalPersonModel == null)
             {
                 return NotFound();
             }
 
-            _context.LegalPerson.Remove(legalPersonModel);
-            await _context.SaveChangesAsync();
+            _repository.Delete(legalPersonModel);
 
             return legalPersonModel;
         }
 
         private bool LegalPersonModelExists(Guid id)
         {
-            return _context.LegalPerson.Any(e => e.Id == id);
+            return _repository.FindById(id).IsCompleted;
         }
     }
 }

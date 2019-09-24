@@ -7,7 +7,7 @@ namespace KrakenMPSPBusiness.Models
 {
     public class PhysicalPersonModel : IPerson
     {
-        public long Id { get; set; }
+        public Guid Id { get; set; }
         public string NomeCompleto { get; set; }
         public string CPF { get; set; }
         public string RG { get; set; }

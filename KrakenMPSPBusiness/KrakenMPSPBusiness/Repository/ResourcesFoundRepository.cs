@@ -1,111 +1,107 @@
-﻿using KrakenMPSPBusiness.Enum;
+﻿using System;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+
+using Microsoft.EntityFrameworkCore;
+
+using MongoDB.Bson;
+using MongoDB.Driver;
+
+using KrakenMPSPBusiness.Enum;
+using KrakenMPSPBusiness.Models;
+using KrakenMPSPBusiness.Context;
 
 namespace KrakenMPSPBusiness.Repository
 {
     public class ResourcesFoundRepository
     {
-        public ResourcesFoundRepository(DatabaseContext context)
-        {
+        private readonly DatabaseContext _contextSelected = DatabaseContext.MongoDb;
 
+        public ResourcesFoundRepository()
+        {
+            if (_contextSelected == DatabaseContext.SqLite)
+            {
+                new SqlLiteContext().Database.Migrate();
+            }
         }
 
-        public void InserindoDados()
+        public Task<List<ResourcesFoundModel>> GetAll()
         {
-            /*
-            var exampleLegalPerson = new LegalPersonModel
+            if (_contextSelected == DatabaseContext.SqLite)
             {
-                NomeFantasia = "PETROBRASIL",
-                CNPJ = "1111111111",
-                CPFDoFundador = "2222222222",
-                Contador = "333333333"
-            };
-
-            var examplePhysicalPerson = new PhysicalPersonModel()
-            {
-                NomeCompleto = "JULIO AVILA",
-                CPF = "1111111111",
-                RG = "22222222222",
-                DataDeNascimento = "23/01/1997",
-                NomeDaMae = "SELMA AVILA"
-            };
-            try
-            {
-                using (var db = new MongoDbContext())
-                {
-                    Console.WriteLine("Inserindo buscas de teste");
-                    db.LegalPerson.InsertOne(exampleLegalPerson);
-                    db.PhysicalPerson.InsertOne(examplePhysicalPerson);
-                }
+                return new SqlLiteContext().ResourcesFound.ToListAsync();
             }
-            catch (Exception e)
+            else
             {
-                Console.WriteLine("MockData execution error: {0}", e.Message);
+                return new MongoDbContext().ResourcesFound.Find(new BsonDocument()).ToListAsync();
             }
-            */
         }
 
-        public void PercorrendoLista()
+        public Task<ResourcesFoundModel> FindById(Guid id)
         {
-            /*
-            using (var db = new MongoDbContext())
+            if (_contextSelected == DatabaseContext.SqLite)
             {
-                Console.WriteLine("Iniciando a busca");
-                var empresas = db.LegalPerson.Find(x => !x.Completed).ToList();
-                foreach (var empresa in empresas)
-                {
-                    Console.WriteLine($"Empresa: {empresa.NomeFantasia}");
-                    var crawler = new LegalPersonCoordinator(empresa);
-                    var result = crawler.Run();
-                    Console.WriteLine("Completou a busca? {0}", result.Completed);
-
-                    // gerando arquivo com os resultados
-                    var resourcesFound = new ResourcesFound
-                    {
-                        ArquivoReferencia = empresa.Id,
-                        Type = empresa.Type
-                    };
-                    foreach (var information in result.Informations)
-                    {
-                        CopyValues<ResourcesFound>(resourcesFound, information);
-                    }
-
-                    Console.WriteLine("Salvando informações obtidas...");
-                    db.ResourcesFound.InsertOne(resourcesFound);
-
-                    empresa.Completed = result.Completed;
-                    db.LegalPerson.ReplaceOne(p => p.Id == empresa.Id, empresa);
-                }
-
-                var pessoas = db.PhysicalPerson.Find(x => !x.Completed).ToList();
-                foreach (var pessoa in pessoas)
-                {
-                    Console.WriteLine($"Pessoa: {pessoa.NomeCompleto}");
-                    var crawler = new PhysicalPersonCoordinator(pessoa);
-                    var result = crawler.Run();
-                    Console.WriteLine("Completou a busca? {0}", result.Completed);
-
-                    // gerando arquivo com os resultados
-                    var resourcesFound = new ResourcesFound
-                    {
-                        ArquivoReferencia = pessoa.Id,
-                        Type = pessoa.Type
-                    };
-                    foreach (var information in result.Informations)
-                    {
-                        CopyValues<ResourcesFound>(resourcesFound, information);
-                    }
-
-                    Console.WriteLine("Salvando informações obtidas...");
-                    db.ResourcesFound.InsertOne(resourcesFound);
-
-                    pessoa.Completed = result.Completed;
-                    db.PhysicalPerson.ReplaceOne(p => p.Id == pessoa.Id, pessoa);
-                }
+                return new SqlLiteContext().ResourcesFound.FindAsync(id);
             }
-            */
+            else
+            {
+                return new MongoDbContext().ResourcesFound.Find(x => x.Id == id).FirstOrDefaultAsync();
+            }
         }
 
-        /*
+        public bool UpdateById(Guid id, ResourcesFoundModel resourcesFound)
+        {
+            if (_contextSelected == DatabaseContext.SqLite)
+            {
+                var context = new SqlLiteContext();
+                context.Entry(resourcesFound).State = EntityState.Modified;
+
+                var result = context.SaveChanges();
+                return result != 0;
+            }
+            else
+            {
+                var result = new MongoDbContext().ResourcesFound.ReplaceOne(x => x.Id == id, resourcesFound);
+                return result != null;
+            }
+        }
+
+        public bool Save(ResourcesFoundModel resourcesFound)
+        {
+            if (_contextSelected == DatabaseContext.SqLite)
+            {
+                var context = new SqlLiteContext();
+
+                context.ResourcesFound.Add(resourcesFound);
+                var result = context.SaveChanges();
+                return result != null;
+            }
+            else
+            {
+                var result = new MongoDbContext().ResourcesFound.InsertOneAsync(resourcesFound);
+                return result != null;
+            }
+        }
+
+        public bool Delete(ResourcesFoundModel personModel)
+        {
+            if (_contextSelected == DatabaseContext.SqLite)
+            {
+                var context = new SqlLiteContext();
+
+                context.ResourcesFound.Remove(personModel);
+                var result = context.SaveChanges();
+                return result != null;
+            }
+            else
+            {
+                var result = new MongoDbContext().ResourcesFound.DeleteOne(x => x.Id == personModel.Id);
+                return result.DeletedCount != 0;
+            }
+        }
+    }
+
+    /*
         IList<TType> GetAll(int take, int page);
 
         void Create(TType entity);
@@ -121,6 +117,5 @@ namespace KrakenMPSPBusiness.Repository
         TType Get(Expression<Func<TType, bool>> whereExpression);
 
         bool Exists(Expression<Func<TType, bool>> whereExpression);
-        */
-    }
+    */
 }

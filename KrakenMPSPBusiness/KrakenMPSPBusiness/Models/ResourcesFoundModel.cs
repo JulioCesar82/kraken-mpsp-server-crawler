@@ -4,10 +4,10 @@ using KrakenMPSPBusiness.Enum;
 
 namespace KrakenMPSPBusiness.Models
 {
-    public class ResourcesFound
+    public class ResourcesFoundModel
     {
-        public long Id { get; set; }
-        public long ArquivoReferencia { get; set; }
+        public Guid Id { get; set; }
+        public Guid ArquivoReferencia { get; set; }
         public KindPerson Type { get; set; }
         public ArispCrawlerModel Arisp { get; set; }
         public ArpenspCrawlerModel Arpensp { get; set; }

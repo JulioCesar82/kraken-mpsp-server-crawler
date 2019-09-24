@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 using System.Threading.Tasks;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.EntityFrameworkCore;
 
 using KrakenMPSPBusiness.Models;
-using KrakenMPSPBusiness.Context;
+using KrakenMPSPBusiness.Repository;
 
 namespace KrakenMPSPServer.Controllers
 {
@@ -17,25 +18,25 @@ namespace KrakenMPSPServer.Controllers
     [ApiController]
     public class PhysicalPersonController : ControllerBase
     {
-        private readonly SqlLiteContext _context;
+        private readonly PhysicalPersonRepository _repository;
 
-        public PhysicalPersonController(SqlLiteContext context)
+        public PhysicalPersonController()
         {
-            _context = context;
+            _repository = new PhysicalPersonRepository();
         }
 
         // GET: api/PhysicalPerson
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PhysicalPersonModel>>> GetPhysicalPerson()
         {
-            return await _context.PhysicalPerson.ToListAsync();
+            return await _repository.GetAll();
         }
 
         // GET: api/PhysicalPerson/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<PhysicalPersonModel>> GetPhysicalPersonModel(long id)
+        public async Task<ActionResult<PhysicalPersonModel>> GetPhysicalPersonModel(Guid id)
         {
-            var physicalPersonModel = await _context.PhysicalPerson.FindAsync(id);
+            var physicalPersonModel = await _repository.FindById(id);
 
             if (physicalPersonModel == null)
             {
@@ -47,18 +48,16 @@ namespace KrakenMPSPServer.Controllers
 
         // PUT: api/PhysicalPerson/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutPhysicalPersonModel(long id, PhysicalPersonModel physicalPersonModel)
+        public async Task<IActionResult> PutPhysicalPersonModel(Guid id, PhysicalPersonModel physicalPersonModel)
         {
             if (id != physicalPersonModel.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(physicalPersonModel).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                _repository.UpdateById(id, physicalPersonModel);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -79,31 +78,29 @@ namespace KrakenMPSPServer.Controllers
         [HttpPost]
         public async Task<ActionResult<PhysicalPersonModel>> PostPhysicalPersonModel(PhysicalPersonModel physicalPersonModel)
         {
-            _context.PhysicalPerson.Add(physicalPersonModel);
-            await _context.SaveChangesAsync();
+            _repository.Save(physicalPersonModel);
 
             return CreatedAtAction("GetPhysicalPersonModel", new { id = physicalPersonModel.Id }, physicalPersonModel);
         }
 
         // DELETE: api/PhysicalPerson/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<PhysicalPersonModel>> DeletePhysicalPersonModel(long id)
+        public async Task<ActionResult<PhysicalPersonModel>> DeletePhysicalPersonModel(Guid id)
         {
-            var physicalPersonModel = await _context.PhysicalPerson.FindAsync(id);
+            var physicalPersonModel = await _repository.FindById(id);
             if (physicalPersonModel == null)
             {
                 return NotFound();
             }
 
-            _context.PhysicalPerson.Remove(physicalPersonModel);
-            await _context.SaveChangesAsync();
+            _repository.Delete(physicalPersonModel);
 
             return physicalPersonModel;
         }
 
-        private bool PhysicalPersonModelExists(long id)
+        private bool PhysicalPersonModelExists(Guid id)
         {
-            return _context.PhysicalPerson.Any(e => e.Id == id);
+            return _repository.FindById(id).IsCompleted;
         }
     }
 }
