@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
-VisualStudioVersion = 16.0.29123.88
+VisualStudioVersion = 16.0.29020.237
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KrakenMPSPCrawlerTest", "KrakenMPSPCrawlerTest\KrakenMPSPCrawlerTest.csproj", "{660214DE-21E4-4A39-A6EC-8EBB21CCF0B9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KrakenMPSPCrawlerTest", "KrakenMPSPCrawlerTest\KrakenMPSPCrawlerTest.csproj", "{7B64EA19-48BE-4A43-ACF3-D14CE9A0B8B0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KrakenMPSPCrawler", "..\KrakenMPSPCrawler\KrakenMPSPCrawler.csproj", "{225A4298-5D44-4CBC-8BC4-12ACA8D16053}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KrakenMPSPCrawler", "..\KrakenMPSPCrawler\KrakenMPSPCrawler.csproj", "{EC3E3867-48FA-47A2-8B10-15AF39683B62}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KrakenMPSPBusiness", "..\..\KrakenMPSPBusiness\KrakenMPSPBusiness\KrakenMPSPBusiness.csproj", "{D376034C-432C-424A-B763-ADD356B1A846}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KrakenMPSPBusiness", "..\..\KrakenMPSPBusiness\KrakenMPSPBusiness\KrakenMPSPBusiness.csproj", "{0F94658D-9176-4AF4-A37E-B749118F2FD5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,23 +15,23 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{660214DE-21E4-4A39-A6EC-8EBB21CCF0B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{660214DE-21E4-4A39-A6EC-8EBB21CCF0B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{660214DE-21E4-4A39-A6EC-8EBB21CCF0B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{660214DE-21E4-4A39-A6EC-8EBB21CCF0B9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{225A4298-5D44-4CBC-8BC4-12ACA8D16053}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{225A4298-5D44-4CBC-8BC4-12ACA8D16053}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{225A4298-5D44-4CBC-8BC4-12ACA8D16053}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{225A4298-5D44-4CBC-8BC4-12ACA8D16053}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D376034C-432C-424A-B763-ADD356B1A846}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D376034C-432C-424A-B763-ADD356B1A846}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D376034C-432C-424A-B763-ADD356B1A846}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D376034C-432C-424A-B763-ADD356B1A846}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B64EA19-48BE-4A43-ACF3-D14CE9A0B8B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B64EA19-48BE-4A43-ACF3-D14CE9A0B8B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B64EA19-48BE-4A43-ACF3-D14CE9A0B8B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B64EA19-48BE-4A43-ACF3-D14CE9A0B8B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC3E3867-48FA-47A2-8B10-15AF39683B62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC3E3867-48FA-47A2-8B10-15AF39683B62}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC3E3867-48FA-47A2-8B10-15AF39683B62}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC3E3867-48FA-47A2-8B10-15AF39683B62}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F94658D-9176-4AF4-A37E-B749118F2FD5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F94658D-9176-4AF4-A37E-B749118F2FD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F94658D-9176-4AF4-A37E-B749118F2FD5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F94658D-9176-4AF4-A37E-B749118F2FD5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {26AD7377-2064-46D6-9ED1-F1489FC9E082}
+		SolutionGuid = {69F2CB6A-C321-43A4-8607-C7D47D9E5080}
 	EndGlobalSection
 EndGlobal

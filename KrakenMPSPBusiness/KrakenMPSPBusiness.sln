@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
-VisualStudioVersion = 16.0.29123.88
+VisualStudioVersion = 16.0.29020.237
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KrakenMPSPBusiness", "KrakenMPSPBusiness\KrakenMPSPBusiness.csproj", "{247E3EEA-71F9-46B1-AD5F-62EB2E114323}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KrakenMPSPBusiness", "KrakenMPSPBusiness\KrakenMPSPBusiness.csproj", "{0F94658D-9176-4AF4-A37E-B749118F2FD5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{247E3EEA-71F9-46B1-AD5F-62EB2E114323}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{247E3EEA-71F9-46B1-AD5F-62EB2E114323}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{247E3EEA-71F9-46B1-AD5F-62EB2E114323}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{247E3EEA-71F9-46B1-AD5F-62EB2E114323}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F94658D-9176-4AF4-A37E-B749118F2FD5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F94658D-9176-4AF4-A37E-B749118F2FD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F94658D-9176-4AF4-A37E-B749118F2FD5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F94658D-9176-4AF4-A37E-B749118F2FD5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {E9D40CF5-74B1-40DB-A6D5-76DB387F0C9F}
+		SolutionGuid = {D3A37A5A-431D-4215-9082-44D805E56881}
 	EndGlobalSection
 EndGlobal

@@ -3,6 +3,6 @@
     public enum DatabaseContext
     {
         MongoDb,
-        SqLite
+        MySql
     }
 }

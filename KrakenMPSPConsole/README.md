@@ -22,15 +22,16 @@ Update-Package -reinstall
 
 # 2. Manage database
 
-Create new migrations:
+ENTITY FRAMEWORK 6
 ```bash
-dotnet ef migrations add <your_name>
-
-dotnet ef migrations add InitialCreate -c SqlLiteContext
+Enable-Migrations -ContextTypeName MySqlContext
+Add-Migration InitialCreate
+Update-Database
 ```
 
-Run migrations:
+ENTITY FRAMEWORK CORE
 ```bash
+dotnet ef migrations add InitialCreate -c MySqlContext
 dotnet ef database update
 ```
 
