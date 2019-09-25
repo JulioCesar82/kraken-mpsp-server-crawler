@@ -61,7 +61,7 @@ namespace KrakenMPSPConsole
                     Console.WriteLine("Salvando informações obtidas...");
                     var resourcesFoundJson = JsonConvert.SerializeObject(resourcesFound);
                     var resourcesFoundJsonJsonString = new StringContent(resourcesFoundJson, Encoding.UTF8, "application/json");
-                    var response2 = HttpClient.PostAsync($"{_apiaddress}/LegalPerson", resourcesFoundJsonJsonString).Result;
+                    var response2 = HttpClient.PostAsync($"{_apiaddress}/ResourcesFound", resourcesFoundJsonJsonString).Result;
                     Console.WriteLine(response2);
 
                     empresa.Completed = result.Completed;

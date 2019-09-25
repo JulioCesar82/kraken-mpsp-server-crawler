@@ -3,8 +3,8 @@ using System.IO;
 using System.Net;
 
 using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
 using OpenQA.Selenium.Interactions;
+using OpenQA.Selenium.Support.UI;
 
 using KrakenMPSPCrawler.Enum;
 using KrakenMPSPCrawler.Model;
@@ -71,8 +71,8 @@ namespace KrakenMPSPCrawler.Crawlers
                     // indo para a janela aberta
                     driver.SwitchTo().Window(tabs[tabs.Count - 1]);
                     var rndPdf = new Random();
-                    var nameFileLinhaVida = $"{_pathTemp}/linhadeVida-{rndPdf.Next(1000, 10001)}.pdf";
-                    client.DownloadFile((string)driver.Url, nameFileLinhaVida);
+                    var nameFile = $"{_pathTemp}/linhadeVida-{rndPdf.Next(1000, 10001)}.pdf";
+                    client.DownloadFile(driver.Url, nameFile);
 
                     // fechando a janela aberta
                     driver.Close();
@@ -113,8 +113,8 @@ namespace KrakenMPSPCrawler.Crawlers
 
                     var rndPicture = new Random();
                     var nextRndPicture = rndPicture.Next(1000, 10001);
-                    client.DownloadFile((string)fotoSrc, $"{_pathTemp}/foto-{nextRndPicture}.png");
-                    client.DownloadFile((string)assinaturaSrc, $"{_pathTemp}/assinatura-{nextRndPicture}.png");
+                    client.DownloadFile(fotoSrc, $"{_pathTemp}/foto-{nextRndPicture}.png");
+                    client.DownloadFile(assinaturaSrc, $"{_pathTemp}/assinatura-{nextRndPicture}.png");
 
 
                     // page 3
@@ -131,15 +131,11 @@ namespace KrakenMPSPCrawler.Crawlers
 
 
                     // page 5 - Capturar dados 3
-                    var nameFileVeiculo = $"{_pathTemp}/relatorioveiculo-{rndPdf.Next(1000, 10001)}.pdf";
-                    client.DownloadFile((string)driver.Url, nameFileVeiculo);
+                    client.DownloadFile(driver.Url, "relatorioveiculo.pdf");
                     driver.Close();
-
-                    //SetInformationFound(new Object());
 
 
                     driver.Close();
-                    Console.WriteLine("DetranCrawler OK");
                     return CrawlerStatus.Success;
                 }
             }

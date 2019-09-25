@@ -38,9 +38,11 @@ namespace KrakenMPSPCrawler.Services
                 FirefoxOptions options = new FirefoxOptions();
                 //TimeSpan time = TimeSpan.FromSeconds(20);
 
+                /*
                 #if !DEBUG
                     options.AddArgument("--headless");
                 #endif
+                */
 
                 return new FirefoxDriver(service, options);//, time);
             }
@@ -60,9 +62,11 @@ namespace KrakenMPSPCrawler.Services
                 ChromeOptions options = new ChromeOptions();
                 //TimeSpan time = TimeSpan.FromSeconds(20);
 
+                /*
                 #if !DEBUG
                     options.AddArgument("--headless");
                 #endif
+                */
                 options.AddArguments("--disable-extensions");
 
                 return new ChromeDriver(service, options);//, time);
@@ -82,10 +86,11 @@ namespace KrakenMPSPCrawler.Services
                 var service = InternetExplorerDriverService.CreateDefaultService(driver);
                 InternetExplorerOptions options = new InternetExplorerOptions();
                 //TimeSpan time = TimeSpan.FromSeconds(20);
-
+                /*
                 #if !DEBUG
                     //options.AddArgument("--headless");
                 #endif
+                */
 
                 return new InternetExplorerDriver(service, options);//, time);
             }
