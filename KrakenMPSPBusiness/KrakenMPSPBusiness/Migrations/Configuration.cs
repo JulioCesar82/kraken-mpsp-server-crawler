@@ -1,18 +1,17 @@
-﻿namespace KrakenMPSPBusiness.Migrations
-{
-    using System;
-    using System.Data.Entity;
-    using System.Data.Entity.Migrations;
-    using System.Linq;
+﻿using System.Data.Entity.Migrations;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<KrakenMPSPBusiness.Context.MySqlContext>
+using KrakenMPSPBusiness.Context;
+
+namespace KrakenMPSPBusiness.Migrations
+{
+    internal sealed class Configuration : DbMigrationsConfiguration<MySqlContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
         }
 
-        protected override void Seed(KrakenMPSPBusiness.Context.MySqlContext context)
+        protected override void Seed(MySqlContext context)
         {
             //  This method will be called after migrating to the latest version.
 

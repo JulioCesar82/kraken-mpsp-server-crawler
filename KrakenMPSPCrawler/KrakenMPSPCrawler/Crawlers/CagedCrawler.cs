@@ -5,8 +5,8 @@ using System.Linq;
 using System.Collections.ObjectModel;
 
 using OpenQA.Selenium;
-using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
+using OpenQA.Selenium.Interactions;
 
 using KrakenMPSPBusiness.Enum;
 using KrakenMPSPBusiness.Models;

@@ -3,8 +3,8 @@ using System.IO;
 using System.Net;
 
 using OpenQA.Selenium;
-using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
+using OpenQA.Selenium.Interactions;
 
 using KrakenMPSPCrawler.Enum;
 using KrakenMPSPCrawler.Model;
@@ -14,7 +14,7 @@ namespace KrakenMPSPCrawler.Crawlers
 {
     public class DetranCrawler : Crawler
     {
-        private readonly WebClient client;
+        private readonly WebClient _client;
         private readonly string _pathTemp;
 
         private readonly string _usuario;
@@ -24,7 +24,7 @@ namespace KrakenMPSPCrawler.Crawlers
 
         public DetranCrawler(string usuario, string senha, string cpf)
         {
-            client = new WebClient();
+            _client = new WebClient();
 
             _usuario = usuario;
             _senha = senha;
@@ -72,7 +72,7 @@ namespace KrakenMPSPCrawler.Crawlers
                     driver.SwitchTo().Window(tabs[tabs.Count - 1]);
                     var rndPdf = new Random();
                     var nameFile = $"{_pathTemp}/linhadeVida-{rndPdf.Next(1000, 10001)}.pdf";
-                    client.DownloadFile(driver.Url, nameFile);
+                    _client.DownloadFile(driver.Url, nameFile);
 
                     // fechando a janela aberta
                     driver.Close();
@@ -113,8 +113,8 @@ namespace KrakenMPSPCrawler.Crawlers
 
                     var rndPicture = new Random();
                     var nextRndPicture = rndPicture.Next(1000, 10001);
-                    client.DownloadFile(fotoSrc, $"{_pathTemp}/foto-{nextRndPicture}.png");
-                    client.DownloadFile(assinaturaSrc, $"{_pathTemp}/assinatura-{nextRndPicture}.png");
+                    _client.DownloadFile(fotoSrc, $"{_pathTemp}/foto-{nextRndPicture}.png");
+                    _client.DownloadFile(assinaturaSrc, $"{_pathTemp}/assinatura-{nextRndPicture}.png");
 
 
                     // page 3
@@ -131,7 +131,7 @@ namespace KrakenMPSPCrawler.Crawlers
 
 
                     // page 5 - Capturar dados 3
-                    client.DownloadFile(driver.Url, "relatorioveiculo.pdf");
+                    _client.DownloadFile(driver.Url, "relatorioveiculo.pdf");
                     driver.Close();
 
 

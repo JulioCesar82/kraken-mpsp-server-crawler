@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 
-using MongoDB.Bson;
 using MongoDB.Driver;
 
 using KrakenMPSPBusiness.Enum;
@@ -18,31 +18,31 @@ namespace KrakenMPSPBusiness.Repository
         {
         }
 
-        public List<PhysicalPersonModel> GetAll()
+        public Task<List<PhysicalPersonModel>> GetAll()
         {
-            return new MongoDbContext().PhysicalPerson.Find(new BsonDocument()).ToList();
+            return new MongoDbContext().PhysicalPerson.Find(x => true).ToListAsync();
         }
 
-        public PhysicalPersonModel FindById(Guid id)
+        public Task<PhysicalPersonModel> FindById(Guid id)
         {
-            return new MongoDbContext().PhysicalPerson.Find(x => x.Id == id).FirstOrDefault();
+            return new MongoDbContext().PhysicalPerson.Find(x => x.Id == id).FirstOrDefaultAsync();
         }
 
-        public bool UpdateById(Guid id, PhysicalPersonModel physicalPerson)
+        public async Task<bool> UpdateById(Guid id, PhysicalPersonModel physicalPerson)
         {
-            var result = new MongoDbContext().PhysicalPerson.ReplaceOne(x => x.Id == id, physicalPerson);
+            var result = await new MongoDbContext().PhysicalPerson.ReplaceOneAsync(x => x.Id == id, physicalPerson);
             return result != null;
         }
 
-        public bool Save(PhysicalPersonModel physicalPerson)
+        public async Task<bool> Save(PhysicalPersonModel physicalPerson)
         {
-            new MongoDbContext().PhysicalPerson.InsertOne(physicalPerson);
+            await new MongoDbContext().PhysicalPerson.InsertOneAsync(physicalPerson);
             return true;
         }
 
-        public bool Delete(PhysicalPersonModel personModel)
+        public async Task<bool> Delete(Guid id)
         {
-            var result = new MongoDbContext().PhysicalPerson.DeleteOne(x => x.Id == personModel.Id);
+            var result = await new MongoDbContext().LegalPerson.DeleteOneAsync(x => x.Id == id);
             return result.DeletedCount != 0;
         }
     }

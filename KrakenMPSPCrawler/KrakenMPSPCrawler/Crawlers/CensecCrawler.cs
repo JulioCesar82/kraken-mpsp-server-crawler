@@ -68,7 +68,7 @@ namespace KrakenMPSPCrawler.Crawlers
                     // page 5 
                     //recuperar dados
                     var nome = "";
-                    var cpf_cnpj = "";
+                    var cpfCnpj = "";
                     var qualidade = "";
                     var telefone = "";
                     var tipoTel = "";
@@ -95,7 +95,7 @@ namespace KrakenMPSPCrawler.Crawlers
                     for (int i = 1; i <= resultados.Count; i++)
                     {
                         nome += driver.FindElement(By.CssSelector("#ctl00_ContentPlaceHolder1_PartesUpdatePanel > table > tbody > tr:nth-child(" + i + ") > td:nth-child(2)")).Text + "\n";
-                        cpf_cnpj += driver.FindElement(By.CssSelector("#ctl00_ContentPlaceHolder1_PartesUpdatePanel > table > tbody > tr:nth-child(" + i + ") > td:nth-child(3)")).Text + "\n";
+                        cpfCnpj += driver.FindElement(By.CssSelector("#ctl00_ContentPlaceHolder1_PartesUpdatePanel > table > tbody > tr:nth-child(" + i + ") > td:nth-child(3)")).Text + "\n";
                         qualidade += driver.FindElement(By.CssSelector("#ctl00_ContentPlaceHolder1_PartesUpdatePanel > table > tbody > tr:nth-child(" + i + ") > td:nth-child(4)")).Text + "\n";
                     }
 
@@ -123,7 +123,7 @@ namespace KrakenMPSPCrawler.Crawlers
                         Livro = resultadoLivro+"-"+resultadoComplementoLivro,
                         Folha = resultadoFolha+"-"+resultadoComplementoFolha,
                         Nomes = nome,
-                        CpfsCnpjs = cpf_cnpj,
+                        CpfsCnpjs = cpfCnpj,
                         Qualidads = qualidade,
                         Uf = resultadoUf,
                         Municipio = resultadoMunicipio,

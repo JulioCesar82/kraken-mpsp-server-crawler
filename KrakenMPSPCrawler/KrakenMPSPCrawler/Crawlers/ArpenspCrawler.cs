@@ -1,5 +1,4 @@
 ﻿using System;
-
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 
@@ -13,11 +12,11 @@ namespace KrakenMPSPCrawler.Crawlers
 {
     public class ArpenspCrawler : Crawler
     {
-        private readonly string NumeroProcesso;
+        private readonly string _numeroProcesso;
 
         public ArpenspCrawler(string numeroProcesso)
         {
-            NumeroProcesso = numeroProcesso;
+            _numeroProcesso = numeroProcesso;
         }
 
         public override CrawlerStatus Execute()
@@ -39,7 +38,7 @@ namespace KrakenMPSPCrawler.Crawlers
 
 
                     // page 3
-                    driver.FindElement(By.CssSelector("#principal > div > form > table > tbody > tr:nth-child(2) > td:nth-child(2) > input[name='numero_processo']")).SendKeys(NumeroProcesso);
+                    driver.FindElement(By.CssSelector("#principal > div > form > table > tbody > tr:nth-child(2) > td:nth-child(2) > input[name='numero_processo']")).SendKeys(_numeroProcesso);
 
                     var campoVara = new SelectElement(driver.FindElement(By.Id("vara_juiz_id")));
                     campoVara.SelectByValue("297");

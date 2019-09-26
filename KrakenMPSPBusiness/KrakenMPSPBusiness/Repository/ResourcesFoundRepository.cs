@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 
-using MongoDB.Bson;
 using MongoDB.Driver;
 
 using KrakenMPSPBusiness.Models;
@@ -19,31 +19,31 @@ namespace KrakenMPSPBusiness.Repository
             _repository = new MongoDbContext();
         }
 
-        public List<ResourcesFoundModel> GetAll()
+        public Task<List<ResourcesFoundModel>> GetAll()
         {
-            return _repository.ResourcesFound.Find(new BsonDocument()).ToList();
+            return _repository.ResourcesFound.Find(x => true).ToListAsync();
         }
 
-        public ResourcesFoundModel FindById(Guid id)
+        public Task<ResourcesFoundModel> FindById(Guid id)
         {
-            return _repository.ResourcesFound.Find(x => x.Id == id).FirstOrDefault();
+            return _repository.ResourcesFound.Find(x => x.Id == id).FirstOrDefaultAsync();
         }
 
-        public bool UpdateById(Guid id, ResourcesFoundModel resourcesFound)
+        public async Task<bool> UpdateById(Guid id, ResourcesFoundModel resourcesFound)
         {
-            var result = _repository.ResourcesFound.ReplaceOne(x => x.Id == id, resourcesFound);
+            var result = await _repository.ResourcesFound.ReplaceOneAsync(x => x.Id == id, resourcesFound);
             return result.MatchedCount != 0;
         }
 
-        public bool Save(ResourcesFoundModel resourcesFound)
+        public async Task<bool> Save(ResourcesFoundModel resourcesFound)
         {
-            _repository.ResourcesFound.InsertOne(resourcesFound);
+            await _repository.ResourcesFound.InsertOneAsync(resourcesFound);
             return true;
         }
 
-        public bool Delete(ResourcesFoundModel personModel)
+        public async Task<bool> Delete(Guid id)
         {
-            var result = _repository.ResourcesFound.DeleteOne(x => x.Id == personModel.Id);
+            var result = await new MongoDbContext().LegalPerson.DeleteOneAsync(x => x.Id == id);
             return result.DeletedCount != 0;
         }
     }

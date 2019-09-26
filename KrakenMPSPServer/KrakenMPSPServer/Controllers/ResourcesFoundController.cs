@@ -29,7 +29,7 @@ namespace KrakenMPSPServer.Controllers
         {
             try
             {
-                var values = _repository.GetAll();
+                var values = await _repository.GetAll();
 
                 if (values == null)
                 {
@@ -51,7 +51,7 @@ namespace KrakenMPSPServer.Controllers
         {
             try
             {
-                var model = _repository.FindById(id);
+                var model = await _repository.FindById(id);
 
                 if (model == null)
                 {
@@ -71,25 +71,20 @@ namespace KrakenMPSPServer.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(Guid id, ResourcesFoundModel model)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
-
-            if (id != model.Id)
+            if (!ModelState.IsValid || id != model.Id)
             {
                 return BadRequest();
             }
 
             try
             {
-                _repository.UpdateById(id, model);
+                await _repository.UpdateById(id, model);
                 return Ok(model);
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                if (!ExistsById(id))
+                if (!await ExistsById(id))
                 {
                     return NotFound();
                 }
@@ -111,7 +106,7 @@ namespace KrakenMPSPServer.Controllers
 
             try
             {
-                var id = _repository.Save(model);
+                var id = await _repository.Save(model);
 
                 return Ok(model);
             }
@@ -126,7 +121,7 @@ namespace KrakenMPSPServer.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<ResourcesFoundModel>> Remove(Guid id)
         {
-            var model = _repository.FindById(id);
+            var model = await _repository.FindById(id);
             if (model == null)
             {
                 return NotFound();
@@ -134,7 +129,7 @@ namespace KrakenMPSPServer.Controllers
 
             try
             {
-                _repository.Delete(model);
+                await _repository.Delete(model.Id);
 
                 return Ok();
             }
@@ -145,9 +140,9 @@ namespace KrakenMPSPServer.Controllers
             }
         }
 
-        private bool ExistsById(Guid id)
+        private async Task<bool> ExistsById(Guid id)
         {
-            var model = _repository.FindById(id);
+            var model = await _repository.FindById(id);
             return model != null;
         }
     }

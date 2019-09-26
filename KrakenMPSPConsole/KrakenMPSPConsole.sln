@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KrakenMPSPConsole", "Kraken
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KrakenMPSPCrawler", "..\KrakenMPSPCrawler\KrakenMPSPCrawler\KrakenMPSPCrawler.csproj", "{EC3E3867-48FA-47A2-8B10-15AF39683B62}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KrakenMPSPBusiness", "..\KrakenMPSPBusiness\KrakenMPSPBusiness\KrakenMPSPBusiness.csproj", "{63CB0DDB-5C47-4168-B595-5775F7BDEEDC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{EC3E3867-48FA-47A2-8B10-15AF39683B62}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EC3E3867-48FA-47A2-8B10-15AF39683B62}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EC3E3867-48FA-47A2-8B10-15AF39683B62}.Release|Any CPU.Build.0 = Release|Any CPU
+		{63CB0DDB-5C47-4168-B595-5775F7BDEEDC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63CB0DDB-5C47-4168-B595-5775F7BDEEDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63CB0DDB-5C47-4168-B595-5775F7BDEEDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63CB0DDB-5C47-4168-B595-5775F7BDEEDC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
