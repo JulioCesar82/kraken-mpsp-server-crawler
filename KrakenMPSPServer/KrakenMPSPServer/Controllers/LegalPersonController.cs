@@ -126,7 +126,7 @@ namespace KrakenMPSPServer.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<LegalPersonModel>> Remove(Guid id)
         {
-            var model = _repository.FindById(id);
+            LegalPersonModel model = _repository.FindById(id);
             if (model == null)
             {
                 return NotFound();
