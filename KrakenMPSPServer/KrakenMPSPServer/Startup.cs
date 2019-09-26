@@ -7,8 +7,6 @@ using Microsoft.AspNetCore.Hosting;
 
 using Swashbuckle.AspNetCore.Swagger;
 
-using KrakenMPSPBusiness.Context;
-
 namespace KrakenMPSPServer
 {
     public class Startup
@@ -34,7 +32,11 @@ namespace KrakenMPSPServer
 
             services.AddCors(c =>
             {
-                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
+                c.AddPolicy("AllowOrigin", options => options
+                    .AllowAnyOrigin()
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                );
             });
         }
 

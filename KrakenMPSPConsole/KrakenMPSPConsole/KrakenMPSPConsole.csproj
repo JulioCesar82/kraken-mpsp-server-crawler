@@ -8,10 +8,11 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>KrakenMPSPConsole</RootNamespace>
     <AssemblyName>KrakenMPSPConsole</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -58,7 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\KrakenMPSPBusiness\KrakenMPSPBusiness\KrakenMPSPBusiness.csproj">
-      <Project>{0f94658d-9176-4af4-a37e-b749118f2fd5}</Project>
+      <Project>{63cb0ddb-5c47-4168-b595-5775f7bdeedc}</Project>
       <Name>KrakenMPSPBusiness</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\KrakenMPSPCrawler\KrakenMPSPCrawler\KrakenMPSPCrawler.csproj">

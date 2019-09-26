@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -20,14 +19,14 @@ namespace KrakenMPSPBusiness.Repository
             _repository = new MongoDbContext();
         }
 
-        public Task<List<ResourcesFoundModel>> GetAll()
+        public List<ResourcesFoundModel> GetAll()
         {
-            return _repository.ResourcesFound.Find(new BsonDocument()).ToListAsync();
+            return _repository.ResourcesFound.Find(new BsonDocument()).ToList();
         }
 
-        public Task<ResourcesFoundModel> FindById(Guid id)
+        public ResourcesFoundModel FindById(Guid id)
         {
-            return _repository.ResourcesFound.Find(x => x.Id == id).FirstOrDefaultAsync();
+            return _repository.ResourcesFound.Find(x => x.Id == id).FirstOrDefault();
         }
 
         public bool UpdateById(Guid id, ResourcesFoundModel resourcesFound)
@@ -38,7 +37,8 @@ namespace KrakenMPSPBusiness.Repository
 
         public bool Save(ResourcesFoundModel resourcesFound)
         {
-            return _repository.ResourcesFound.InsertOneAsync(resourcesFound).IsCompleted;
+            _repository.ResourcesFound.InsertOne(resourcesFound);
+            return true;
         }
 
         public bool Delete(ResourcesFoundModel personModel)

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
 using System.Collections.Generic;
 
 using MongoDB.Bson;
@@ -19,14 +18,14 @@ namespace KrakenMPSPBusiness.Repository
         {
         }
 
-        public Task<List<PhysicalPersonModel>> GetAll()
+        public List<PhysicalPersonModel> GetAll()
         {
-            return new MongoDbContext().PhysicalPerson.Find(new BsonDocument()).ToListAsync();
+            return new MongoDbContext().PhysicalPerson.Find(new BsonDocument()).ToList();
         }
 
-        public Task<PhysicalPersonModel> FindById(Guid id)
+        public PhysicalPersonModel FindById(Guid id)
         {
-            return new MongoDbContext().PhysicalPerson.Find(x => x.Id == id).FirstOrDefaultAsync();
+            return new MongoDbContext().PhysicalPerson.Find(x => x.Id == id).FirstOrDefault();
         }
 
         public bool UpdateById(Guid id, PhysicalPersonModel physicalPerson)
@@ -37,8 +36,8 @@ namespace KrakenMPSPBusiness.Repository
 
         public bool Save(PhysicalPersonModel physicalPerson)
         {
-            var result = new MongoDbContext().PhysicalPerson.InsertOneAsync(physicalPerson);
-            return result != null;
+            new MongoDbContext().PhysicalPerson.InsertOne(physicalPerson);
+            return true;
         }
 
         public bool Delete(PhysicalPersonModel personModel)

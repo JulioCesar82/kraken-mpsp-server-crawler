@@ -1,21 +1,19 @@
 ﻿using System;
-using System.Linq;
 
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Cors;
-using Microsoft.EntityFrameworkCore;
 
 using KrakenMPSPBusiness.Models;
 using KrakenMPSPBusiness.Repository;
 
 namespace KrakenMPSPServer.Controllers
 {
+    [ApiController]
     [Route("api/[controller]")]
     [EnableCors("AllowOrigin")]
-    [ApiController]
     public class ResourcesFoundController : ControllerBase
     {
         private readonly ResourcesFoundRepository _repository;
@@ -27,80 +25,130 @@ namespace KrakenMPSPServer.Controllers
 
         // GET: api/ResourcesFound
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ResourcesFoundModel>>> GetResourcesFound()
+        public async Task<ActionResult<IEnumerable<ResourcesFoundModel>>> GetAll()
         {
-            return await _repository.GetAll();
+            try
+            {
+                var values = _repository.GetAll();
+
+                if (values == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(values);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return BadRequest();
+            }
         }
 
         // GET: api/ResourcesFound/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<ResourcesFoundModel>> GetResourcesFoundModel(Guid id)
+        public async Task<ActionResult<ResourcesFoundModel>> FindById(Guid id)
         {
-            var resourcesFoundModel = await _repository.FindById(id);
-
-            if (resourcesFoundModel == null)
+            try
             {
-                return NotFound();
-            }
+                var model = _repository.FindById(id);
 
-            return resourcesFoundModel;
+                if (model == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(model);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return BadRequest();
+            }
         }
 
         // PUT: api/ResourcesFound/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutResourcesFoundModel(Guid id, ResourcesFoundModel resourcesFoundModel)
+        public async Task<IActionResult> Update(Guid id, ResourcesFoundModel model)
         {
-            if (id != resourcesFoundModel.Id)
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            if (id != model.Id)
             {
                 return BadRequest();
             }
 
             try
             {
-                _repository.UpdateById(id, resourcesFoundModel);
+                _repository.UpdateById(id, model);
+                return Ok(model);
             }
-            catch (DbUpdateConcurrencyException)
+            catch (Exception e)
             {
-                if (!ResourcesFoundModelExists(id))
+                Console.WriteLine(e);
+                if (!ExistsById(id))
                 {
                     return NotFound();
                 }
                 else
                 {
-                    throw;
+                    return BadRequest();
                 }
             }
-
-            return NoContent();
         }
 
         // POST: api/ResourcesFound
         [HttpPost]
-        public async Task<ActionResult<ResourcesFoundModel>> PostResourcesFoundModel(ResourcesFoundModel resourcesFoundModel)
+        public async Task<ActionResult<ResourcesFoundModel>> Create(ResourcesFoundModel model)
         {
-            _repository.Save(resourcesFoundModel);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
 
-            return CreatedAtAction("GetResourcesFoundModel", new { id = resourcesFoundModel.Id }, resourcesFoundModel);
+            try
+            {
+                var id = _repository.Save(model);
+
+                return Ok(model);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return BadRequest();
+            }
         }
 
         // DELETE: api/ResourcesFound/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<ResourcesFoundModel>> DeleteResourcesFoundModel(Guid id)
+        public async Task<ActionResult<ResourcesFoundModel>> Remove(Guid id)
         {
-            var resourcesFoundModel = await _repository.FindById(id);
-            if (resourcesFoundModel == null)
+            var model = _repository.FindById(id);
+            if (model == null)
             {
                 return NotFound();
             }
 
-            _repository.Delete(resourcesFoundModel);
+            try
+            {
+                _repository.Delete(model);
 
-            return resourcesFoundModel;
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return BadRequest();
+            }
         }
 
-        private bool ResourcesFoundModelExists(Guid id)
+        private bool ExistsById(Guid id)
         {
-            return _repository.FindById(id).IsCompleted;
+            var model = _repository.FindById(id);
+            return model != null;
         }
     }
 }
