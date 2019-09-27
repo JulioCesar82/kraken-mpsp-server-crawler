@@ -32,7 +32,9 @@ The project has dependencies that require manual installation.
 
 * [Search Manager](KrakenMPSPConsole)
 
-* [Web Scraping](KrakenMPSPCrawler)
+* [Api REST](KrakenMPSPServer)
+
+* [Business rule](KrakenMPSPBusiness)
 
 ------------
 
