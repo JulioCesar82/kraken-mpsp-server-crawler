@@ -1,6 +1,6 @@
 ## KrakenMPSPConsole
 
-Solução responsável por gerenciar o armazenamento das informações, sendo executado de tempos em tempos para solicitar buscas ao KrakenMPSPCrawler.
+Solução responsável por gerenciar a fila de buscas, sendo executado de tempos em tempos para se comunicar com a API.
 
 ### Changelog
 
@@ -14,30 +14,11 @@ Solução responsável por gerenciar o armazenamento das informações, sendo ex
 
 ```bash
 Update-Package -reinstall
-
-./KrakenMPSPConsole\KrakenMPSPConsole\ThirdParty\mongodb-win32-x86_64-2012plus-4.2.0\bin\mongod.exe
 ```
 
 ------------
 
-# 2. Manage database
-
-ENTITY FRAMEWORK 6
-```bash
-Enable-Migrations -ContextTypeName MySqlContext
-Add-Migration InitialCreate
-Update-Database
-```
-
-ENTITY FRAMEWORK CORE
-```bash
-dotnet ef migrations add InitialCreate -c MySqlContext
-dotnet ef database update
-```
-
-------------
-
-# 3. Generate build
+# 2. Generate build
 
 The build artifacts will be stored in the `bin/` directory. Use the `-c` flag for specific environment build.
 
@@ -47,6 +28,6 @@ dotnet.exe publish -c Release -f netcoreapp2.2
 
 ------------
 
-# 4. Documentation
+# 3. Documentation
 
 TODO

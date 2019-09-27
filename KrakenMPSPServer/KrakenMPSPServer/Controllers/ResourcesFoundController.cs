@@ -7,7 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Cors;
 
 using KrakenMPSPBusiness.Models;
-using KrakenMPSPBusiness.Repository;
+
+using KrakenMPSPServer.Repository;
 
 namespace KrakenMPSPServer.Controllers
 {
@@ -30,11 +31,6 @@ namespace KrakenMPSPServer.Controllers
             try
             {
                 var values = await _repository.GetAll();
-
-                if (values == null)
-                {
-                    return NotFound();
-                }
 
                 return Ok(values);
             }

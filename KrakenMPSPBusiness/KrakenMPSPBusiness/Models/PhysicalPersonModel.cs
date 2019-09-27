@@ -1,7 +1,7 @@
 ﻿using System;
 
-using KrakenMPSPBusiness.Enum;
-using KrakenMPSPBusiness.Interface;
+using KrakenMPSPBusiness.Enums;
+using KrakenMPSPBusiness.Interfaces;
 
 namespace KrakenMPSPBusiness.Models
 {

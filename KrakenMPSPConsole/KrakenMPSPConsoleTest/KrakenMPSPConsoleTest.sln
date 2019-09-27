@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
-VisualStudioVersion = 16.0.29020.237
+VisualStudioVersion = 16.0.29123.88
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KrakenMPSPConsole", "KrakenMPSPConsole\KrakenMPSPConsole.csproj", "{F745E704-87E5-4730-9175-2581F348666D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KrakenMPSPConsoleTest", "KrakenMPSPConsoleTest\KrakenMPSPConsoleTest.csproj", "{8D978659-7C3A-4F64-87C7-742AEE788E63}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KrakenMPSPBusiness", "..\KrakenMPSPBusiness\KrakenMPSPBusiness\KrakenMPSPBusiness.csproj", "{9ED9DB4C-2507-40F3-97D0-CAFD851CB8B8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KrakenMPSPConsole", "..\KrakenMPSPConsole\KrakenMPSPConsole.csproj", "{F745E704-87E5-4730-9175-2581F348666D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KrakenMPSPBusiness", "..\..\KrakenMPSPBusiness\KrakenMPSPBusiness\KrakenMPSPBusiness.csproj", "{9ED9DB4C-2507-40F3-97D0-CAFD851CB8B8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,6 +15,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8D978659-7C3A-4F64-87C7-742AEE788E63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D978659-7C3A-4F64-87C7-742AEE788E63}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D978659-7C3A-4F64-87C7-742AEE788E63}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D978659-7C3A-4F64-87C7-742AEE788E63}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F745E704-87E5-4730-9175-2581F348666D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F745E704-87E5-4730-9175-2581F348666D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F745E704-87E5-4730-9175-2581F348666D}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -26,6 +32,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {DC0993FB-CADD-4F7D-B030-53486B55BB01}
+		SolutionGuid = {5D32DF0C-9ED7-4205-BEFE-2804C1C366D9}
 	EndGlobalSection
 EndGlobal
