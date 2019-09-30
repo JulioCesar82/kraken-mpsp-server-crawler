@@ -13,8 +13,15 @@ namespace KrakenMPSPBusiness.Models
         public string RG { get; set; }
         public string DataDeNascimento { get; set; }
         public string NomeDaMae { get; set; }
-
         public KindPerson Type => KindPerson.PhysicalPerson;
         public bool Completed { get; set; }
+
+        public ArispModel Arisp;
+        public ArpenspModel Arpensp;
+        public SielModel Siel;
+        public SivecModel Sivec;
+        public CagedPFModel Caged;
+        public CensecModel Censec;
+        //public IDetran Detran;
     }
 }

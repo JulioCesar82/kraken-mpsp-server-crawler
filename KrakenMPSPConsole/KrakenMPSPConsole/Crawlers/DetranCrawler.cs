@@ -38,7 +38,7 @@ namespace KrakenMPSPConsole.Crawlers
             }
         }
 
-        public override CrawlerStatus Execute()
+        public override CrawlerStatus Execute(out object result)
         {
             try
             {
@@ -134,6 +134,7 @@ namespace KrakenMPSPConsole.Crawlers
                     _client.DownloadFile(driver.Url, "relatorioveiculo.pdf");
                     driver.Close();
 
+                    result = null;
 
                     driver.Close();
                     return CrawlerStatus.Success;
@@ -143,12 +144,14 @@ namespace KrakenMPSPConsole.Crawlers
             {
                 Console.WriteLine("Fail loading browser caught: {0}", e.Message);
                 SetErrorMessage(typeof(DetranCrawler), e.Message);
+                result = null;
                 return CrawlerStatus.Skipped;
             }
             catch (Exception e)
             {
                 Console.WriteLine("Exception caught: {0}", e.Message);
                 SetErrorMessage(typeof(DetranCrawler), e.Message);
+                result = null;
                 return CrawlerStatus.Error;
             }
         }

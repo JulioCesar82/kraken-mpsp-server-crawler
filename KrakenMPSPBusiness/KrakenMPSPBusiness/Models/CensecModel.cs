@@ -1,8 +1,7 @@
 ﻿namespace KrakenMPSPBusiness.Models
 {
-    public class CensecCrawlerModel
+    public class CensecModel
     {
-        public long Id { get; set; }
         public string Livro { get; set; }
         public string Carga { get; set; }
         public string Data { get; set; }
@@ -20,9 +19,5 @@
         public string Ramal { get; set; }
         public string Contato { get; set; }
         public string Status { get; set; }
-
-        public class DadosCartorio
-        {
-        }
     }
 }

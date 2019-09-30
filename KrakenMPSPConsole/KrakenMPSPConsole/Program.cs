@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 
 using KrakenMPSPBusiness.Models;
-using KrakenMPSPBusiness.Helpers;
 
 namespace KrakenMPSPConsole
 {
@@ -68,28 +67,11 @@ namespace KrakenMPSPConsole
             var empresas = listaLegalPerson.Where(x => !x.Completed).ToList();
             foreach (var empresa in empresas)
             {
-                Console.WriteLine($"Empresa: {empresa.NomeFantasia}");
-                var crawler = new LegalPersonCoordinator(empresa);
-                var result = crawler.Run();
+                Console.WriteLine($"Empresa: {empresa.CNPJ}");
+                var result = new LegalPersonCoordinator(empresa);
                 Console.WriteLine("Completou a busca? {0}", result.Completed);
 
-                // gerando arquivo com os resultados
-                var resourcesFound = new ResourcesFoundModel
-                {
-                    ArquivoReferencia = empresa.Id,
-                    Type = empresa.Type
-                };
-                foreach (var information in result.Informations)
-                {
-                    ManagerObjectHelper.CopyValues(resourcesFound, information);
-                }
-
                 Console.WriteLine("Salvando informações obtidas...");
-                var resourcesFoundJson = JsonConvert.SerializeObject(resourcesFound);
-                var resourcesFoundJsonJsonString = new StringContent(resourcesFoundJson, Encoding.UTF8, "application/json");
-                var response2 = HttpClient.PostAsync($"{_endpoint}/ResourcesFound", resourcesFoundJsonJsonString).Result;
-                Console.WriteLine(response2);
-
                 empresa.Completed = result.Completed;
                 var empresaJson = JsonConvert.SerializeObject(empresa);
                 var empresaJsonJsonString = new StringContent(empresaJson, Encoding.UTF8, "application/json");
@@ -118,28 +100,11 @@ namespace KrakenMPSPConsole
             var pessoas = listaPhysicalPerson.Where(x => !x.Completed).ToList();
             foreach (var pessoa in pessoas)
             {
-                Console.WriteLine($"PESSOA: {pessoa.NomeCompleto}");
-                var crawler = new PhysicalPersonCoordinator(pessoa);
-                var result = crawler.Run();
+                Console.WriteLine($"PESSOA: {pessoa.CPF}");
+                var result = new PhysicalPersonCoordinator(pessoa);
                 Console.WriteLine("Completou a busca? {0}", result.Completed);
 
-                // gerando arquivo com os resultados
-                var resourcesFound = new ResourcesFoundModel
-                {
-                    ArquivoReferencia = pessoa.Id,
-                    Type = pessoa.Type
-                };
-                foreach (var information in result.Informations)
-                {
-                    ManagerObjectHelper.CopyValues(resourcesFound, information);
-                }
-
                 Console.WriteLine("Salvando informações obtidas...");
-                var resourcesFoundJson = JsonConvert.SerializeObject(resourcesFound);
-                var resourcesFoundJsonJsonString = new StringContent(resourcesFoundJson, Encoding.UTF8, "application/json");
-                var response2 = HttpClient.PostAsync($"{_endpoint}/ResourcesFound", resourcesFoundJsonJsonString).Result;
-                Console.WriteLine(response2);
-
                 pessoa.Completed = result.Completed;
                 var pessoaJson = JsonConvert.SerializeObject(pessoa);
                 var pessoaJsonJsonString = new StringContent(pessoaJson, Encoding.UTF8, "application/json");

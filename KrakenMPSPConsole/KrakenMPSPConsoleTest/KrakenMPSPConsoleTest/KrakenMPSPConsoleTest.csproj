@@ -51,7 +51,6 @@
   <ItemGroup>
     <Compile Include="LegalPersonCoordinatorTest.cs" />
     <Compile Include="PhysicalPersonCoordinatorTest.cs" />
-    <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,8 +1,7 @@
 ﻿namespace KrakenMPSPBusiness.Models
 {
-    public class SivecCrawlerModel
+    public class SivecModel
     {
-        public long Id { get; set; }
         public string Nome { get; set; }
         public string Sexo { get; set; }
         public string DataNascimento { get; set; }
@@ -25,12 +24,11 @@
         public string Profissao { get; set; }
         public string EnderecoResidencial { get; set; }
         public string EnderecoTrabalho { get; set; }
-        public Outros outros { get; set; }
+        public OutrosModel Outros { get; set; }
     }
 
-    public class Outros
+    public class OutrosModel
     {
-        public long Id { get; set; }
         public string Nome { get; set; }
         public string RG { get; set; }
         public string DataNascimento { get; set; }

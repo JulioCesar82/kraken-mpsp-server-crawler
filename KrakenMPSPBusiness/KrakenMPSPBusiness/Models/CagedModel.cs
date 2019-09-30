@@ -1,8 +1,7 @@
 ﻿namespace KrakenMPSPBusiness.Models
 {
-    public class CagedCrawlerModelPJ
+    public class CagedPJModel
     {
-        public long Id { get; set; }
         public string Cnpj { get; set; }
         public string RazaoSocial { get; set; }
         public string Logradouro { get; set; }
@@ -21,9 +20,8 @@
         public int TotalVinculos { get; set; }
     }
 
-    public class CagedCrawlerModelPF
+    public class CagedPFModel
     {
-        public long Id { get; set; }
         public string Cpf { get; set; }
         public string NomeTrabalhador { get; set; }
         public string PisBaseTrabalhador { get; set; }

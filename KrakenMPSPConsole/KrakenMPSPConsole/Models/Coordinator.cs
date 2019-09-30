@@ -1,44 +1,23 @@
 ﻿using System.Collections.Generic;
 
 using KrakenMPSPConsole.Enums;
-using KrakenMPSPConsole.Interfaces;
 
 namespace KrakenMPSPConsole.Models
 {
-    public class Coordinator : ICoordinator
+    public class Coordinator
     {
-        private readonly List<Crawler> _crawlers = new List<Crawler>();
-
-        public Crawler AddModule(Crawler validation)
+        private readonly List<CrawlerStatus> _crawlers = new List<CrawlerStatus>();
+        public void AddModule(CrawlerStatus crawler)
         {
-            _crawlers.Add(validation);
-            return validation;
-        }
+            _crawlers.Add(crawler);
 
-        public Investigation Run()
-        {
-            var result = new Investigation();
-            return Run(result);
-        }
-
-        public Investigation Run(Investigation validationContext)
-        {
-            var result = validationContext ?? new Investigation();
-
-            foreach (var crawler in _crawlers)
+            /*if (crawler.Error != null)
             {
-                var searchResult = crawler.Execute();
-
-                if (searchResult == CrawlerStatus.Error)
-                {
-                    result.AddError(crawler.Error);
-                    continue;
-                };
-
-                result.AddInformation(crawler.InformationFound);
-            }
-
-            return result;
+                Errors.Add(crawler.Error);
+            }*/
         }
+
+        public List<CrawlerError> Errors = new List<CrawlerError>();
+        public bool Completed => Errors.Count == 0;
     }
 }

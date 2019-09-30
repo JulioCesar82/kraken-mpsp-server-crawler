@@ -44,15 +44,14 @@
     <Compile Include="Enums\KindPerson.cs" />
     <Compile Include="Helpers\ManagerObjectHelper.cs" />
     <Compile Include="Interfaces\IPerson.cs" />
-    <Compile Include="Models\ArispCrawlerModel.cs" />
-    <Compile Include="Models\ArpenspCrawlerModel.cs" />
-    <Compile Include="Models\CagedCrawlerModel.cs" />
-    <Compile Include="Models\CensecCrawlerModel.cs" />
+    <Compile Include="Models\ArispModel.cs" />
+    <Compile Include="Models\ArpenspModel.cs" />
+    <Compile Include="Models\CagedModel.cs" />
+    <Compile Include="Models\CensecModel.cs" />
     <Compile Include="Models\LegalPersonModel.cs" />
     <Compile Include="Models\PhysicalPersonModel.cs" />
-    <Compile Include="Models\ResourcesFoundModel.cs" />
-    <Compile Include="Models\SielCrawlerModel.cs" />
-    <Compile Include="Models\SivecCrawlerModel.cs" />
+    <Compile Include="Models\SielModel.cs" />
+    <Compile Include="Models\SivecModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

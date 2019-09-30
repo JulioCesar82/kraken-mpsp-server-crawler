@@ -10,6 +10,7 @@ using OpenQA.Selenium.Interactions;
 
 using KrakenMPSPBusiness.Enums;
 using KrakenMPSPBusiness.Models;
+using KrakenMPSPBusiness.Helpers;
 
 using KrakenMPSPConsole.Enums;
 using KrakenMPSPConsole.Models;
@@ -37,8 +38,7 @@ namespace KrakenMPSPConsole.Crawlers
             else if(kind.Equals(KindPerson.PhysicalPerson))
                 _cpf = identificador;
         }
-
-        public override CrawlerStatus Execute()
+        public override CrawlerStatus Execute(out object result)
         {
             try
             {
@@ -119,7 +119,7 @@ namespace KrakenMPSPConsole.Crawlers
                             Int32.Parse(driver.FindElement(By.Id("formResumoEmpresaCaged:txtTotalVinculos")).Text);
 
                         #region Salvar dados de pessoa jurídica no objeto
-                        var pessoaJuridica = new CagedCrawlerModelPJ { 
+                        var pessoaJuridica = new CagedPJModel { 
                             Cnpj = _cnpj,
                             RazaoSocial = razaoSocial,
                             Logradouro = logradouro,
@@ -139,10 +139,9 @@ namespace KrakenMPSPConsole.Crawlers
                         };
                         #endregion
 
-                        SetInformationFound(pessoaJuridica);
+                        result = pessoaJuridica;
                     }
-
-                    if (_cpf != null)
+                    else if (_cpf != null)
                     {
                         Actions actionPage6 = new Actions(driver);
                         menuDropDown = driver.FindElement(By.Id("j_idt12:lk_menu_consultas"));
@@ -167,7 +166,7 @@ namespace KrakenMPSPConsole.Crawlers
                         var nomeTrabalhador = driver.FindElement(By.Id("txt2_Nome027")).Text;
 
                         #region Salvar dados de pessoa física no objeto
-                        var pessoaFisica = new CagedCrawlerModelPF {
+                        var pessoaFisica = new CagedPFModel {
                             Cpf = _cpf,
                             NomeTrabalhador = nomeTrabalhador,
                             PisBaseTrabalhador = driver.FindElement(By.Id("txt1_Pis028")).Text,
@@ -185,7 +184,7 @@ namespace KrakenMPSPConsole.Crawlers
                         };
                         #endregion
 
-                        SetInformationFound(pessoaFisica);
+                        result = pessoaFisica;
 
                         driver.FindElement(By.CssSelector(".link > a:nth-child(1)")).Click();
 
@@ -220,6 +219,10 @@ namespace KrakenMPSPConsole.Crawlers
                             return CrawlerStatus.Skipped;
                         }
                     }
+                    else
+                    {
+                        result = null;
+                    }
 
                     driver.Close();
                     Console.WriteLine("CagedCrawler OK");
@@ -230,12 +233,14 @@ namespace KrakenMPSPConsole.Crawlers
             {
                 Console.Write("{0} Faill loading browser caught.", e.Message);
                 SetErrorMessage(typeof(CagedCrawler), e.Message);
+                result = null;
                 return CrawlerStatus.Skipped;
             }
             catch (Exception e)
             {
                 Console.Write("{0} Exception caught.", e.Message);
                 SetErrorMessage(typeof(CagedCrawler), e.Message);
+                result = null;
                 return CrawlerStatus.Error;
             }
         }

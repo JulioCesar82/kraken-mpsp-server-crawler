@@ -12,10 +12,26 @@ namespace KrakenMPSPConsole
             // Classe de Crawler base, apenas duplique
             // AddModule(new ExampleCrawler("julio+cesar"));
 
-            AddModule(new ArispCrawler(legalPerson.Type, legalPerson.CNPJ));
-            AddModule(new CagedCrawler(legalPerson.Type, "fiap", "senha", legalPerson.CNPJ));
-            AddModule(new CensecCrawler("fiap", "fiap123", legalPerson.CNPJ));
-            AddModule(new DetranCrawler("12345678", "fiap123", legalPerson.CNPJ));
+            var arispOut = new object();
+            var arispResult = new ArispCrawler(legalPerson.Type, legalPerson.CNPJ).Execute(out arispOut);
+            AddModule(arispResult);
+            legalPerson.Arisp = (ArispModel) arispOut;
+
+            var cagedOut = new object();
+            var cagedResult =
+                new CagedCrawler(legalPerson.Type, "fiap", "senha", legalPerson.CNPJ).Execute(out cagedOut);
+            AddModule(cagedResult);
+            legalPerson.Caged = (CagedPJModel)cagedOut;
+
+            var censecOut = new object();
+            var censecResult = new CensecCrawler("fiap", "fiap123", legalPerson.CNPJ).Execute(out censecOut);
+            AddModule(censecResult);
+            legalPerson.Censec = (CensecModel)censecOut;
+
+            var detranOut = new object();
+            var detranResult = new DetranCrawler("12345678", "fiap123", legalPerson.CNPJ).Execute(out detranOut);
+            AddModule(detranResult);
+            //legalPerson.Detral = (DetralModel)detranOut;
         }
     }
 }
