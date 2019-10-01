@@ -69,7 +69,7 @@ namespace KrakenMPSPConsole
             _find.ResultadoFinal = new CrawlerResult
             {
                 FindTotal = _portais.Count,
-                TotalErrors = _portais.Where(portal  => portal == CrawlerStatus.Error).ToList()
+                TotalErrors = _portais.Where(portal  => portal == CrawlerStatus.Error).ToList().Count
             };
             return _find;
         }
