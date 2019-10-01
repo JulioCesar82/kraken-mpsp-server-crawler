@@ -29,7 +29,7 @@ namespace KrakenMPSPConsole
             legalPerson.Censec = (CensecModel)censecOut;
 
             var detranOut = new object();
-            var detranResult = new DetranCrawler("12345678", "fiap123", legalPerson.CNPJ).Execute(out detranOut);
+            var detranResult = new DetranCrawler(legalPerson.Type, "12345678", "fiap123", legalPerson.CNPJ).Execute(out detranOut);
             AddModule(detranResult);
             //legalPerson.Detral = (DetralModel)detranOut;
         }
