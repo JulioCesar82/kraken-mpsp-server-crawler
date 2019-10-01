@@ -41,14 +41,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enums\CrawlerStatus.cs" />
     <Compile Include="Enums\KindPerson.cs" />
     <Compile Include="Helpers\ManagerObjectHelper.cs" />
+    <Compile Include="Interfaces\ICrawler.cs" />
     <Compile Include="Interfaces\IPerson.cs" />
     <Compile Include="Models\ArispModel.cs" />
     <Compile Include="Models\ArpenspModel.cs" />
     <Compile Include="Models\CagedModel.cs" />
     <Compile Include="Models\CensecModel.cs" />
+    <Compile Include="Models\Coordinator.cs" />
+    <Compile Include="Models\Crawler.cs" />
+    <Compile Include="Models\CrawlerError.cs" />
+    <Compile Include="Models\CrawlerResult.cs" />
     <Compile Include="Models\LegalPersonModel.cs" />
+    <Compile Include="Models\PersonModel.cs" />
     <Compile Include="Models\PhysicalPersonModel.cs" />
     <Compile Include="Models\SielModel.cs" />
     <Compile Include="Models\SivecModel.cs" />

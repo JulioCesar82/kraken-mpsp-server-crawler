@@ -1,6 +1,6 @@
-﻿using KrakenMPSPConsole.Enums;
+﻿using KrakenMPSPBusiness.Enums;
 
-namespace KrakenMPSPConsole.Interfaces
+namespace KrakenMPSPBusiness.Interfaces
 {
     public interface ICrawler
     {

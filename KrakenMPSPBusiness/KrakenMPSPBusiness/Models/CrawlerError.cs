@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace KrakenMPSPConsole.Models
+namespace KrakenMPSPBusiness.Models
 {
     public class CrawlerError
     {

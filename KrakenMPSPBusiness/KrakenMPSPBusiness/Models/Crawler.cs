@@ -1,8 +1,8 @@
 ﻿using System;
 
-using KrakenMPSPConsole.Enums;
+using KrakenMPSPBusiness.Enums;
 
-namespace KrakenMPSPConsole.Models
+namespace KrakenMPSPBusiness.Models
 {
     public abstract class Crawler
     {

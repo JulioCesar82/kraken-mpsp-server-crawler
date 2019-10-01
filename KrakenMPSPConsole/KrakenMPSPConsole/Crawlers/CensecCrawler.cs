@@ -2,11 +2,10 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
 
+using KrakenMPSPBusiness.Enums;
 using KrakenMPSPBusiness.Models;
-using KrakenMPSPBusiness.Helpers;
 
 using KrakenMPSPConsole.Enums;
-using KrakenMPSPConsole.Models;
 using KrakenMPSPConsole.Services;
 
 namespace KrakenMPSPConsole.Crawlers

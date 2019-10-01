@@ -1,9 +1,9 @@
 ﻿using System;
 
-using KrakenMPSPBusiness.Helpers;
+using KrakenMPSPBusiness.Enums;
+using KrakenMPSPBusiness.Models;
 
 using KrakenMPSPConsole.Enums;
-using KrakenMPSPConsole.Models;
 using KrakenMPSPConsole.Services;
 
 namespace KrakenMPSPConsole.Crawlers

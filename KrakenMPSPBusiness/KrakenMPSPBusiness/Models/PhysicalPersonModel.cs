@@ -5,7 +5,7 @@ using KrakenMPSPBusiness.Interfaces;
 
 namespace KrakenMPSPBusiness.Models
 {
-    public class PhysicalPersonModel : IPerson
+    public class PhysicalPersonModel : PersonModel, IPerson
     {
         public Guid Id { get; set; }
         public string NomeCompleto { get; set; }
@@ -14,7 +14,6 @@ namespace KrakenMPSPBusiness.Models
         public string DataDeNascimento { get; set; }
         public string NomeDaMae { get; set; }
         public KindPerson Type => KindPerson.PhysicalPerson;
-        public bool Completed { get; set; }
 
         public ArispModel Arisp;
         public ArpenspModel Arpensp;
@@ -22,6 +21,6 @@ namespace KrakenMPSPBusiness.Models
         public SivecModel Sivec;
         public CagedPFModel Caged;
         public CensecModel Censec;
-        //public IDetran Detran;
+        //public DetranModel Detran;
     }
 }

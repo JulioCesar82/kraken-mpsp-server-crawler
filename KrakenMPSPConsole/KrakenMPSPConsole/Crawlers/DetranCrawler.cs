@@ -1,18 +1,18 @@
 using System;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Runtime.InteropServices;
-using KrakenMPSPBusiness.Enum;
+using System.Linq;
+
 using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
 using OpenQA.Selenium.Interactions;
 
-using KrakenMPSPCrawler.Enum;
-using KrakenMPSPCrawler.Model;
-using KrakenMPSPCrawler.Services;
+using KrakenMPSPBusiness.Enums;
+using KrakenMPSPBusiness.Models;
 
-namespace KrakenMPSPCrawler.Crawlers
+using KrakenMPSPConsole.Enums;
+using KrakenMPSPConsole.Services;
+
+namespace KrakenMPSPConsole.Crawlers
 {
     public class DetranCrawler : Crawler
     {
@@ -25,12 +25,12 @@ namespace KrakenMPSPCrawler.Crawlers
         private readonly string _cpf;
         private readonly string _cnpj;               
 
-        public DetranCrawler(KindPerson kind, string usuario, string senha, string identificador)
+        public DetranCrawler(string usuario, string senha, KindPerson kind, string identificador)
         {
             client = new WebClient();
 
+            _usuario = usuario;
             _senha = senha;
-
 
             if (kind.Equals(KindPerson.LegalPerson))
                 _cnpj = identificador;
@@ -64,8 +64,6 @@ namespace KrakenMPSPCrawler.Crawlers
 
 
                     // page 2        
-
-
                     Actions builder1 = new Actions(driver);
                     var menuDropDown1 = driver.FindElement(By.Id("navigation_a_M_16"));
                     builder1.MoveToElement(menuDropDown1).Build().Perform();
@@ -76,7 +74,6 @@ namespace KrakenMPSPCrawler.Crawlers
                     // TODO: INSERIR MAIS DADOS PESSOAIS DE BUSCA
                     driver.FindElement(By.Id("form:cpf")).SendKeys(_cpf);
                     driver.FindElement(By.CssSelector("#form\\:j_id2049423534_c43228e_content > table:nth-child(3) > tbody > tr > td > a")).Click();
-
 
 
                     // page 4 - Capturar dados 1
@@ -101,7 +98,6 @@ namespace KrakenMPSPCrawler.Crawlers
                     driver.FindElement(By.CssSelector("#navigation_ul_M_16 > li:nth-child(2) > a:nth-child(1)")).Click();
 
 
-
                     //driver.Navigate().GoToUrl(@"http://ec2-18-231-116-58.sa-east-1.compute.amazonaws.com/detran/pagina4-pesquisa-imagem-cnh.html");
 
                     // page 4
@@ -109,7 +105,6 @@ namespace KrakenMPSPCrawler.Crawlers
                     driver.FindElement(By.CssSelector("a.ui-button > span:nth-child(1)")).Click();
 
                     // page 5 - Capturar dados 2
-
                     lastTab = driver.WindowHandles.Last();
                     driver.SwitchTo().Window(lastTab);
 
@@ -147,7 +142,6 @@ namespace KrakenMPSPCrawler.Crawlers
 
 
                     // page 7
-
                     if (_cpf != null)
                         driver.FindElement(By.Id("form:j_id2124610415_1b3be1e3")).SendKeys(_cpf);
 
