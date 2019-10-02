@@ -29,7 +29,7 @@ namespace KrakenMPSPConsole
 
             var cagedOut = new object();
             var cagedResult =
-                new CagedCrawler(_find.Type, "fiap", "senha", _find.CNPJ).Execute(out cagedOut);
+                new CagedCrawler("fiap", "senha", _find.Type, _find.CNPJ).Execute(out cagedOut);
             AddModule(cagedResult);
             _find.Caged = (CagedPJModel)cagedOut;
 

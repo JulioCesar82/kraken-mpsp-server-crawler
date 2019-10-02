@@ -15,14 +15,15 @@ namespace KrakenMPSPConsoleTest
             // Arrange
             var examplePhysicalPerson = new PhysicalPersonModel()
             {
-                CPF = "11122233344"
+                CPF = "27133090007",
+                RG = "305922622"
             };
 
             // Act
-            var coordinator = new PhysicalPersonCoordinator(examplePhysicalPerson);
+            var coordinator = new PhysicalPersonCoordinator(examplePhysicalPerson).StartSearch();
 
             // Assert
-            Assert.AreEqual(coordinator.Completed, true);
+            Assert.AreEqual(coordinator.ResultadoFinal.Completed, true);
         }
     }
 }

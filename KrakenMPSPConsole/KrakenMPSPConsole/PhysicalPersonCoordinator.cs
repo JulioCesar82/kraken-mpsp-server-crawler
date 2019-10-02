@@ -19,10 +19,10 @@ namespace KrakenMPSPConsole
 
         public PhysicalPersonModel StartSearch()
         {
-        // Classe de Crawler base, apenas duplique
-        //AddModule(new ExampleCrawler("julio+cesar"));
+            // Classe de Crawler base, apenas duplique
+            //AddModule(new ExampleCrawler("julio+cesar"));
 
-        var arispOut = new object();
+            var arispOut = new object();
             var arispResult = new ArispCrawler(_find.Type, _find.CPF).Execute(out arispOut);
             AddModule(arispResult);
             _find.Arisp = (ArispModel)arispOut;
@@ -32,27 +32,9 @@ namespace KrakenMPSPConsole
             AddModule(arpenspResult);
             _find.Arpensp = (ArpenspModel)arpenspOut;
 
-            var sielOut = new object();
-            var sielResult = new SielCrawler(
-                "fiap",
-                "fiap123",
-                "123456",
-                _find.NomeCompleto,
-                _find.NomeDaMae,
-                _find.DataDeNascimento).Execute(out sielOut);
-            AddModule(sielResult);
-            _find.Siel = (SielModel)sielOut;
-
-            var sivecOut = new object();
-            var sivecResult =
-                new SivecCrawler("fiap", "fiap123", "123456", _find.NomeCompleto, _find.RG).Execute(
-                    out sivecOut);
-            AddModule(sivecResult);
-            _find.Sivec = (SivecModel)sivecOut;
-
             var cagedOut = new object();
             var cagedResult =
-                new CagedCrawler(_find.Type, "fiap", "fiap123", _find.CPF).Execute(out cagedOut);
+                new CagedCrawler("fiap", "fiap123", _find.Type, _find.CPF).Execute(out cagedOut);
             AddModule(cagedResult);
             _find.Caged = (CagedPFModel)cagedOut;
 
@@ -61,10 +43,29 @@ namespace KrakenMPSPConsole
             AddModule(censecResult);
             _find.Censec = (CensecModel)censecOut;
 
+            var sivecOut = new object();
+            var sivecResult =
+                new SivecCrawler("fiap", "fiap123", "123456", _find.GetNomeCompleto(), _find.RG).Execute(
+                    out sivecOut);
+            AddModule(sivecResult);
+            _find.Sivec = (SivecModel)sivecOut;
+
             var detranOut = new object();
             var detranResult = new DetranCrawler("12345678", "fiap123", _find.Type, _find.CPF).Execute(out detranOut);
             AddModule(detranResult);
             //physicalPerson.Detran = (DetranModel)detranOut;
+
+            var sielOut = new object();
+            var sielResult = new SielCrawler(
+                "fiap",
+                "fiap123",
+                "123456",
+                _find.GetNomeCompleto(),
+                _find.GetNomeDaMae(),
+                _find.GetDataDeNascimento()
+            ).Execute(out sielOut);
+            AddModule(sielResult);
+            _find.Siel = (SielModel)sielOut;
 
             _find.ResultadoFinal = new CrawlerResult
             {

@@ -26,7 +26,7 @@ namespace KrakenMPSPConsole.Crawlers
         private readonly string _cnpj;
         private readonly string _cpf;
 
-        public CagedCrawler(KindPerson kind, string usuario, string senha, string identificador)
+        public CagedCrawler(string usuario, string senha, KindPerson kind, string identificador)
         {
             _usuario = usuario;
             _senha = senha;

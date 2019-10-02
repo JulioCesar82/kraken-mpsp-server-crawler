@@ -23,7 +23,7 @@ namespace KrakenMPSPConsole.Crawlers
         private readonly string _senha;
 
         private readonly string _cpf;
-        private readonly string _cnpj;               
+        private readonly string _cnpj;
 
         public DetranCrawler(string usuario, string senha, KindPerson kind, string identificador)
         {
@@ -158,14 +158,14 @@ namespace KrakenMPSPConsole.Crawlers
                     var nameFileVeiculo = $"{_pathTemp}/relatorioveiculo-{rndPdf.Next(1000, 10001)}.pdf";
                     client.DownloadFile((string)driver.Url, nameFileVeiculo);
                     driver.Close();
-					
-					//Rsultado = objeto
+
+                    //Rsultado = objeto
                     result = null;
-					
+
                     firstTab = driver.WindowHandles.First();
                     driver.SwitchTo().Window(firstTab);
-					
-					
+
+
                     driver.Close();
                     Console.WriteLine("DetranCrawler OK");
                     return CrawlerStatus.Success;
@@ -175,14 +175,14 @@ namespace KrakenMPSPConsole.Crawlers
             {
                 Console.WriteLine("Fail loading browser caught: {0}", e.Message);
                 SetErrorMessage(typeof(DetranCrawler), e.Message);
-				result = null;
+                result = null;
                 return CrawlerStatus.Skipped;
             }
             catch (Exception e)
             {
                 Console.WriteLine("Exception caught: {0}", e.Message);
                 SetErrorMessage(typeof(DetranCrawler), e.Message);
-				result = null;
+                result = null;
                 return CrawlerStatus.Error;
             }
         }

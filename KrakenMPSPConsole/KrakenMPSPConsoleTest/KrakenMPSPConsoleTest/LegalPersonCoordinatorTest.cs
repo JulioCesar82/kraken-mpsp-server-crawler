@@ -15,14 +15,14 @@ namespace KrakenMPSPConsoleTest
             // Arrange
             var exampleLegalPerson = new LegalPersonModel
             {
-                CNPJ = "11222333000044"
+                CNPJ = "87676557000125"
             };
 
             // Act
-            var coordinator = new LegalPersonCoordinator(exampleLegalPerson);
+            var coordinator = new LegalPersonCoordinator(exampleLegalPerson).StartSearch();
 
             // Assert
-            Assert.AreEqual(coordinator.Completed, true);
+            Assert.AreEqual(coordinator.ResultadoFinal.Completed, true);
         }
     }
 }
