@@ -2,7 +2,8 @@ using System;
 using System.IO;
 using System.Net;
 using System.Linq;
-
+using System.Management.Instrumentation;
+using System.Threading;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
 
@@ -23,6 +24,7 @@ namespace KrakenMPSPConsole.Crawlers
         private readonly string _senha;
 
         private readonly string _cpf;
+        private readonly string _rg;
         private readonly string _cnpj;
         private readonly string _tipo;
 
@@ -39,6 +41,29 @@ namespace KrakenMPSPConsole.Crawlers
             }
             else if (kind.Equals(KindPerson.PhysicalPerson))
             {            
+                _cpf = identificador;
+                _tipo = "Physical";
+            }
+            _pathTemp = $@"{AppDomain.CurrentDomain.BaseDirectory}/temp/detran";
+            if (!Directory.Exists(_pathTemp))
+            {
+                Directory.CreateDirectory(_pathTemp);
+            }
+        }
+
+        public DetranCrawler(string usuario, string senha, string rg, KindPerson kind, string identificador)
+        {
+            client = new WebClient();
+            _usuario = usuario;
+            _senha = senha;
+
+            if (kind.Equals(KindPerson.LegalPerson))
+            {
+                _cnpj = identificador;
+                _tipo = "Legal";
+            }
+            else if (kind.Equals(KindPerson.PhysicalPerson))
+            {
                 _cpf = identificador;
                 _tipo = "Physical";
             }
@@ -77,20 +102,21 @@ namespace KrakenMPSPConsole.Crawlers
                         Actions builder1 = new Actions(driver);
                         var menuDropDown1 = driver.FindElement(By.Id("navigation_a_M_16"));
                         builder1.MoveToElement(menuDropDown1).Build().Perform();
+                        //Thread.Sleep(5000);
                         driver.FindElement(By.Id("navigation_a_F_16")).Click();
                         
                         // page 3
                         // TODO: INSERIR MAIS DADOS PESSOAIS DE BUSCA
                         driver.FindElement(By.Id("form:cpf")).SendKeys(_cpf);
+                        driver.FindElement(By.Id("form:rg")).SendKeys(_rg);
                         driver.FindElement(By.CssSelector("#form\\:j_id2049423534_c43228e_content > table:nth-child(3) > tbody > tr > td > a")).Click();
 
                         // page 4 - Capturar dados 1
                         // indo para a janela aberta
                         lastTab = driver.WindowHandles.Last();
                         driver.SwitchTo().Window(lastTab);
-                        client.DownloadFileAsync(new Uri(driver.Url), $@"{_pathTemp}/linhavida_{data}.pdf");
-                        //var nameFileLinhaVida = $"{_pathTemp}/linhadeVida-{rndPdf.Next(1000, 10001)}.pdf";
-                        //client.DownloadFile((string)driver.Url, nameFileLinhaVida);
+                        var nameFileLinhaVida = $"{_pathTemp}/linhadeVida-{data}.pdf";
+                        client.DownloadFileAsync(new Uri(driver.Url), nameFileLinhaVida);
 
                         // fechando a janela aberta
                         driver.Close();
@@ -133,15 +159,35 @@ namespace KrakenMPSPConsole.Crawlers
                             //var rndPicture = new Random();
                             //var nextRndPicture = rndPicture.Next(1000, 10001);
 
-                            client.DownloadFile(new Uri(fotoSrc),$@"{_pathTemp}/foto_{data}.png");
-                            client.DownloadFileAsync(new Uri(assinaturaSrc),$@"{_pathTemp}/assinatura_{data}.png");
+                            var nameFileFoto = $@"{_pathTemp}/foto_{data}.png";
+                            client.DownloadFile(new Uri(fotoSrc), nameFileFoto);
+                            var nameFileAssinatura = $@"{_pathTemp}/assinatura_{data}.png";
+                            client.DownloadFileAsync(new Uri(assinaturaSrc), nameFileAssinatura);
 
                             // TODO: Armazenar arquivo PDF
-                            var arquivo1 = "";
+                            //var arquivo1 = "";
                             //client.DownloadFile((string)fotoSrc, $"{_pathTemp}/foto-{nextRndPicture}.png");
                             //client.DownloadFile((string)assinaturaSrc,  $"{_pathTemp}/assinatura-{nextRndPicture}.png");
-                            resultado.arquivoA = arquivo1;
+                            
 
+                            #region Objeto com os dados capturados
+                            resultado = new DetranModel
+                            {
+                                Renach = resultadoRenach,
+                                Categoria = resultadoCategoria,
+                                Emissao = resultadoEmissão,
+                                Nascimento = resultadoNascimento,
+                                Nome = resultadoNomeCondutor,
+                                NomePai = resultadoNomePai,
+                                NomeMae = resultadoNomeMae,
+                                Registro = resultadoRegistro,
+                                Tipografo = resultadoTipografico,
+                                Identidade = resultadoIdentidade,
+                                Arquivo1 = nameFileLinhaVida,
+                                Imagem1 = nameFileFoto,
+                                Imagem2 = nameFileAssinatura,
+                            };
+                            #endregion
                         }
                         catch (Exception e)
                         {
@@ -155,23 +201,7 @@ namespace KrakenMPSPConsole.Crawlers
                         driver.Close();
                         firstTab = driver.WindowHandles.First();
                         driver.SwitchTo().Window(firstTab);
-
-
-                        #region Objeto com os dados capturados
-                        resultado = new DetranModel
-                        {
-                            Renach = resultadoRenach,
-                            Categoria = resultadoCategoria,
-                            Emissao = resultadoEmissão,
-                            Nascimento = resultadoNascimento,
-                            Nome = resultadoNomeCondutor,
-                            NomePai = resultadoNomePai,
-                            NomeMae = resultadoNomeMae,
-                            Registro = resultadoRegistro,
-                            Tipografo = resultadoTipografico,
-                            Identidade = resultadoIdentidade,
-                        };
-                        #endregion
+                        
                     }
                     
                     Actions builder3 = new Actions(driver);
@@ -192,14 +222,32 @@ namespace KrakenMPSPConsole.Crawlers
                     // page 8 - Capturar dados 3
                     lastTab = driver.WindowHandles.Last();
                     driver.SwitchTo().Window(lastTab);
-                    client.DownloadFileAsync(new Uri(driver.Url), $@"{_pathTemp}/relatorioveiculo_{data}.pdf");
-                    //var nameFileVeiculo = $"{_pathTemp}/relatorioveiculo-{rndPdf.Next(1000, 10001)}.pdf";
-                    //client.DownloadFile((string)driver.Url, nameFileVeiculo);
+                    var nameFileVeiculo = $@"{_pathTemp}/relatorioveiculo_{data}.pdf";
+                    client.DownloadFileAsync(new Uri(driver.Url), nameFileVeiculo);
+                    
                     driver.Close();                                      
 
                     firstTab = driver.WindowHandles.First();
                     driver.SwitchTo().Window(firstTab);
-                    driver.Close();                    
+                    driver.Close();
+
+                    if (_tipo.Equals("Physical"))
+                    {
+                        resultado.Arquivo2 = nameFileVeiculo;
+
+                        result = resultado;
+                    }
+                    else
+                    {
+                        #region Objeto com os dados capturados
+                        resultado = new DetranModel
+                        {
+                            Arquivo2 = nameFileVeiculo
+                        };
+                        #endregion
+
+                        result = resultado;
+                    }
 
                     Console.WriteLine("DetranCrawler OK");
                     result = resultado;
