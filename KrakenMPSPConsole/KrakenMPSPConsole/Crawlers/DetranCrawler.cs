@@ -1,19 +1,18 @@
 using System;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Runtime.InteropServices;
-using KrakenMPSPBusiness.Enum;
+using System.Linq;
+
 using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
 using OpenQA.Selenium.Interactions;
 
-using KrakenMPSPCrawler.Enum;
-using KrakenMPSPCrawler.Model;
-using KrakenMPSPCrawler.Services;
 using KrakenMPSPBusiness.Models;
+using KrakenMPSPBusiness.Enums;
 
-namespace KrakenMPSPCrawler.Crawlers
+using KrakenMPSPConsole.Enums;
+using KrakenMPSPConsole.Services;
+
+namespace KrakenMPSPConsole.Crawlers
 {
     public class DetranCrawler : Crawler
     {
@@ -27,7 +26,7 @@ namespace KrakenMPSPCrawler.Crawlers
         private readonly string _cnpj;
         private readonly string _tipo;
 
-        public DetranCrawler(KindPerson kind, string usuario, string senha, string identificador)
+        public DetranCrawler(string usuario, string senha, KindPerson kind, string identificador)
         {
             client = new WebClient();
             _usuario = usuario;
@@ -50,7 +49,7 @@ namespace KrakenMPSPCrawler.Crawlers
             }
         }
 
-        public override CrawlerStatus Execute()
+        public override CrawlerStatus Execute(out object result)
         {
             try
             {
@@ -68,6 +67,8 @@ namespace KrakenMPSPCrawler.Crawlers
                     driver.FindElement(By.Id("form:j_id563205015_44efc1ab")).SendKeys(_usuario);
                     driver.FindElement(By.Id("form:j_id563205015_44efc191")).SendKeys(_senha);
                     driver.FindElement(By.Id("form:j_id563205015_44efc15b")).Click();
+
+                    var resultado = new DetranModel();
 
                     if (_tipo.Equals("Physical"))
                     {
@@ -135,13 +136,17 @@ namespace KrakenMPSPCrawler.Crawlers
                             client.DownloadFile(new Uri(fotoSrc),$@"{_pathTemp}/foto_{data}.png");
                             client.DownloadFileAsync(new Uri(assinaturaSrc),$@"{_pathTemp}/assinatura_{data}.png");
 
+                            // TODO: Armazenar arquivo PDF
+                            var arquivo1 = "";
                             //client.DownloadFile((string)fotoSrc, $"{_pathTemp}/foto-{nextRndPicture}.png");
-                            //client.DownloadFile((string)assinaturaSrc, $"{_pathTemp}/assinatura-{nextRndPicture}.png");
+                            //client.DownloadFile((string)assinaturaSrc,  $"{_pathTemp}/assinatura-{nextRndPicture}.png");
+                            resultado.arquivoA = arquivo1;
 
                         }
                         catch (Exception e)
                         {
                             Console.WriteLine("[DETRAN] Ocorreu um erro ao tentar baixar as Imagens! \nMensagem de erro: " + e);
+                            result = null;
                             return CrawlerStatus.Skipped;                            
                         }
 
@@ -151,9 +156,9 @@ namespace KrakenMPSPCrawler.Crawlers
                         firstTab = driver.WindowHandles.First();
                         driver.SwitchTo().Window(firstTab);
 
-                        SetInformationFound(new Object());
+
                         #region Objeto com os dados capturados
-                        var resultado = new DetranCrawlerModel
+                        resultado = new DetranModel
                         {
                             Renach = resultadoRenach,
                             Categoria = resultadoCategoria,
@@ -175,7 +180,6 @@ namespace KrakenMPSPCrawler.Crawlers
                     driver.FindElement(By.CssSelector("#navigation_a_F_18")).Click();
                     
                     // page 7
-
                     if (_cpf != null)
                         driver.FindElement(By.Id("form:j_id2124610415_1b3be1e3")).SendKeys(_cpf);
 
@@ -198,6 +202,7 @@ namespace KrakenMPSPCrawler.Crawlers
                     driver.Close();                    
 
                     Console.WriteLine("DetranCrawler OK");
+                    result = resultado;
                     return CrawlerStatus.Success;
                 }
             }
@@ -205,12 +210,14 @@ namespace KrakenMPSPCrawler.Crawlers
             {
                 Console.WriteLine("Fail loading browser caught: {0}", e.Message);
                 SetErrorMessage(typeof(DetranCrawler), e.Message);
+                result = null;
                 return CrawlerStatus.Skipped;
             }
             catch (Exception e)
             {
                 Console.WriteLine("Exception caught: {0}", e.Message);
                 SetErrorMessage(typeof(DetranCrawler), e.Message);
+                result = null;
                 return CrawlerStatus.Error;
             }
         }

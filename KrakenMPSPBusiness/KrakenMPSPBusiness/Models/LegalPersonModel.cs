@@ -14,6 +14,6 @@ namespace KrakenMPSPBusiness.Models
         public ArispModel Arisp;
         public CagedPJModel Caged;
         public CensecModel Censec;
-        //public DetranModel Detran;
+        public DetranModel Detran;
     }
 }

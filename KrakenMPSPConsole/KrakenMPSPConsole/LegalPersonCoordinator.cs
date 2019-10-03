@@ -41,7 +41,7 @@ namespace KrakenMPSPConsole
             var detranOut = new object();
             var detranResult = new DetranCrawler("12345678", "fiap123", _find.Type, _find.CNPJ).Execute(out detranOut);
             AddModule(detranResult);
-            //legalPerson.Detral = (DetralModel)detranOut;
+            _find.Detran = (DetranModel)detranOut;
 
             _find.ResultadoFinal = new CrawlerResult
             {

@@ -53,7 +53,7 @@ namespace KrakenMPSPConsole
             var detranOut = new object();
             var detranResult = new DetranCrawler("12345678", "fiap123", _find.Type, _find.CPF).Execute(out detranOut);
             AddModule(detranResult);
-            //physicalPerson.Detran = (DetranModel)detranOut;
+            _find.Detran = (DetranModel)detranOut;
 
             var sielOut = new object();
             var sielResult = new SielCrawler(
