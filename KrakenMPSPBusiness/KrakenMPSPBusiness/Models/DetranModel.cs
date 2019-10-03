@@ -13,7 +13,9 @@
         public string Registro { get; set; }
         public string Tipografo { get; set; }
         public string Identidade { get; set; }
-        public string arquivoA { get; set; }
-        
+        public string Arquivo1 { get; set; }
+        public string Arquivo2 { get; set; }
+        public string Imagem1 { get; set; }
+        public string Imagem2 { get; set; }        
     }
 }
