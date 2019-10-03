@@ -80,8 +80,6 @@ namespace KrakenMPSPConsole.Crawlers
             {
                 using (var driver = WebDriverService.CreateWebDriver(WebBrowser.Firefox))
                 {
-                    var tabs = driver.WindowHandles;
-                    var rndPdf = new Random();
                     var lastTab = driver.WindowHandles.Last();
                     var firstTab = driver.WindowHandles.First();
                     var data = DateTime.Now.ToString("yyyyMMddhhmm",System.Globalization.CultureInfo.InvariantCulture);
@@ -123,7 +121,6 @@ namespace KrakenMPSPConsole.Crawlers
 
                         // page 3
                         // voltando para a janela anterior
-                        lastTab = driver.WindowHandles.Last();
                         driver.SwitchTo().Window(firstTab);
 
                         Actions builder2 = new Actions(driver);
@@ -149,7 +146,7 @@ namespace KrakenMPSPConsole.Crawlers
                         var resultadoNomeMae = driver.FindElement(By.CssSelector("#form\\:pnCNH > tbody:nth-child(1) > tr:nth-child(2) > td:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(2) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(4) > td:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(2) > td:nth-child(1) > span:nth-child(1)")).Text.Trim();
                         var resultadoRegistro = driver.FindElement(By.CssSelector("#form\\:pnCNH > tbody:nth-child(1) > tr:nth-child(2) > td:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(2) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(5) > td:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > span:nth-child(2)")).Text.Trim();
                         var resultadoTipografico = driver.FindElement(By.CssSelector("#form\\:pnCNH > tbody:nth-child(1) > tr:nth-child(2) > td:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(2) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(5) > td:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(2) > span:nth-child(2)")).Text.Trim();
-                        var resultadoIdentidade = driver.FindElement(By.CssSelector("#form\\:pnCNH > tbody:nth-child(1) > tr:nth-child(2) > td:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(2) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(5) > td:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(3) > span:nth-child(2)")).Text.Trim();
+                        var resultadoRg = driver.FindElement(By.CssSelector("#form\\:pnCNH > tbody:nth-child(1) > tr:nth-child(2) > td:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(2) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(5) > td:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(3) > span:nth-child(2)")).Text.Trim();
                         var resultadoCpf = driver.FindElement(By.CssSelector("#form\\:pnCNH > tbody:nth-child(1) > tr:nth-child(2) > td:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(2) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(5) > td:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(4) > span:nth-child(2)")).Text.Trim();
                         try
                         {                            
@@ -164,12 +161,6 @@ namespace KrakenMPSPConsole.Crawlers
                             var nameFileAssinatura = $@"{_pathTemp}/assinatura_{data}.png";
                             client.DownloadFileAsync(new Uri(assinaturaSrc), nameFileAssinatura);
 
-                            // TODO: Armazenar arquivo PDF
-                            //var arquivo1 = "";
-                            //client.DownloadFile((string)fotoSrc, $"{_pathTemp}/foto-{nextRndPicture}.png");
-                            //client.DownloadFile((string)assinaturaSrc,  $"{_pathTemp}/assinatura-{nextRndPicture}.png");
-                            
-
                             #region Objeto com os dados capturados
                             resultado = new DetranModel
                             {
@@ -182,7 +173,8 @@ namespace KrakenMPSPConsole.Crawlers
                                 NomeMae = resultadoNomeMae,
                                 Registro = resultadoRegistro,
                                 Tipografo = resultadoTipografico,
-                                Identidade = resultadoIdentidade,
+                                RG = resultadoRg,
+                                CPF = resultadoCpf,
                                 Arquivo1 = nameFileLinhaVida,
                                 Imagem1 = nameFileFoto,
                                 Imagem2 = nameFileAssinatura,
@@ -234,8 +226,6 @@ namespace KrakenMPSPConsole.Crawlers
                     if (_tipo.Equals("Physical"))
                     {
                         resultado.Arquivo2 = nameFileVeiculo;
-
-                        result = resultado;
                     }
                     else
                     {
@@ -245,8 +235,6 @@ namespace KrakenMPSPConsole.Crawlers
                             Arquivo2 = nameFileVeiculo
                         };
                         #endregion
-
-                        result = resultado;
                     }
 
                     Console.WriteLine("DetranCrawler OK");
