@@ -51,7 +51,7 @@ namespace KrakenMPSPConsole
             _find.Sivec = (SivecModel)sivecOut;
 
             var detranOut = new object();
-            var detranResult = new DetranCrawler("12345678", "fiap123", _find.Type, _find.CPF).Execute(out detranOut);
+            var detranResult = new DetranCrawler("12345678", "fiap123", "123456", _find.Type, _find.CPF).Execute(out detranOut);
             AddModule(detranResult);
             _find.Detran = (DetranModel)detranOut;
 
