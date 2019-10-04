@@ -16,7 +16,7 @@ Será um Buscador/Web Scraping em ASP.NET Core, armazenamento NoSQL com MongoDb 
 
 The project has dependencies that require manual installation.
 
-* [SDK .NET Core 2.2](https://dotnet.microsoft.com/download)
+* [.NET Framework 4.5](https://dotnet.microsoft.com/download)
 
 * [Nuget](https://www.nuget.org/downloads)
 
