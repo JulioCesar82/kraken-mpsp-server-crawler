@@ -1,7 +1,9 @@
 ﻿using System;
 
+using KrakenMPSPBusiness.Enums;
+using KrakenMPSPBusiness.Models;
+
 using KrakenMPSPConsole.Enums;
-using KrakenMPSPConsole.Models;
 using KrakenMPSPConsole.Services;
 
 namespace KrakenMPSPConsole.Crawlers
@@ -15,7 +17,7 @@ namespace KrakenMPSPConsole.Crawlers
             _busca = busca;
         }
 
-        public override CrawlerStatus Execute()
+        public override CrawlerStatus Execute(out object result)
         {
             try
             {
@@ -24,7 +26,7 @@ namespace KrakenMPSPConsole.Crawlers
                     driver.Navigate().GoToUrl(String.Format("https://www.google.com/search?hl=pt-BR&q={0}&oq={0}", _busca));
 
                     // page 1 - Capturar dados
-                    SetInformationFound(new Object());
+                    result = null;
 
                     driver.Close();
                     Console.WriteLine("ExampleCrawler OK");
@@ -35,12 +37,14 @@ namespace KrakenMPSPConsole.Crawlers
             {
                 Console.WriteLine("Fail loading browser caught: {0}", e.Message);
                 SetErrorMessage(typeof(ExampleCrawler), e.Message);
+                result = null;
                 return CrawlerStatus.Skipped;
             }
             catch (Exception e)
             {
                 Console.WriteLine("Exception caught: {0}", e.Message);
                 SetErrorMessage(typeof(ExampleCrawler), e.Message);
+                result = null;
                 return CrawlerStatus.Error;
             }
         }

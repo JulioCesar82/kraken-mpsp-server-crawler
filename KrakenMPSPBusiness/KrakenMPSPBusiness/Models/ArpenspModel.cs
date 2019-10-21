@@ -1,8 +1,7 @@
 ﻿namespace KrakenMPSPBusiness.Models
 {
-    public class ArpenspCrawlerModel
+    public class ArpenspModel
     {
-        public long Id { get; set; }
         public string CartorioRegistro { get; set; }
         public string NumeroCNS { get; set; }
         public string UF { get; set; }

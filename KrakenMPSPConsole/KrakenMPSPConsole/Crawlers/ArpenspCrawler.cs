@@ -1,12 +1,11 @@
 ﻿using System;
-
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 
+using KrakenMPSPBusiness.Enums;
 using KrakenMPSPBusiness.Models;
 
 using KrakenMPSPConsole.Enums;
-using KrakenMPSPConsole.Models;
 using KrakenMPSPConsole.Services;
 
 namespace KrakenMPSPConsole.Crawlers
@@ -20,7 +19,7 @@ namespace KrakenMPSPConsole.Crawlers
             _numeroProcesso = numeroProcesso;
         }
 
-        public override CrawlerStatus Execute()
+        public override CrawlerStatus Execute(out object result)
         {
             try
             {
@@ -49,7 +48,7 @@ namespace KrakenMPSPConsole.Crawlers
 
                     // page 4 - Capturar dados
                     #region Objeto com os dados capturados
-                    var resultado = new ArpenspCrawlerModel
+                    var resultado = new ArpenspModel
                     {
                         CartorioRegistro =
                             driver.FindElement(By.CssSelector(
@@ -117,7 +116,7 @@ namespace KrakenMPSPConsole.Crawlers
                     };
                     #endregion
 
-                    SetInformationFound(resultado);
+                    result = resultado;
 
                     driver.Close();
                     Console.WriteLine("ArpenspCrawler OK");
@@ -128,12 +127,14 @@ namespace KrakenMPSPConsole.Crawlers
             {
                 Console.WriteLine("Fail loading browser caught: {0}", e.Message);
                 SetErrorMessage(typeof(ArpenspCrawler), e.Message);
+                result = null;
                 return CrawlerStatus.Skipped;
             }
             catch (Exception e)
             {
                 Console.WriteLine("Exception caught: {0}", e.Message);
                 SetErrorMessage(typeof(ArpenspCrawler), e.Message);
+                result = null;
                 return CrawlerStatus.Error;
             }
         }

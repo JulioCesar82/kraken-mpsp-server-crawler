@@ -62,16 +62,9 @@
     <Compile Include="Crawlers\ExampleCrawler.cs" />
     <Compile Include="Crawlers\SielCrawler.cs" />
     <Compile Include="Crawlers\SivecCrawler.cs" />
-    <Compile Include="Enums\CrawlerStatus.cs" />
     <Compile Include="Enums\WebBrowser.cs" />
     <Compile Include="Helpers\HttpHelper.cs" />
-    <Compile Include="Interfaces\ICoordinator.cs" />
-    <Compile Include="Interfaces\ICrawler.cs" />
     <Compile Include="LegalPersonCoordinator.cs" />
-    <Compile Include="Models\Coordinator.cs" />
-    <Compile Include="Models\Crawler.cs" />
-    <Compile Include="Models\CrawlerError.cs" />
-    <Compile Include="Models\Investigation.cs" />
     <Compile Include="PhysicalPersonCoordinator.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -2,13 +2,13 @@
 using System.Text;
 using System.Linq;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
 using Newtonsoft.Json;
 
 using KrakenMPSPBusiness.Models;
-using KrakenMPSPBusiness.Helpers;
 
 namespace KrakenMPSPConsole
 {
@@ -20,27 +20,44 @@ namespace KrakenMPSPConsole
 
         public static void Main(string[] args)
         {
-            List<Task> tasks = new List<Task>();
-            tasks.Add(SearchLegalPerson());
-            tasks.Add(SearchPhysicalPerson());
 
             //while (true)
             //{
                 try
                 {
-                    var buscas = Task.Factory.StartNew(() =>
-                    {
-                        var iBusca = 0;
-                        foreach (Task task in tasks)
-                        {
-                            Task.Factory.StartNew((x) => task.Wait()
-                                , iBusca, TaskCreationOptions.AttachedToParent);
-                            iBusca++;
-                        }
-                    });
+                /*
+                 * MultiThread
+                 *
+                List<Task> tasks = new List<Task>();
+                // funcoes de busca
+                tasks.Add(SearchLegalPerson());
+                tasks.Add(SearchPhysicalPerson());
 
-                    buscas.Wait();
+                var buscas = Task.Factory.StartNew(() =>
+                {
+                    var iBusca = 0;
+                    foreach (Task task in tasks)
+                    {
+                        Task.Factory.StartNew((x) => 
+                            task.Wait(),
+                            iBusca,
+                            TaskCreationOptions.AttachedToParent);
+
+                        iBusca++;
+                    }
+                });
+
+                buscas.Wait();
+                */
+
+                    SearchLegalPerson().Wait();
+                    SearchPhysicalPerson().Wait();
+
+
+                    Console.WriteLine("********");
                     Console.WriteLine("finished search");
+                    Console.WriteLine("********");
+                    //Thread.Sleep(TimeSpan.FromMinutes(30));
                 }
                 catch (Exception e)
                 {
@@ -53,46 +70,48 @@ namespace KrakenMPSPConsole
         private static async Task<bool> SearchLegalPerson()
         {
             Console.WriteLine("starting SearchLegalPerson");
+            HttpResponseMessage response;
 
-            HttpResponseMessage response = await HttpClient.GetAsync($"{_endpoint}/LegalPerson");
-            Console.WriteLine(response);
-            if (!response.IsSuccessStatusCode)
+            try
             {
+                response = await HttpClient.GetAsync($"{_endpoint}/LegalPerson");
+                if (!response.IsSuccessStatusCode)
+                {
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
                 return false;
             }
-
+            
             string responseBodyAsText = await response.Content.ReadAsStringAsync();
             List<LegalPersonModel> listaLegalPerson = JsonConvert.DeserializeObject<List<LegalPersonModel>>(responseBodyAsText);
-            Console.WriteLine(listaLegalPerson);
 
-            var empresas = listaLegalPerson.Where(x => !x.Completed).ToList();
+            var empresas = listaLegalPerson.Where(x => x.ResultadoFinal == null || !x.ResultadoFinal.Completed).ToList();
             foreach (var empresa in empresas)
             {
-                Console.WriteLine($"Empresa: {empresa.NomeFantasia}");
-                var crawler = new LegalPersonCoordinator(empresa);
-                var result = crawler.Run();
-                Console.WriteLine("Completou a busca? {0}", result.Completed);
-
-                // gerando arquivo com os resultados
-                var resourcesFound = new ResourcesFoundModel
+                Console.WriteLine("********");
+                Console.WriteLine($"Buscando Empresa: {empresa.CNPJ}");
+                Console.WriteLine("********");
+                // executando o Crawler
+                LegalPersonModel resultCrawler;
+                try
                 {
-                    ArquivoReferencia = empresa.Id,
-                    Type = empresa.Type
-                };
-                foreach (var information in result.Informations)
+                    resultCrawler = new LegalPersonCoordinator(empresa).StartSearch();
+                    Console.WriteLine("Completou a busca? {0}", resultCrawler.ResultadoFinal.Completed);
+                }
+                catch (Exception e)
                 {
-                    ManagerObjectHelper.CopyValues(resourcesFound, information);
+                    Console.WriteLine(e);
+                    continue;
                 }
 
                 Console.WriteLine("Salvando informações obtidas...");
-                var resourcesFoundJson = JsonConvert.SerializeObject(resourcesFound);
-                var resourcesFoundJsonJsonString = new StringContent(resourcesFoundJson, Encoding.UTF8, "application/json");
-                var response2 = HttpClient.PostAsync($"{_endpoint}/ResourcesFound", resourcesFoundJsonJsonString).Result;
-                Console.WriteLine(response2);
-
-                empresa.Completed = result.Completed;
-                var empresaJson = JsonConvert.SerializeObject(empresa);
+                var empresaJson = JsonConvert.SerializeObject(resultCrawler);
                 var empresaJsonJsonString = new StringContent(empresaJson, Encoding.UTF8, "application/json");
+
                 var response3 = HttpClient.PutAsync($"{_endpoint}/LegalPerson/{empresa.Id}", empresaJsonJsonString).Result;
                 Console.WriteLine(response3);
             }
@@ -103,46 +122,48 @@ namespace KrakenMPSPConsole
         private static async Task<bool> SearchPhysicalPerson()
         {
             Console.WriteLine("starting SearchPhysicalPerson");
+            HttpResponseMessage response;
 
-            HttpResponseMessage response = await HttpClient.GetAsync($"{_endpoint}/PhysicalPerson");
-            Console.WriteLine(response);
-            if (!response.IsSuccessStatusCode)
+            try
             {
+                response = await HttpClient.GetAsync($"{_endpoint}/PhysicalPerson");
+                if (!response.IsSuccessStatusCode)
+                {
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
                 return false;
             }
 
             string responseBodyAsText = await response.Content.ReadAsStringAsync();
             List<PhysicalPersonModel> listaPhysicalPerson = JsonConvert.DeserializeObject<List<PhysicalPersonModel>>(responseBodyAsText);
-            Console.WriteLine(listaPhysicalPerson);
 
-            var pessoas = listaPhysicalPerson.Where(x => !x.Completed).ToList();
+            var pessoas = listaPhysicalPerson.Where(x => x.ResultadoFinal == null || !x.ResultadoFinal.Completed).ToList();
             foreach (var pessoa in pessoas)
             {
-                Console.WriteLine($"PESSOA: {pessoa.NomeCompleto}");
-                var crawler = new PhysicalPersonCoordinator(pessoa);
-                var result = crawler.Run();
-                Console.WriteLine("Completou a busca? {0}", result.Completed);
-
-                // gerando arquivo com os resultados
-                var resourcesFound = new ResourcesFoundModel
+                Console.WriteLine("********");
+                Console.WriteLine($"Buscando Pessoa: {pessoa.CPF}");
+                Console.WriteLine("********");
+                // executando o Crawler
+                PhysicalPersonModel resultCrawler;
+                try
                 {
-                    ArquivoReferencia = pessoa.Id,
-                    Type = pessoa.Type
-                };
-                foreach (var information in result.Informations)
+                    resultCrawler = new PhysicalPersonCoordinator(pessoa).StartSearch(); ;
+                    Console.WriteLine("Completou a busca? {0}", resultCrawler.ResultadoFinal.Completed);
+                }
+                catch (Exception e)
                 {
-                    ManagerObjectHelper.CopyValues(resourcesFound, information);
+                    Console.WriteLine(e);
+                    continue;
                 }
 
                 Console.WriteLine("Salvando informações obtidas...");
-                var resourcesFoundJson = JsonConvert.SerializeObject(resourcesFound);
-                var resourcesFoundJsonJsonString = new StringContent(resourcesFoundJson, Encoding.UTF8, "application/json");
-                var response2 = HttpClient.PostAsync($"{_endpoint}/ResourcesFound", resourcesFoundJsonJsonString).Result;
-                Console.WriteLine(response2);
-
-                pessoa.Completed = result.Completed;
-                var pessoaJson = JsonConvert.SerializeObject(pessoa);
+                var pessoaJson = JsonConvert.SerializeObject(resultCrawler);
                 var pessoaJsonJsonString = new StringContent(pessoaJson, Encoding.UTF8, "application/json");
+
                 var response3 = HttpClient.PutAsync($"{_endpoint}/PhysicalPerson/{pessoa.Id}", pessoaJsonJsonString).Result;
                 Console.WriteLine(response3);
             }

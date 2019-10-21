@@ -51,11 +51,7 @@
   <ItemGroup>
     <Compile Include="LegalPersonCoordinatorTest.cs" />
     <Compile Include="PhysicalPersonCoordinatorTest.cs" />
-    <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\KrakenMPSPBusiness\KrakenMPSPBusiness\KrakenMPSPBusiness.csproj">
@@ -66,6 +62,9 @@
       <Project>{f745e704-87e5-4730-9175-2581f348666d}</Project>
       <Name>KrakenMPSPConsole</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

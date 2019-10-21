@@ -2,8 +2,8 @@
 
 namespace KrakenMPSPBusiness.Interfaces
 {
-    public interface IPerson
+    public interface ICrawler
     {
-        KindPerson Type { get; }
+        CrawlerStatus Execute<T>(ref T result);
     }
 }

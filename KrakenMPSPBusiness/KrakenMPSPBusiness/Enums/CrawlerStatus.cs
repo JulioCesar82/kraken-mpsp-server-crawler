@@ -1,4 +1,4 @@
-﻿namespace KrakenMPSPConsole.Enums
+﻿namespace KrakenMPSPBusiness.Enums
 {
     public enum CrawlerStatus
     {

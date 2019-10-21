@@ -10,7 +10,6 @@ namespace KrakenMPSPServer.Context
     {
         public DbSet<LegalPersonModel> LegalPerson { get; set; }
         public DbSet<PhysicalPersonModel> PhysicalPerson { get; set; }
-        public DbSet<ResourcesFoundModel> ResourcesFound { get; set; }
 
         //public MySqlContext() : base("MySqlContext") {}
 

@@ -1,11 +1,10 @@
 ﻿using System;
-
 using OpenQA.Selenium;
 
+using KrakenMPSPBusiness.Enums;
 using KrakenMPSPBusiness.Models;
 
 using KrakenMPSPConsole.Enums;
-using KrakenMPSPConsole.Models;
 using KrakenMPSPConsole.Services;
 
 namespace KrakenMPSPConsole.Crawlers
@@ -29,7 +28,7 @@ namespace KrakenMPSPConsole.Crawlers
             _rg = rg;
         }
 
-        public override CrawlerStatus Execute()
+        public override CrawlerStatus Execute(out object result)
         {
             try
             {
@@ -90,7 +89,7 @@ namespace KrakenMPSPConsole.Crawlers
                     const string caminhoTabela = "body > form:nth-child(13) > div > ";
 
                     #region Objeto com os dados capturados
-                    var outrasInfo = new Outros
+                    var outrasInfo = new OutrosModel
                     {
                         Nome = driver
                             .FindElement(By.CssSelector($"{caminhoTabela}div:nth-child(10) > div.col-md-9")).Text.Trim(),
@@ -106,7 +105,7 @@ namespace KrakenMPSPConsole.Crawlers
                             .FindElement(By.CssSelector($"{caminhoTabela}div:nth-child(15) > div.col-md-9")).Text.Trim()
                     };
 
-                    var resultado = new SivecCrawlerModel
+                    var resultado = new SivecModel
                     {
                         Nome = driver
                             .FindElement(By.CssSelector($"{caminhoTabela}div:nth-child(5) > div.col-md-11 > table > tbody > tr:nth-child(1) > td:nth-child(2)")).Text.Trim(),
@@ -152,11 +151,11 @@ namespace KrakenMPSPConsole.Crawlers
                             .FindElement(By.CssSelector($"{caminhoTabela}div:nth-child(7) > div.col-md-7")).Text.Trim(),
                         EnderecoTrabalho = driver
                             .FindElement(By.CssSelector($"{caminhoTabela}div:nth-child(8) > div.col-md-7")).Text.Trim(),
-                        outros = outrasInfo
+                        Outros = outrasInfo
                     };
                     #endregion
 
-                    SetInformationFound(resultado);
+                    result = resultado;
 
                     driver.Close();
                     Console.WriteLine("SivecCrawler OK");
@@ -167,12 +166,14 @@ namespace KrakenMPSPConsole.Crawlers
             {
                 Console.WriteLine("Fail loading browser caught: {0}", e.Message);
                 SetErrorMessage(typeof(SivecCrawler), e.Message);
+                result = null;
                 return CrawlerStatus.Skipped;
             }
             catch (Exception e)
             {
                 Console.WriteLine("Exception caught: {0}", e.Message);
                 SetErrorMessage(typeof(SivecCrawler), e.Message);
+                result = null;
                 return CrawlerStatus.Error;
             }
         }

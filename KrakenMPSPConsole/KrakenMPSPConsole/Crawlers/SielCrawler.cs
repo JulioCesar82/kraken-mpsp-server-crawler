@@ -1,11 +1,10 @@
 ﻿using System;
-
 using OpenQA.Selenium;
 
+using KrakenMPSPBusiness.Enums;
 using KrakenMPSPBusiness.Models;
 
 using KrakenMPSPConsole.Enums;
-using KrakenMPSPConsole.Models;
 using KrakenMPSPConsole.Services;
 
 namespace KrakenMPSPConsole.Crawlers
@@ -42,7 +41,7 @@ namespace KrakenMPSPConsole.Crawlers
             _tituloEleitor = tituloEleito;
         }
 
-        public override CrawlerStatus Execute()
+        public override CrawlerStatus Execute(out object result)
         {
             try
             {
@@ -80,7 +79,7 @@ namespace KrakenMPSPConsole.Crawlers
                     var dados = driver.FindElements(By.CssSelector(".lista tbody > tr > td:nth-child(2)"));
 
                     #region Objeto com os dados capturados
-                    var resultado = new SielCrawlerModel
+                    var resultado = new SielModel
                     {
                         Nome = dados[0].Text,
                         Titulo = dados[1].Text,
@@ -97,7 +96,7 @@ namespace KrakenMPSPConsole.Crawlers
                     };
                     #endregion
 
-                    SetInformationFound(resultado);
+                    result = resultado;
 
                     driver.Close();
                     Console.WriteLine("SielCrawler OK");
@@ -108,12 +107,14 @@ namespace KrakenMPSPConsole.Crawlers
             {
                 Console.WriteLine("Fail loading browser caught: {0}", e.Message);
                 SetErrorMessage(typeof(SielCrawler), e.Message);
+                result = null;
                 return CrawlerStatus.Skipped;
             }
             catch (Exception e)
             {
                 Console.WriteLine("Exception caught: {0}", e.Message);
                 SetErrorMessage(typeof(SielCrawler), e.Message);
+                result = null;
                 return CrawlerStatus.Error;
             }
         }

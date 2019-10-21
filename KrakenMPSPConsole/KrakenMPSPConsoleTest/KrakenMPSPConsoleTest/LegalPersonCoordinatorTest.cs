@@ -15,18 +15,14 @@ namespace KrakenMPSPConsoleTest
             // Arrange
             var exampleLegalPerson = new LegalPersonModel
             {
-                NomeFantasia = "PETROBRASIL",
-                CNPJ = "11222333000044",
-                CPFDoFundador = "22222222222",
-                Contador = "333333333",
+                CNPJ = "87676557000125"
             };
-            var coordinator = new LegalPersonCoordinator(exampleLegalPerson);
 
             // Act
-            var investigation = coordinator.Run();
+            var coordinator = new LegalPersonCoordinator(exampleLegalPerson).StartSearch();
 
             // Assert
-            Assert.AreEqual(investigation.Completed, true);
+            Assert.AreEqual(coordinator.ResultadoFinal.Completed, true);
         }
     }
 }

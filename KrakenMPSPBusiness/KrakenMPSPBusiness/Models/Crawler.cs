@@ -1,16 +1,13 @@
 ﻿using System;
 
-using KrakenMPSPConsole.Enums;
-using KrakenMPSPConsole.Interfaces;
+using KrakenMPSPBusiness.Enums;
 
-namespace KrakenMPSPConsole.Models
+namespace KrakenMPSPBusiness.Models
 {
-    public abstract class Crawler : ICrawler
+    public abstract class Crawler
     {
-        public abstract CrawlerStatus Execute();
-
+        public abstract CrawlerStatus Execute(out object result);
         public CrawlerError Error { get; protected set; }
-        public object InformationFound { get; protected set; }
 
         protected void SetErrorMessage(string errorMessage)
         {
@@ -26,11 +23,6 @@ namespace KrakenMPSPConsole.Models
         protected void SetErrorMessage(Type source, string errorMessage)
         {
             Error = new CrawlerError(source, errorMessage);
-        }
-
-        protected void SetInformationFound(object information)
-        {
-            InformationFound = information;
         }
     }
 }

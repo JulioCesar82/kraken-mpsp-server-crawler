@@ -10,7 +10,6 @@ using KrakenMPSPBusiness.Enums;
 using KrakenMPSPBusiness.Models;
 
 using KrakenMPSPConsole.Enums;
-using KrakenMPSPConsole.Models;
 using KrakenMPSPConsole.Services;
 
 namespace KrakenMPSPConsole.Crawlers
@@ -26,7 +25,7 @@ namespace KrakenMPSPConsole.Crawlers
             _identification = identification;
         }
 
-        public override CrawlerStatus Execute()
+        public override CrawlerStatus Execute(out object result)
         {
             try
             {
@@ -78,13 +77,14 @@ namespace KrakenMPSPConsole.Crawlers
                     // page 7
                     var pathTemp = $@"{AppDomain.CurrentDomain.BaseDirectory}/temp/arisp";
                     var rnd = new Random();
-                    if (!Directory.Exists(pathTemp)) {
+                    if (!Directory.Exists(pathTemp))
+                    {
                         Directory.CreateDirectory(pathTemp);
                     }
 
                     var contador = 0;
                     var processos = driver.FindElements(By.CssSelector("#panelMatriculas > tr > td:nth-child(4) a.list.listDetails"));
-                    List<Processo> resultados = new List<Processo>();
+                    List<ProcessoModel> resultados = new List<ProcessoModel>();
                     foreach (IWebElement processo in processos)
                     {
                         contador++;
@@ -106,7 +106,7 @@ namespace KrakenMPSPConsole.Crawlers
                         screenshot.SaveAsFile(nameFile, ScreenshotImageFormat.Png);
 
                         #region Objeto com os dados capturados
-                        resultados.Add(new Processo
+                        resultados.Add(new ProcessoModel
                         {
                             Cidade = cidade,
                             Cartorio = cartorio,
@@ -122,11 +122,9 @@ namespace KrakenMPSPConsole.Crawlers
                         driver.SwitchTo().Window(tabs[tabs.Count - 2]);
                     }
 
-                    SetInformationFound(new ArispCrawlerModel
-                    {
-                        Processos = resultados
-                    }
-                    );
+                    var arisp = new ArispModel();
+                    arisp.Processos = resultados;
+                    result = arisp;
 
                     driver.Close();
                     Console.WriteLine("ArispCrawler OK");
@@ -137,14 +135,17 @@ namespace KrakenMPSPConsole.Crawlers
             {
                 Console.WriteLine("Fail loading browser caught: {0}", e.Message);
                 SetErrorMessage(typeof(ArispCrawler), e.Message);
+                result = null;
                 return CrawlerStatus.Skipped;
             }
             catch (Exception e)
             {
                 Console.WriteLine("Exception caught: {0}", e.Message);
                 SetErrorMessage(typeof(ArispCrawler), e.Message);
+                result = null;
                 return CrawlerStatus.Error;
             }
+
         }
     }
 }
