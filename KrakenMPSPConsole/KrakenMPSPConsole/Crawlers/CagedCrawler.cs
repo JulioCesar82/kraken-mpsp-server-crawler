@@ -3,7 +3,9 @@ using System.IO;
 using System.Net;
 using System.Linq;
 using System.Collections.ObjectModel;
-
+using System.ComponentModel;
+using System.Runtime.Remoting.Channels;
+using System.Threading;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using OpenQA.Selenium.Interactions;
@@ -50,7 +52,7 @@ namespace KrakenMPSPConsole.Crawlers
 
                     driver.FindElement(By.Id("btn-submit")).Click();
 
-
+                    result = null;
                     //page 2 - Autorizado/Responsável
                     IWebElement menuDropDown;
                     if (_cnpj != null)
@@ -162,30 +164,22 @@ namespace KrakenMPSPConsole.Crawlers
 
                         //Page 8 - Capturar dados trabalhador
                         var nomeTrabalhador = driver.FindElement(By.Id("txt2_Nome027")).Text;
+                        var pisBaseTrabalhador = driver.FindElement(By.Id("txt1_Pis028")).Text;
+                        var ctpsTrabalhador = driver.FindElement(By.Id("txt5_Ctps027")).Text;
+                        var faixaPisTrabalhador = driver.FindElement(By.Id("txt4_SitPis027")).Text;
+                        var nacionalidadeTrabalhador = driver.FindElement(By.Id("txt8_Nac027")).Text;
+                        var grauInstrucaoTrabalhador = driver.FindElement(By.Id("txt12_Instr027")).Text;
+                        var deficienteTrabalhador = driver.FindElement(By.Id("txt13_Def027")).Text;
+                        var dataNascimentoTrabalhador = driver.FindElement(By.Id("txt4_datanasc027")).Text;
+                        var sexoTrabalhador = driver.FindElement(By.Id("txt6_Sexo027")).Text;
+                        var corTrabalhador = driver.FindElement(By.Id("txt10_Raca027")).Text;
+                        var cepTrabalhador = driver.FindElement(By.Id("txtEstabCep91")).Text;
+                        var tempoTrabalhoCaged = driver.FindElement(By.Id("txt26_Caged027")).Text + " meses";
+                        var tempoTrabalhoRais = driver.FindElement(By.Id("txt27_Rais027")).Text + " meses";
+                        
 
-                        #region Salvar dados de pessoa física no objeto
-                        var pessoaFisica = new CagedPFModel {
-                            Cpf = _cpf,
-                            NomeTrabalhador = nomeTrabalhador,
-                            PisBaseTrabalhador = driver.FindElement(By.Id("txt1_Pis028")).Text,
-                            CtpsTrabalhador = driver.FindElement(By.Id("txt5_Ctps027")).Text,
-                            FaixaPisTrabalhador = driver.FindElement(By.Id("txt4_SitPis027")).Text,
-                            NacionalidadeTrabalhador = driver.FindElement(By.Id("txt8_Nac027")).Text,
-                            GrauInstrucaoTrabalhador = driver.FindElement(By.Id("txt12_Instr027")).Text,
-                            DeficienteTrabalhador = driver.FindElement(By.Id("txt13_Def027")).Text,
-                            DataNascimentoTrabalhador = driver.FindElement(By.Id("txt4_datanasc027")).Text,
-                            SexoTrabalhador = driver.FindElement(By.Id("txt6_Sexo027")).Text,
-                            CorTrabalhador = driver.FindElement(By.Id("txt10_Raca027")).Text,
-                            CepTrabalhador = driver.FindElement(By.Id("txtEstabCep91")).Text,
-                            TempoTrabalhoCaged = driver.FindElement(By.Id("txt26_Caged027")).Text + " meses",
-                            TempoTrabalhoRais = driver.FindElement(By.Id("txt27_Rais027")).Text + " meses"
-                        };
-                        #endregion
-
-                        result = pessoaFisica;
-
-                        driver.FindElement(By.CssSelector(".link > a:nth-child(1)")).Click();
-
+                        driver.Navigate().GoToUrl(driver.FindElement(By.CssSelector(".link > a:nth-child(1)")).GetAttribute("href"));
+                        Console.WriteLine();
 
                         //Page 9 - Salvar PDF
                         ReadOnlyCollection<string> windowHandles = driver.WindowHandles;
@@ -200,26 +194,51 @@ namespace KrakenMPSPConsole.Crawlers
                         if (!Directory.Exists(downloadFolderPath))
                             Directory.CreateDirectory(downloadFolderPath);
 
+                        var nomeArquivo = nomeTrabalhador.Replace(" ", string.Empty);
+
                         var data = DateTime.Now.ToString("yyyyMMddhhmm",
                             System.Globalization.CultureInfo.InvariantCulture);
 
+                        var arquivo = $@"{downloadFolderPath}{nomeArquivo}_{data}.pdf";
                         try
                         {
                             using (var client = new WebClient())
                             {
-                                client.DownloadFileAsync(new Uri(driver.Url),
-                                    $@"{downloadFolderPath}{nomeTrabalhador}_{data}.pdf");
+                                client.DownloadFile(new Uri(driver.Url),
+                                    arquivo);
+                                Console.WriteLine($@"PDF baixado com sucesso em {arquivo}");
                             }
                         }
                         catch (Exception e)
                         {
                             Console.WriteLine("[CAGED] Ocorreu um erro ao tentar baixar o PDF! \nMensagem de erro: " + e);
+                            result = null;
                             return CrawlerStatus.Skipped;
                         }
-                    }
-                    else
-                    {
-                        result = null;
+
+                        #region Salvar dados de pessoa física no objeto
+                        var pessoaFisica = new CagedPFModel
+                        {
+                            Cpf = _cpf,
+                            NomeTrabalhador = nomeTrabalhador,
+                            PisBaseTrabalhador = pisBaseTrabalhador,
+                            CtpsTrabalhador = ctpsTrabalhador,
+                            FaixaPisTrabalhador = faixaPisTrabalhador,
+                            NacionalidadeTrabalhador = nacionalidadeTrabalhador,
+                            GrauInstrucaoTrabalhador = grauInstrucaoTrabalhador,
+                            DeficienteTrabalhador = deficienteTrabalhador,
+                            DataNascimentoTrabalhador = dataNascimentoTrabalhador,
+                            SexoTrabalhador = sexoTrabalhador,
+                            CorTrabalhador = corTrabalhador,
+                            CepTrabalhador = cepTrabalhador,
+                            TempoTrabalhoCaged = tempoTrabalhoCaged,
+                            TempoTrabalhoRais = tempoTrabalhoRais,
+                            Arquivo = arquivo
+                        };
+                        #endregion
+
+                        result = pessoaFisica;
+
                     }
 
                     driver.Close();

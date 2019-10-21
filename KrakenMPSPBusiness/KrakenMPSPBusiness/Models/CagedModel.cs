@@ -18,6 +18,7 @@
         public string AtividadeEconomica { get; set; }
         public int NoFilias { get; set; }
         public int TotalVinculos { get; set; }
+
     }
 
     public class CagedPFModel
@@ -36,5 +37,6 @@
         public string CepTrabalhador { get; set; }
         public string TempoTrabalhoCaged { get; set; }
         public string TempoTrabalhoRais { get; set; }
+        public string Arquivo { get; set; }
     }
 }
