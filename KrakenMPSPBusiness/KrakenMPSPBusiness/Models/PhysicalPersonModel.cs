@@ -20,6 +20,7 @@ namespace KrakenMPSPBusiness.Models
         public CagedPFModel Caged;
         public CensecModel Censec;
         public DetranModel Detran;
+        public InfocrimModel Infocrim;
 
         public string GetNomeCompleto()
         {

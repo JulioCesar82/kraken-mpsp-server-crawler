@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 
 using KrakenMPSPBusiness.Enums;
 using KrakenMPSPBusiness.Models;
@@ -54,7 +54,13 @@ namespace KrakenMPSPConsole
             var detranResult = new DetranCrawler("12345678", "fiap123", "123456", _find.Type, _find.CPF).Execute(out detranOut);
             AddModule(detranResult);
             _find.Detran = (DetranModel)detranOut;
+            
 
+            var infocrimOut = new object();
+            var infocrimResult = new InfocrimCrawler("12345678", "fiap123").Execute(out infocrimOut);
+            AddModule(infocrimResult);
+            _find.Infocrim = (InfocrimModel)infocrimOut;
+            
             var sielOut = new object();
             var sielResult = new SielCrawler(
                 "fiap",

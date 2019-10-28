@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -60,6 +60,7 @@
     <Compile Include="Crawlers\CensecCrawler.cs" />
     <Compile Include="Crawlers\DetranCrawler.cs" />
     <Compile Include="Crawlers\ExampleCrawler.cs" />
+    <Compile Include="Crawlers\InfocrimCrawler.cs" />
     <Compile Include="Crawlers\SielCrawler.cs" />
     <Compile Include="Crawlers\SivecCrawler.cs" />
     <Compile Include="Enums\WebBrowser.cs" />

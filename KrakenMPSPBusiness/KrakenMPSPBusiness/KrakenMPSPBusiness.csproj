@@ -55,6 +55,7 @@
     <Compile Include="Models\CrawlerError.cs" />
     <Compile Include="Models\CrawlerResult.cs" />
     <Compile Include="Models\DetranModel.cs" />
+    <Compile Include="Models\InfocrimModel.cs" />
     <Compile Include="Models\LegalPersonModel.cs" />
     <Compile Include="Models\PersonModel.cs" />
     <Compile Include="Models\PhysicalPersonModel.cs" />
