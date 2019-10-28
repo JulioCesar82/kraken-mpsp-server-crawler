@@ -72,7 +72,11 @@ namespace KrakenMPSPConsole
             ).Execute(out sielOut);
             AddModule(sielResult);
             _find.Siel = (SielModel)sielOut;
-
+            
+            var escavadorOut = new object();
+            var escavadorResult = new EscavadorCrawler("nome", _find.Type).Execute(out escavadorOut);
+            AddModule(escavadorResult);
+            
             _find.ResultadoFinal = new CrawlerResult
             {
                 FindTotal = _portais.Count,
