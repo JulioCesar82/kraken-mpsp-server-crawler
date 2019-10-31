@@ -46,7 +46,19 @@ namespace KrakenMPSPConsole
             var escavadorOut = new object();
             var escavadorResult = new EscavadorCrawler("nome", _find.Type).Execute(out escavadorOut);
             AddModule(escavadorResult);
-            
+
+            var jucespOut = new object();
+            var jucespResult =
+                new JucespCrawler(_find.Type).Execute(
+                    out jucespOut);
+            AddModule(jucespResult);
+            _find.Jucesp = (JucespModel)jucespOut;
+
+
+            var cadespOut = new object();
+            var cadespResult = new CadespCrawler(_find.CNPJ).Execute(out cadespOut);
+            AddModule(cadespResult);
+
             _find.ResultadoFinal = new CrawlerResult
             {
                 FindTotal = _portais.Count,
