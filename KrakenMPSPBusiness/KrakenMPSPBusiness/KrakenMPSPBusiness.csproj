@@ -48,6 +48,7 @@
     <Compile Include="Interfaces\IPerson.cs" />
     <Compile Include="Models\ArispModel.cs" />
     <Compile Include="Models\ArpenspModel.cs" />
+    <Compile Include="Models\CadespModel.cs" />
     <Compile Include="Models\CagedModel.cs" />
     <Compile Include="Models\CensecModel.cs" />
     <Compile Include="Models\Coordinator.cs" />
@@ -55,6 +56,9 @@
     <Compile Include="Models\CrawlerError.cs" />
     <Compile Include="Models\CrawlerResult.cs" />
     <Compile Include="Models\DetranModel.cs" />
+    <Compile Include="Models\EscavadorModel.cs" />
+    <Compile Include="Models\InfocrimModel.cs" />
+    <Compile Include="Models\JucespModel.cs" />
     <Compile Include="Models\LegalPersonModel.cs" />
     <Compile Include="Models\PersonModel.cs" />
     <Compile Include="Models\PhysicalPersonModel.cs" />
