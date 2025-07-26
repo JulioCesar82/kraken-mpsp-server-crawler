@@ -1,18 +1,12 @@
-<p align="center">
-  <a href="https://kraken-mpsp.herokuapp.com" rel="noopener" target="_blank">
-    <img width="150" src="./docs/kraken-icon.png" alt="Kraken MPSP">
-  </a>
-</p>
+# Documentação Completa do Kraken MPSP
 
-<h1 align="center">Kraken MPSP Server-Crawler</h1>
+Este documento fornece uma visão detalhada da arquitetura, configuração e uso da solução Kraken MPSP.
 
 ## 🎯 Visão Geral do Projeto
 
 O Kraken MPSP é uma solução desenvolvida para o Ministério Público de São Paulo (MPSP) com o objetivo de centralizar e agilizar a consulta de informações sobre pessoas físicas e jurídicas investigadas. O sistema utiliza uma arquitetura de micro-serviços, composta por robôs de busca (crawlers) que coletam dados de diversas fontes públicas e uma API RESTful que disponibiliza esses dados de forma consolidada.
 
 A solução visa reduzir o tempo gasto em investigações manuais, fornecendo uma plataforma única para acesso rápido e eficiente a informações cruciais para a resolução de processos judiciais.
-
-Para uma documentação mais detalhada sobre a arquitetura, setup e como contribuir, veja nossa [Documentação Completa](DOCUMENTATION.md).
 
 ---
 
@@ -89,6 +83,27 @@ Após iniciar, a documentação da API estará disponível em `http://localhost:
 
 ---
 
+## 🖼️ Screenshots da Aplicação
+
+Aqui estão algumas telas da aplicação web que consome a API:
+
+**Página Inicial**
+![Página Inicial](./screenshots/01%20home%20page%20web.jpg)
+
+**Página Inicial (Responsivo)**
+![Página Inicial Responsivo](./screenshots/02%20home%20page%20responsible.jpg)
+
+**Página Inicial (Mobile)**
+![Página Inicial Mobile](./screenshots/03%20home%20page%20mobile.jpg)
+
+**Análise em Andamento**
+![Análise em Andamento](./screenshots/04%20loading%20analyzes.jpg)
+
+**Resultado da Análise**
+![Resultado da Análise](./screenshots/05%20analysis%20result.jpg)
+
+---
+
 ## 🤝 Como Contribuir
 
 Contribuições são bem-vindas! Se você deseja ajudar a melhorar este projeto, siga os passos abaixo:
@@ -98,9 +113,3 @@ Contribuições são bem-vindas! Se você deseja ajudar a melhorar este projeto,
 3.  **Faça o Commit** de suas mudanças (`git commit -m 'Adiciona nova feature'`).
 4.  **Faça o Push** para a Branch (`git push origin feature/nova-feature`).
 5.  **Abra um Pull Request**.
-
----
-
-## 👥 Equipe do Projeto
-
--   [JulioCesar82](https://github.com/JulioCesar82) - **Julio Cesar**
