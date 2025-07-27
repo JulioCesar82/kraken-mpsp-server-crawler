@@ -89,6 +89,11 @@ Após iniciar, a documentação da API estará disponível em `http://localhost:
 
 ---
 
+## Membros atuais da equipe do projeto
+
+* [JulioCesar82](https://github.com/JulioCesar82) -
+**Julio Ávila** <https://www.linkedin.com/in/juliocesar82>
+
 ## 🤝 Como Contribuir
 
 Contribuições são bem-vindas! Se você deseja ajudar a melhorar este projeto, siga os passos abaixo:
@@ -100,7 +105,3 @@ Contribuições são bem-vindas! Se você deseja ajudar a melhorar este projeto,
 5.  **Abra um Pull Request**.
 
 ---
-
-## 👥 Equipe do Projeto
-
--   [JulioCesar82](https://github.com/JulioCesar82) - **Julio Cesar**
